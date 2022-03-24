@@ -1,9 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Layout from './components/Layout';
-import NotFound from './components/NotFound';
-import Invoice from './pages/Invoice';
-import Invoices from './pages/Invoices';
+import Layout from './components/UI/Layout';
+import NotFound from './components/UI/NotFound';
+import Invoice from './pages/InvoiceDetailPage';
+import Invoices from './pages/InvoicesPage';
 
 function App() {
   return (
