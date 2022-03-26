@@ -7,23 +7,23 @@
   align-items: center;
 }
 
-nav ul {
+.nav ul {
   height: 100%;
   width: 144px;
   display: flex;
 }
 
-nav ul li {
+.nav ul li {
   width: 50%;
   position: relative;
   cursor: pointer;
 }
 
-nav ul li:first-child {
+.nav ul li:first-child {
   border-right: 1px solid #494e6e;
 }
 
-img {
+.nav img {
   position: absolute;
   top: 50%;
   left: 50%;

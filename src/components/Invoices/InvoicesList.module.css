@@ -1,0 +1,55 @@
+.invoicesList {
+  margin-top: var(--list-margin-top, 2rem);
+}
+
+.card {
+  background-color: var(--list-background-color);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1.5rem;
+  grid-template-areas:
+    'a  b'
+    'c  d';
+  box-shadow: 1px 1px 5px var(--background-color);
+  border-radius: 7px;
+}
+.item1 {
+  grid-area: a;
+  justify-self: start;
+}
+.item2 {
+  grid-area: b;
+  justify-self: end;
+}
+.item3 {
+  grid-area: c;
+  justify-self: start;
+}
+
+.item3 h3 {
+  margin: 0.1rem 1rem 0 0;
+}
+
+.item4 {
+  grid-area: d;
+  justify-self: end;
+  color: var(--button-text-paid-color);
+  background-color: var(--button-text-paid-color-bg);
+  width: 104px;
+  height: 40px;
+  border-radius: 7px;
+}
+
+.item4 li {
+  margin: 0.7rem auto;
+}
+
+.dot {
+  height: 8px;
+  width: 8px;
+  background-color: var(--button-text-paid-color);
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5rem;
+}

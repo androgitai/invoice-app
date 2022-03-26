@@ -1,0 +1,17 @@
+.invoiceshead {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: start;
+}
+
+.invoiceshead p {
+  color: var(--secondary-text-color);
+}
+
+.control {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}

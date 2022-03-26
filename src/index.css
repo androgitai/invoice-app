@@ -3,6 +3,7 @@
 /*** Variables ***/
 
 :root {
+  /* Colors */
   --primary-color: #7c5dfa;
   --secondary-color: #9277ff;
   --background-color: #f8f8fb;
@@ -15,9 +16,13 @@
 
   --button-text-pending-color: #ff8f00;
   --button-text-paid-color: #33d69f;
-  --button-text-draft-color: var(--background-color-dark);
+  --button-text-paid-color-bg: rgba(51, 214, 159, 0.05);
+  --button-background-draft-color: var(--background-color-dark);
   --button-background-delete: #ec5757;
+  --button-background-discard: #f9fafe;
   --button-background-delete-hover: #ff9797;
+
+  /* Utility */
 }
 
 [data-theme='darkkkkkkk`'] {
@@ -126,9 +131,9 @@ h4 {
 }
 
 h1 {
-  font-size: 2rem;
-  line-height: 2.25rem;
-  word-spacing: -1px;
+  font-size: 1.25rem;
+  line-height: 1.375rem;
+  word-spacing: -0.63px;
 }
 h2 {
   font-size: 1.25rem;
@@ -146,15 +151,39 @@ h4 {
   word-spacing: -0.25px;
 }
 
+h4 span {
+  color: var(--secondary-text-color-date);
+}
+
 p {
+  color: var(--secondary-text-color-name);
   font-weight: 500;
   font-size: 0.75rem;
   line-height: 0.9rem;
   word-spacing: -0.25px;
 }
 
-.para2 {
-  font-size: 0.75rem;
-  line-height: 0.9rem;
-  word-spacing: -0.25px;
+p span {
+  color: var(--secondary-text-color-date);
+}
+
+/* Media queries Mobile first */
+
+@media screen and (min-width: 560px) {
+  h1 {
+    font-size: 2rem;
+    line-height: 2.25rem;
+    word-spacing: -1px;
+  }
+}
+@media screen and (min-width: 810px) {
+  :root {
+    --max-width: 730px;
+    --wrapper-margin-top: 3.5rem;
+  }
+}
+@media screen and (min-width: 1010px) {
+  :root {
+    --wrapper-margin-top: 4.5rem;
+  }
 }

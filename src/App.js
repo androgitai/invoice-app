@@ -3,14 +3,14 @@ import './App.css';
 import Layout from './components/UI/Layout';
 import NotFound from './components/UI/NotFound';
 import Invoice from './pages/InvoiceDetailPage';
-import Invoices from './pages/InvoicesPage';
+import InvoicesPage from './pages/InvoicesPage';
 
 function App() {
   return (
     <Layout>
       <Routes>
         <Route path='/' element={<Navigate to='/invoices' />} />
-        <Route path='/invoices' element={<Invoices />} />
+        <Route path='/invoices' element={<InvoicesPage />} />
         <Route path='/invoices/:invoiceId' element={<Invoice />} />
         <Route
           path='*'

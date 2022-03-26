@@ -1,14 +1,14 @@
-import { Fragment } from 'react';
+import Invoices from '../components/Invoices/Invoices';
 import InvoicesHead from '../components/Invoices/InvoicesHead';
 import InvoicesList from '../components/Invoices/InvoicesList';
 
-const Invoices = () => {
+const InvoicesPage = () => {
   return (
-    <Fragment>
+    <Invoices>
       <InvoicesHead />
       <InvoicesList />
-    </Fragment>
+    </Invoices>
   );
 };
 
-export default Invoices;
+export default InvoicesPage;
