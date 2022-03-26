@@ -1,5 +1,5 @@
 const InvoicesHead = () => {
-  return <div>Invoices Head</div>;
+  return <h1>Invoices Head</h1>;
 };
 
 export default InvoicesHead;

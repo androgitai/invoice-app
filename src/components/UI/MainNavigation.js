@@ -8,15 +8,17 @@ import avatarPicture from '../../assets/image-avatar.jpg';
 const MainNavigation = () => {
   return (
     <nav className={classes.nav}>
-      <Link to='/'>
-        <img src={logo} alt='Logo' />
-      </Link>
+      <div className={classes.logo}>
+        <Link to='/'>
+          <img src={logo} alt='Logo' />
+        </Link>
+      </div>
       <ul>
         <li>
           <img src={moonIcon} alt='Color mode button' />
         </li>
         <li>
-          <img src={avatarPicture} alt='Avatar' />
+          <img className={classes.avatar} src={avatarPicture} alt='Avatar' />
         </li>
       </ul>
     </nav>
