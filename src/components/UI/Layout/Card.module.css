@@ -1,0 +1,12 @@
+.card {
+  background-color: var(--list-background-color);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1.5rem;
+  grid-template-areas:
+    'a  b'
+    'c  d';
+  box-shadow: 1px 1px 5px var(--background-color);
+  border-radius: 7px;
+}
