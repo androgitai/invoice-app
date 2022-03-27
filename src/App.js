@@ -1,7 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import './App.css';
-import Layout from './components/UI/Layout';
-import NotFound from './components/UI/NotFound';
+import Layout from './components/UI/Layout/Layout';
+import NotFound from './components/UI/Elements/NotFound';
 import Invoice from './pages/InvoiceDetailPage';
 import InvoicesPage from './pages/InvoicesPage';
 

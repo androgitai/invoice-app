@@ -4,71 +4,33 @@
 
 :root {
   /* Colors */
-
-  --primary-color-100: #9277ff;
-  --primary-color-200: #7c5dfa;
-
-  --primary-bg-color-100: #ffffff;
-  --primary-bg-color-200: #f9fafe;
-  --primary-bg-color-300: #f8f8fb;
-  --secondary-bg-color: #373b53;
-
+  --primary-color: #7c5dfa;
+  --secondary-color: #9277ff;
+  --background-color: #f8f8fb;
+  --background-color-dark: #373b53;
+  --list-background-color: #fff;
   --primary-text-color: #0c0e16;
-  --secondary-text-color-100: #7e88c3;
-  --secondary-text-color-200: #858bb2;
-  --secondary-text-color-300: #888eb0;
+  --secondary-text-color: #888eb0;
+  --secondary-text-color-date: #7e88c3;
+  --secondary-text-color-name: #858bb2;
 
-  --nav-line-color: #494e6e;
-  --backdrop-bg-color: rgba(0, 0, 0, 0.5);
-
-  --pill-pending-text-color: rgb(255, 143, 0);
-  --pill-pending-bg-color: rgba(255, 143, 0, 0.05);
-
-  --pill-paid-text-color: #33d69f;
-  --pill-paid-bg-color: rgba(51, 214, 159, 0.05);
-
-  --pill-draft-text-color: rgb(55, 59, 83);
-  --pill-draft-bg-color: rgba(55, 59, 83, 0.05);
-
-  --button-primary-text-color: #ffffff;
-  --button-primary-bg: #7c5dfa;
-  --button-primary-bg-hover: #9277ff;
-
-  --button-edit-text-color: #7e88c3;
-  --button-edit-bg: #f9fafe;
-  --button-edit-bg-hover: #dfe3fa;
-
-  --button-draft-text-color: #888eb0;
-  --button-draft-bg: #373b53;
-  --button-draft-bg-hover: #0c0e16;
-
-  --button-delete-text-color: #ffffff;
-  --button-delete-bg: #ec5757;
-  --button-delete-bg-hover: #ff9797;
-
-  --button-form-text-color: #7e88c3;
-  --button-form-bg: #f9fafe;
-  --button-form-bg-hover: #dfe3fa;
+  --button-text-pending-color: #ff8f00;
+  --button-text-paid-color: #33d69f;
+  --button-text-paid-color-bg: rgba(51, 214, 159, 0.05);
+  --button-background-draft-color: var(--background-color-dark);
+  --button-background-delete: #ec5757;
+  --button-background-discard: #f9fafe;
+  --button-background-delete-hover: #ff9797;
 
   /* Utility */
 }
 
 [data-theme='dark'] {
-  /* Colors */
-  --primary-text-color: #ffffff;
-  --secondary-text-color-100: #dfe3fa;
-  --secondary-text-color-200: #ffffff;
-  --secondary-text-color-300: #dfe3fa;
-
-  --primary-bg-color-100: #1e2139;
-  --primary-bg-color-300: #141625;
-
-  --button-edit-text-color: #dfe3fa;
-  --button-edit-bg: #252945;
-  --button-edit-bg-hover: #ffffff;
-
-  --button-draft-text-color: #dfe3fa;
-  --button-draft-bg-hover: #1e2139;
+  --primary-color: red;
+  --secondary-text-color-dark2: #dfe3fa;
+  --list-background-color-dark: #1e2139;
+  --form-background-color: #252945;
+  --background-color: #141625;
 }
 
 /*************** CSS Resets and baseline  ******************/
@@ -120,7 +82,7 @@ body {
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
-  background-color: var(--primary-bg-color-300);
+  background-color: #f2f2f2;
   font-family: 'Spartan', sans-serif;
 }
 
@@ -174,30 +136,36 @@ h1 {
   line-height: 1.375rem;
   word-spacing: -0.63px;
 }
-
 h2 {
   font-size: 1.25rem;
   line-height: 1.375rem;
   word-spacing: -0.63px;
 }
-
 h3 {
   font-size: 1rem;
   line-height: 1.5rem;
   word-spacing: -0.8px;
 }
-
 h4 {
   font-size: 0.75rem;
   line-height: 0.9rem;
   word-spacing: -0.25px;
 }
 
+h4 span {
+  color: var(--secondary-text-color-date);
+}
+
 p {
+  color: var(--secondary-text-color-name);
   font-weight: 500;
   font-size: 0.75rem;
   line-height: 0.9rem;
   word-spacing: -0.25px;
+}
+
+p span {
+  color: var(--secondary-text-color-date);
 }
 
 /* Media queries Mobile first */
@@ -220,3 +188,4 @@ p {
     --wrapper-margin-top: 4.5rem;
   }
 }
+*/
