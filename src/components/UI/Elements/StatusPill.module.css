@@ -1,0 +1,44 @@
+.dot {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.item4 {
+  grid-area: 'd';
+  justify-self: end;
+  width: 104px;
+  height: 40px;
+  border-radius: 7px;
+}
+
+.item4 li {
+  margin: 0.7rem auto;
+}
+
+.Paid {
+  color: var(--pill-paid-text-color);
+  background-color: var(--pill-paid-bg-color);
+}
+
+.Paid .dot {
+  background-color: var(--pill-paid-text-color);
+}
+.Pending {
+  color: var(--pill-pending-text-color);
+  background-color: var(--pill-pending-bg-color);
+}
+
+.Pending .dot {
+  background-color: var(--pill-pending-text-color);
+}
+.Draft {
+  color: var(--pill-draft-text-color);
+  background-color: var(--pill-draft-bg-color);
+}
+
+.Draft .dot {
+  background-color: var(--pill-draft-text-color);
+}

@@ -1,0 +1,68 @@
+.btn {
+  height: 44px;
+  border: none;
+  border-radius: 35px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 15px;
+  letter-spacing: -0.25px;
+  text-align: center;
+  padding: 1rem 1.5rem;
+  transition: all 200ms ease-in;
+}
+
+.primary-img img {
+  display: inline;
+  margin: 0 1rem 0 0;
+  padding: 11px;
+  border-radius: 100%;
+  background-color: #fff;
+  vertical-align: middle;
+}
+
+.primary-img {
+  padding: 0 1rem 0 0.5rem;
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text-color);
+}
+.primary-img:hover {
+  background-color: var(--button-primary-bg-hover);
+}
+
+.primary {
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text-color);
+}
+.primary:hover {
+  background-color: var(--button-primary-bg-hover);
+}
+
+.edit {
+  background-color: var(--button-edit-bg);
+  color: var(--button-edit-text-color);
+}
+.edit:hover {
+  background-color: var(--button-edit-bg-hover);
+}
+.draft {
+  background-color: var(--button-draft-bg);
+  color: var(--button-draft-text-color);
+}
+.draft:hover {
+  background-color: var(--button-draft-bg-hover);
+}
+.delete {
+  background-color: var(--button-delete-bg);
+  color: var(--button-delete-text-color);
+}
+.delete:hover {
+  background-color: var(--button-delete-bg-hover);
+}
+.form {
+  width: 100%;
+  background-color: var(--button-form-bg);
+  color: var(--button-form-text-color);
+}
+.form:hover {
+  background-color: var(--button-form-bg-hover);
+}
