@@ -1,21 +1,19 @@
-import Button from '../UI/Button';
+import Button from '../UI/Elements/Button';
 import plusIcon from '../../assets/icon-plus.svg';
 import classes from './InvoicesHead.module.css';
 
 const InvoicesHead = () => {
   return (
-    <section className={classes.invoiceshead}>
+    <section className={classes.invoicesheader}>
       <div>
         <h1>Invoices</h1>
-        <p>{7} Invoices</p>
+        <p className={classes.totalInvoices}>{7} Invoices</p>
       </div>
       <div className={classes.control}>
         <h4>Filter</h4>
-        <div>
-          <Button btnType='primary'>
-            {<img src={plusIcon} alt='New Invoice'></img>} New
-          </Button>
-        </div>
+        <Button btnType='primary-img'>
+          {<img src={plusIcon} alt='New Invoice'></img>}New Invoice
+        </Button>
       </div>
     </section>
   );

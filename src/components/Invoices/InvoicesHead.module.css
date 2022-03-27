@@ -1,4 +1,4 @@
-.invoiceshead {
+.invoicesheader {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -6,8 +6,8 @@
   text-align: start;
 }
 
-.invoiceshead p {
-  color: var(--secondary-text-color);
+.totalInvoices {
+  color: var(--secondary-text-color-300);
 }
 
 .control {
