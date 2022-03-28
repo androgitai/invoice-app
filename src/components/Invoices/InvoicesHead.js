@@ -12,7 +12,7 @@ const InvoicesHead = () => {
       <div className={classes.control}>
         <h4>Filter</h4>
         <Button btnType='primary-img'>
-          {<img src={plusIcon} alt='New Invoice'></img>}New Invoice
+          {<img src={plusIcon} alt='New Invoice'></img>}New
         </Button>
       </div>
     </section>

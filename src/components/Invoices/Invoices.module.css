@@ -1,5 +1,0 @@
-.invoices {
-  max-width: var(--max-width, 87.5%);
-  margin: 0 auto;
-  margin-top: var(--wrapper-margin-top, 2rem);
-}

@@ -4,7 +4,7 @@ import StatusPill from '../UI/Elements/StatusPill';
 
 const InvoiceItem = props => {
   return (
-    <Card>
+    <Card cardType='grid-invoiceList'>
       <h4 className={classes.item1}>
         <span>#</span>RT3080
       </h4>
@@ -15,7 +15,9 @@ const InvoiceItem = props => {
         </p>
         <h3>£1,800.90</h3>
       </div>
-      <StatusPill status='Paid' />
+      <div className={classes.item4}>
+        <StatusPill status='Paid' />
+      </div>
     </Card>
   );
 };

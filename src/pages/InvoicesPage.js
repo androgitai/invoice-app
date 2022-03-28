@@ -1,13 +1,15 @@
-import Invoices from '../components/Invoices/Invoices';
+import Wrapper from '../components/UI/Layout/Wrapper';
 import InvoicesHead from '../components/Invoices/InvoicesHead';
 import InvoicesList from '../components/Invoices/InvoicesList';
+import NoInvoices from '../components/UI/Elements/NoInvoices';
 
 const InvoicesPage = () => {
   return (
-    <Invoices>
+    <Wrapper>
       <InvoicesHead />
       <InvoicesList />
-    </Invoices>
+      {/* <NoInvoices /> */}
+    </Wrapper>
   );
 };
 
