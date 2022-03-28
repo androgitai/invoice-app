@@ -1,0 +1,29 @@
+.griditem1 {
+  grid-area: a;
+}
+.griditem2 {
+  grid-area: b;
+}
+.griditem3 {
+  grid-area: c;
+}
+.griditem3 h5 {
+  margin-bottom: 0;
+}
+.griditem4 {
+  grid-area: d;
+}
+.griditem5 {
+  grid-area: e;
+}
+.griditem6 {
+  grid-area: f;
+}
+.griditem7 {
+  grid-area: g;
+}
+
+.griditem2 p,
+.griditem5 span p {
+  font-size: 0.7rem;
+}
