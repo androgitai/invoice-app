@@ -1,0 +1,13 @@
+.empty p span {
+  font-weight: 700;
+}
+
+.empty img {
+  margin: var(--wrapper-margin-top, 4.5rem) auto 2.5rem auto;
+  width: 60%;
+}
+
+.empty h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}

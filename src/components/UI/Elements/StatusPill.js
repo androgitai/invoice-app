@@ -2,17 +2,15 @@ import classes from './StatusPill.module.css';
 
 const StatusPill = props => {
   const status = props.status;
-  const pillClasses = `${classes[status]} ${classes.item4}`;
+  const pillClasses = `${classes[status]} ${classes.pill}`;
 
   return (
-    <ul className={pillClasses}>
-      <li>
-        <h4>
-          <div className={classes.dot}></div>
-          {status}
-        </h4>
-      </li>
-    </ul>
+    <div className={pillClasses}>
+      <h4>
+        <div className={classes.dot} />
+        {status}
+      </h4>
+    </div>
   );
 };
 

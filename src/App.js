@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Layout from './components/UI/Layout/Layout';
 import NotFound from './components/UI/Elements/NotFound';
-import Invoice from './pages/InvoiceDetailPage';
+import InvoiceDetails from './pages/InvoiceDetailsPage';
 import InvoicesPage from './pages/InvoicesPage';
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Navigate to='/invoices' />} />
         <Route path='/invoices' element={<InvoicesPage />} />
-        <Route path='/invoices/:invoiceId' element={<Invoice />} />
+        <Route path='/invoices/:invoiceId' element={<InvoiceDetails />} />
         <Route
           path='*'
           element={

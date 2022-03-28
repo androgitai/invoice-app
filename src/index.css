@@ -87,14 +87,13 @@ h1,
 h2,
 h3,
 h4,
+h5,
+h6,
 p,
 figure,
 blockquote,
 dl,
 dd {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -121,7 +120,8 @@ body {
   text-rendering: optimizeSpeed;
   line-height: 1.5;
   background-color: var(--primary-bg-color-300);
-  font-family: 'Spartan', sans-serif;
+  color: var(--primary-text-color);
+  font-family: 'Spartan', sans-serif !important;
 }
 
 /* A elements that don't have a class get default styles */
@@ -165,7 +165,9 @@ select {
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5,
+h6 {
   font-weight: 700;
 }
 
@@ -193,11 +195,31 @@ h4 {
   word-spacing: -0.25px;
 }
 
+h4 span {
+  color: var(--secondary-text-color-100);
+}
+
+h5 {
+  margin: 0.75rem 0 0.5rem 0;
+  font-size: 0.9375rem;
+  line-height: 1.25rem;
+  word-spacing: -0.31px;
+}
+
 p {
+  color: var(--secondary-text-color-100);
   font-weight: 500;
   font-size: 0.75rem;
-  line-height: 0.9rem;
+  line-height: 0.975rem;
   word-spacing: -0.25px;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.mt-sm {
+  margin-top: 0.5rem;
 }
 
 /* Media queries Mobile first */

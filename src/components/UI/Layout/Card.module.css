@@ -1,12 +1,66 @@
 .card {
-  background-color: var(--list-background-color);
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  background-color: var(--primary-bg-color-100);
   padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 1px 1px 5px var(--primary-bg-color-300);
+  border-radius: 7px;
+}
+
+.grid-invoiceList {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
   grid-template-areas:
     'a  b'
     'c  d';
-  box-shadow: 1px 1px 5px var(--background-color);
-  border-radius: 7px;
+}
+
+.grid-invoiceDetails {
+  display: grid;
+  gap: 1.8rem;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-areas:
+    'a  a'
+    'b  b'
+    'c  e'
+    'd  e'
+    'f  f'
+    'g  g';
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.itemsListTop {
+  background-color: var(--primary-bg-color-300);
+  padding: 1.5rem;
+  box-shadow: none;
+  border-radius: 7px 7px 0 0;
+  margin-bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.itemsListTop > h4 {
+  justify-self: end;
+}
+
+.itemsListBottom {
+  background-color: var(--secondary-bg-color);
+  padding: 2rem;
+  box-shadow: none;
+  border-radius: 0 0 7px 7px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.itemsListBottom > * {
+  color: #ffffff;
 }
