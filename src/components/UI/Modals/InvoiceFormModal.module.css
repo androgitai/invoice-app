@@ -1,0 +1,12 @@
+.backButtonImg {
+  display: inline-block;
+}
+.backButtonH4 {
+  margin: 0 0 1.75rem 1.75rem;
+  display: inline-block;
+}
+
+.formModal {
+  height: 100%;
+  background-color: var(--form-bg-color, #ffffff);
+}

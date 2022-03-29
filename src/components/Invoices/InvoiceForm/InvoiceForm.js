@@ -1,11 +1,10 @@
-import { Link } from 'react-router-dom';
-
 import Button from '../../UI/Elements/Button';
-import Card from '../../UI/Layout/Card';
 import Form from './Form';
 import FormItem from './FormItem';
+import InvoiceFieldset from './InvoiceFieldset';
+import InvoiceFormList from './InvoiceFormList';
+import Wrapper from '../../UI/Layout/Wrapper';
 import classes from './InvoiceForm.module.css';
-import arrowLeftSVG from '../../../assets/icon-arrow-left.svg';
 
 const InvoiceForm = () => {
   const formSubmitHandler = event => {
@@ -14,20 +13,41 @@ const InvoiceForm = () => {
   };
 
   return (
-    <Card>
-      <Link to='/'>
-        <img className={classes.backButtonImg} src={arrowLeftSVG} alt='Back' />
-        <h4 className={classes.backButtonH4}>Go back</h4>
-      </Link>
-      <Form onSubmit={formSubmitHandler}>
-        <FormItem type={'text'} />
-        <FormItem type={'text'} />
-        <FormItem type={'text'} />
-        <Button btnType='primary' type='submit'>
-          Submit
+    <Form onSubmit={formSubmitHandler}>
+      <Wrapper>
+        <InvoiceFieldset fieldName='Bill From' gridAreas={classes.billFrom}>
+          <FormItem type='text' name='Street Address' id='senderAddresStreet' />
+          <FormItem type='text' name='City' id='senderAddressCity' />
+          <FormItem type='text' name='Post Code' id='senderAddressPostcode' />
+          <FormItem type='text' name='Country' id='senderAddressCountry' />
+        </InvoiceFieldset>
+        <InvoiceFieldset fieldName='Bill To' gridAreas={classes.billTo}>
+          <FormItem type='text' name={`Client's Name`} id='clientName' />
+          <FormItem type='email' name={`Client's Email`} id='clientEmail' />
+          <FormItem type='text' name='Street Address' id='clientAddresStreet' />
+          <FormItem type='text' name='City' id='clientAddressCity' />
+          <FormItem type='text' name='Post Code' id='clientAddressPostcode' />
+          <FormItem type='text' name='Country' id='clientAddressCountry' />
+        </InvoiceFieldset>
+        <InvoiceFieldset gridAreas={classes.terms}>
+          <FormItem type='date' name='Invoice Date' />
+          <FormItem type='select' />
+          <FormItem type='text' name='Project Description' />
+        </InvoiceFieldset>
+        <InvoiceFormList gridAreas={classes.itemList} />
+      </Wrapper>
+      <div className={classes.controls}>
+        <Button btnType='discard' type='submit'>
+          Discard
         </Button>
-      </Form>
-    </Card>
+        <Button btnType='draft' type='submit'>
+          Save as Draft
+        </Button>
+        <Button btnType='primary' type='submit'>
+          {`Save & Send`}
+        </Button>
+      </div>
+    </Form>
   );
 };
 

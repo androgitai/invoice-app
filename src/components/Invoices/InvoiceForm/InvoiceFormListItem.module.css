@@ -1,0 +1,8 @@
+.total h4 {
+  color: var(--secondary-text-color-300);
+  margin-top: 1.75rem;
+}
+
+.binButton {
+  margin-top: 1.5rem;
+}

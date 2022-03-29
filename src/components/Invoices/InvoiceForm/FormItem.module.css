@@ -1,0 +1,23 @@
+.gridItem input,
+.gridItem select,
+.gridItem select option {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 0.9rem;
+  border-radius: 5px;
+  border: 1px solid var(--button-form-bg-hover);
+  color: var(--button-draft-bg-hover);
+  font-weight: 700;
+  font-size: 0.75rem;
+  transition: all 200ms ease-in;
+}
+.gridItem select:focus,
+.gridItem select:active,
+.gridItem select:hover,
+.gridItem input:active,
+.gridItem input:hover,
+.gridItem input:focus {
+  outline: none;
+  border: 1px solid var(--primary-color-100);
+}

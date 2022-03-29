@@ -1,7 +1,42 @@
-.backButtonImg {
-  display: inline-block;
+.controls {
+  width: 100%;
+  height: 91px;
+  background-color: var(--primary-bg-color-100);
+  display: flex;
+  justify-content: end;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 5.5rem;
+  padding-right: 1.5rem;
+  box-shadow: 1px 1px 74px rgba(30, 33, 57, 0.4);
 }
-.backButtonH4 {
-  margin: 0 0 1.75rem 1.75rem;
-  display: inline-block;
+
+.billFrom {
+  grid-template-areas:
+    'a  a'
+    'b  c'
+    'd  d';
+}
+
+.billTo {
+  grid-template-areas:
+    'a  a'
+    'b  b'
+    'c  c'
+    'd  e'
+    'f  f';
+}
+
+.terms {
+  grid-template-areas:
+    'a  a'
+    'b  b'
+    'c  c';
+}
+
+.itemList {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas:
+    'a  a  a  a'
+    'b  c  d  e';
 }

@@ -1,0 +1,30 @@
+.fieldset {
+  margin-bottom: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.fieldset label:nth-child(2) {
+  grid-area: a;
+}
+.fieldset label:nth-child(3) {
+  grid-area: b;
+}
+.fieldset label:nth-child(4) {
+  grid-area: c;
+}
+.fieldset label:nth-child(5) {
+  grid-area: d;
+}
+.fieldset label:nth-child(6) {
+  grid-area: e;
+}
+.fieldset label:nth-child(7) {
+  grid-area: f;
+}
+
+.fieldset legend {
+  color: var(--primary-color-200);
+  margin-bottom: 1.5rem;
+}
