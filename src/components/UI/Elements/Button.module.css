@@ -7,7 +7,7 @@
   line-height: 15px;
   letter-spacing: -0.25px;
   text-align: center;
-  padding: 1rem 1.5rem;
+  padding: 1rem 1rem;
   transition: all 200ms ease-in;
   cursor: pointer;
 }
@@ -66,4 +66,7 @@
 }
 .form:hover {
   background-color: var(--button-form-bg-hover);
+}
+.bin {
+  background-color: inherit;
 }

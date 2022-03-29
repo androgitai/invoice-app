@@ -1,4 +1,5 @@
 .layout {
   width: 100%;
   margin: 0 auto;
+  background-color: var(--primary-bg-color-300);
 }

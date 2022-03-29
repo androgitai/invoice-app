@@ -3,10 +3,10 @@ import MainNavigation from '../MainNavigation';
 
 const Layout = props => {
   return (
-    <div className={classes.layout}>
+    <main className={classes.layout}>
       <MainNavigation />
       {props.children}
-    </div>
+    </main>
   );
 };
 
