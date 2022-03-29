@@ -69,4 +69,7 @@
 }
 .bin {
   background-color: inherit;
+  margin-top: 1.5rem;
+  justify-self: end;
+  padding-right: 0.5rem;
 }

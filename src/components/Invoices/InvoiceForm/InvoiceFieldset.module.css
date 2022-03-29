@@ -19,6 +19,7 @@
 }
 .fieldset label:nth-child(6) {
   grid-area: e;
+  justify-self: right;
 }
 .fieldset label:nth-child(7) {
   grid-area: f;
