@@ -9,7 +9,7 @@ const InvoiceFormListItem = () => {
     <Fragment fieldName='Item List'>
       <FormItem type='text' name='Item Name' />
       <FormItem type='number' name='Qty.' />
-      <FormItem type='number' name='Price' />
+      <FormItem type='text' name='Price' />
       <div className={classes.total}>
         <p>Total</p>
         <h4>400.00</h4>
