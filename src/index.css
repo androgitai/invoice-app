@@ -63,6 +63,8 @@
   --primary-bg-color-100: #1e2139;
   --primary-bg-color-300: #141625;
 
+  --form-bg-color: #1e2139;
+
   --button-edit-text-color: #dfe3fa;
   --button-edit-bg: #252945;
   --button-edit-bg-hover: #ffffff;
@@ -119,7 +121,6 @@ body {
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
-  background-color: var(--primary-bg-color-300);
   color: var(--primary-text-color);
   font-family: 'Spartan', sans-serif !important;
 }
@@ -140,8 +141,13 @@ picture {
 input,
 button,
 textarea,
-select {
+select,
+fieldset {
   font: inherit;
+}
+
+fieldset {
+  border: none;
 }
 
 /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
@@ -234,7 +240,7 @@ p {
 @media screen and (min-width: 810px) {
   :root {
     --max-width: 730px;
-    --wrapper-margin-top: 3.5rem;
+    --wrapper-padding-top: 3.5rem;
   }
 }
 @media screen and (min-width: 1010px) {
