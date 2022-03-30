@@ -122,9 +122,13 @@ body {
   text-rendering: optimizeSpeed;
   line-height: 1.5;
   color: var(--primary-text-color);
+  background-color: var(--primary-bg-color-300);
   font-family: 'Spartan', sans-serif !important;
+  position: relative;
 }
-
+#root {
+  min-height: 100vh;
+}
 /* A elements that don't have a class get default styles */
 a:not([class]) {
   text-decoration-skip-ink: auto;
@@ -228,7 +232,15 @@ p {
   margin-top: 0.5rem;
 }
 
-/* Media queries Mobile first */
+.hidden {
+  visibility: hidden;
+}
+
+.nodisplay {
+  display: none;
+}
+
+/* Global Media queries Mobile first */
 
 @media screen and (min-width: 560px) {
   h1 {
