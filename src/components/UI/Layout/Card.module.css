@@ -8,11 +8,11 @@
 
 .grid-invoiceList {
   display: grid;
-  gap: 1rem;
   grid-template-columns: repeat(2, 1fr);
   grid-template-areas:
     'a  b'
-    'c  d';
+    'c  e'
+    'd  e';
 }
 
 .grid-invoiceDetails {
@@ -63,4 +63,71 @@
 
 .itemsListBottom > * {
   color: #ffffff;
+}
+
+.confirmModal {
+  position: absolute;
+  left: 50vw;
+  top: 50vh;
+  z-index: 100;
+  transform: translate(-50%, -50%);
+  min-width: 327px;
+  max-width: 480px;
+  min-height: 220px;
+  max-height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-evenly;
+}
+
+.confirmModal div {
+  align-self: flex-end;
+}
+
+.confirmModal button {
+  margin-right: 0.5rem;
+}
+
+.filterCard {
+  position: absolute;
+  top: 120%;
+  left: -25%;
+  display: flex;
+  flex-direction: column;
+  animation: filter 200ms ease-in forwards;
+}
+
+.filterCard h4 {
+  display: inline-block;
+  margin-left: 1rem;
+}
+.filterCard li:hover {
+  color: var(--primary-color-100);
+}
+
+@keyframes filter {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .grid-invoiceList {
+    gap: 1rem;
+    grid-template-columns: repeat(6, auto);
+    grid-template-areas: 'a  c  b  d  e  f';
+  }
+  .grid-invoiceDetails {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas:
+      'a  a  a  b  b'
+      'c  e  e  f  f'
+      'd  e  e  f  f'
+      'g  g  g  g  g';
+  }
 }
