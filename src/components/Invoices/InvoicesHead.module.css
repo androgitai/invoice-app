@@ -6,12 +6,37 @@
   text-align: start;
 }
 
-.totalInvoices {
+.totalInvoicesSM {
   color: var(--secondary-text-color-300);
+}
+.totalInvoicesLG {
+  color: var(--secondary-text-color-300);
+  display: none;
 }
 
 .control {
   display: flex;
   gap: 1rem;
   align-items: center;
+  position: relative;
+}
+
+.filterControl {
+  cursor: pointer;
+}
+
+.filterControl h4 img {
+  display: inline-block;
+  margin-left: 0.75rem;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 768px) {
+  .totalInvoicesLG {
+    display: block;
+  }
+
+  .totalInvoicesSM {
+    display: none;
+  }
 }

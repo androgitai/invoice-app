@@ -1,6 +1,5 @@
 .item1 {
   grid-area: a;
-  justify-self: start;
 }
 
 .item2 {
@@ -11,19 +10,41 @@
 
 .item3 {
   grid-area: c;
-  justify-self: start;
+  margin-top: 1.5rem;
 }
 
-.item3 h3 {
-  margin: 0.1rem 1rem 0 0;
-}
-
-.item3 p span {
+.item3 span {
   color: var(--secondary-text-color-300);
   margin-right: 0.4rem;
 }
 
 .item4 {
+  margin-top: 0.5rem;
   grid-area: d;
+}
+.item5 {
+  grid-area: e;
+  align-self: end;
   justify-self: end;
+}
+
+.item6 {
+  grid-area: f;
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .item1,
+  .item2,
+  .item3,
+  .item4,
+  .item5,
+  .item6 {
+    justify-self: center;
+    align-self: center;
+    margin: 0;
+  }
+  .item6 {
+    display: inline-block;
+  }
 }

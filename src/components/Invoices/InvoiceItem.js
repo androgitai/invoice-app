@@ -1,6 +1,7 @@
 import classes from './InvoiceItem.module.css';
 import Card from '../UI/Layout/Card';
 import StatusPill from '../UI/Elements/StatusPill';
+import arrowRightSVG from '../../assets/icon-arrow-right.svg';
 
 const InvoiceItem = props => {
   return (
@@ -9,15 +10,20 @@ const InvoiceItem = props => {
         <span>#</span>RT3080
       </h4>
       <p className={classes.item2}>Jensen Huang</p>
-      <div className={classes.item3}>
-        <p>
-          <span>Due</span> 19 Aug 2021
-        </p>
-        <h3>£1,800.90</h3>
-      </div>
-      <div className={classes.item4}>
+
+      <p className={classes.item3}>
+        <span>Due</span> 19 Aug 2021
+      </p>
+      <h3 className={classes.item4}>£1,800.90</h3>
+
+      <div className={classes.item5}>
         <StatusPill status='Paid' />
       </div>
+      <img
+        className={classes.item6}
+        src={arrowRightSVG}
+        alt='Invoice Details'
+      />
     </Card>
   );
 };

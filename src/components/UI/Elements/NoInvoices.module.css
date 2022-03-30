@@ -1,13 +1,18 @@
+.empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  gap: 1.5rem;
+  text-align: center;
+}
+
 .empty p span {
   font-weight: 700;
 }
 
 .empty img {
-  margin: var(--wrapper-margin-top, 4.5rem) auto 2.5rem auto;
-  width: 60%;
-}
-
-.empty h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
+  max-width: 240px;
+  margin-bottom: 2.5rem;
 }

@@ -11,10 +11,9 @@
   height: 40px;
   border-radius: 7px;
   text-align: center;
-}
-
-.pill h4 {
-  padding-top: 0.7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .Paid {

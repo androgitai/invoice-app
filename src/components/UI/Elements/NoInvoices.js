@@ -6,10 +6,12 @@ const NoInvoices = () => {
     <div className={classes.empty}>
       <img src={emptySVG} alt='No Invoices' />
       <h2>There is nothing here</h2>
-      <p>Create an invoice by clicking the</p>
-      <p>
-        <span>New</span> button and get started
-      </p>
+      <div>
+        <p>Create an invoice by clicking the</p>
+        <p>
+          <span>New</span> button and get started
+        </p>
+      </div>
     </div>
   );
 };
