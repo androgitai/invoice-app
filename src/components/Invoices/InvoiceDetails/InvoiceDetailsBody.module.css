@@ -15,6 +15,7 @@
 }
 .griditem5 {
   grid-area: e;
+  justify-self: center;
 }
 .griditem6 {
   grid-area: f;
