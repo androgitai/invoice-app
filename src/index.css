@@ -20,6 +20,8 @@
 
   --nav-line-color: #494e6e;
   --backdrop-bg-color: rgba(0, 0, 0, 0.5);
+  --form-item-bg-color: #ffffff;
+  --form-item-border-color: #dfe3fa;
 
   --pill-pending-text-color: rgb(255, 143, 0);
   --pill-pending-bg-color: rgba(255, 143, 0, 0.05);
@@ -50,8 +52,12 @@
   --button-form-bg: #f9fafe;
   --button-form-bg-hover: #dfe3fa;
 
-  /* Utility */
+  --button-discard-bg: #dfe3fa;
+  --button-discard-text-color: #7e88c3;
+  --button-discard-bg-hover: #f3f3f3;
 }
+
+/* Utility */
 
 [data-theme='dark'] {
   /* Colors */
@@ -63,7 +69,15 @@
   --primary-bg-color-100: #1e2139;
   --primary-bg-color-300: #141625;
 
-  --form-bg-color: #1e2139;
+  --form-item-bg-color: #252945;
+  --form-item-border-color: #252945;
+  --form-bg-color: #141625;
+
+  --button-form-bg: #252945;
+  --button-form-text-color: #ffffff;
+  --button-form-bg-hover: #373b53;
+
+  --back-button-color: #ffffff;
 
   --button-edit-text-color: #dfe3fa;
   --button-edit-bg: #252945;
@@ -253,11 +267,12 @@ p {
 @media screen and (min-width: 810px) {
   :root {
     --max-width: 730px;
-    --wrapper-padding-top: 3.5rem;
+    --wrapper-padding-top: 4.5rem;
   }
 }
-@media screen and (min-width: 1010px) {
+@media screen and (min-width: 960px) {
   :root {
     --wrapper-margin-top: 4.5rem;
+    --list-margin-top: 4rem;
   }
 }
