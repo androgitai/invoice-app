@@ -13,7 +13,7 @@ const InvoiceDetailsHead = () => {
 
   return (
     <Fragment>
-      <Link to='/'>
+      <Link className={classes.details} to='/'>
         <img className={classes.detailsHeadImg} src={arrowLeftSVG} alt='Back' />
         <h4 className={classes.detailsHeadH4}>Go back</h4>
       </Link>
