@@ -4,9 +4,48 @@
 .backButtonH4 {
   margin: 0 0 1.75rem 1.75rem;
   display: inline-block;
+  color: var(--back-button-color, unset);
 }
 
 .formModal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
   height: 100%;
   background-color: var(--form-bg-color, #ffffff);
+  animation: formModal 300ms ease-in forwards;
+}
+
+@media screen and (min-width: 768px) {
+  .formModal {
+    max-width: 652px;
+    overflow-y: scroll;
+    border-radius: 0 25px 25px 0;
+    clip-path: inset(0% 0% 0% 0% round 0 20px 20px 0);
+    /* clip-path: inset(0 20px 0 0); */
+  }
+  .formModal::-webkit-scrollbar {
+    width: 5px;
+  }
+  /* Handle */
+  .formModal::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media screen and (min-width: 1020px) {
+  .formModal {
+    left: 71px;
+    padding-left: 2rem;
+  }
+}
+
+@keyframes formModal {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }

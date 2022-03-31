@@ -6,7 +6,7 @@ const InvoiceFieldset = props => {
   return (
     <fieldset className={fieldsetClasses}>
       <legend>
-        <h4>{props.fieldName}</h4>
+        <h4 className={props.legendStyle}>{props.fieldName}</h4>
       </legend>
       {props.children}
     </fieldset>

@@ -19,7 +19,6 @@
 }
 .fieldset label:nth-child(6) {
   grid-area: e;
-  justify-self: right;
 }
 .fieldset label:nth-child(7) {
   grid-area: f;
@@ -28,4 +27,10 @@
 .fieldset legend {
   color: var(--primary-color-200);
   margin-bottom: 1.5rem;
+}
+
+@media screen and (min-width: 768px) {
+  .fieldset {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

@@ -6,7 +6,7 @@ import { Fragment } from 'react';
 
 const InvoiceFormListItem = () => {
   return (
-    <Fragment fieldName='Item List'>
+    <Fragment>
       <FormItem type='text' name='Item Name' />
       <FormItem type='number' name='Qty.' />
       <FormItem type='text' name='Price' />

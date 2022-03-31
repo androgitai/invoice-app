@@ -14,7 +14,7 @@ const InvoiceForm = () => {
 
   return (
     <Form onSubmit={formSubmitHandler}>
-      <Wrapper>
+      <Wrapper wrapType='form'>
         <InvoiceFieldset fieldName='Bill From' gridAreas={classes.billFrom}>
           <FormItem type='text' name='Street Address' id='senderAddresStreet' />
           <FormItem type='text' name='City' id='senderAddressCity' />
@@ -32,7 +32,11 @@ const InvoiceForm = () => {
         <InvoiceFieldset gridAreas={classes.terms}>
           <FormItem type='date' name='Invoice Date' />
           <FormItem type='select' />
-          <FormItem type='text' name='Project Description' />
+          <FormItem
+            type='text'
+            name='Project Description'
+            defVal='e.g. Graphic Design Service'
+          />
         </InvoiceFieldset>
         <InvoiceFormList gridAreas={classes.itemList} />
       </Wrapper>

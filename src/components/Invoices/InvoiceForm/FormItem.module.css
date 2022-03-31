@@ -6,11 +6,13 @@
   margin-top: 10px;
   padding: 0.9rem;
   border-radius: 5px;
-  border: 1px solid var(--button-form-bg-hover);
+  border: 1px solid var(--form-item-border-color);
   color: var(--button-draft-bg-hover);
   font-weight: 700;
   font-size: 0.75rem;
   transition: all 200ms ease-in;
+  background-color: var(--form-item-bg-color);
+  color: var(--primary-text-color);
 }
 .gridItem select:focus,
 .gridItem select:active,
@@ -20,4 +22,8 @@
 .gridItem input:focus {
   outline: none;
   border: 1px solid var(--primary-color-100);
+}
+
+.gridItem input:invalid {
+  border: 1px solid var(--button-delete-bg);
 }
