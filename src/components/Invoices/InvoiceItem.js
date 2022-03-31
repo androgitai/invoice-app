@@ -2,8 +2,11 @@ import classes from './InvoiceItem.module.css';
 import Card from '../UI/Layout/Card';
 import StatusPill from '../UI/Elements/StatusPill';
 import arrowRightSVG from '../../assets/icon-arrow-right.svg';
+import useMediaQuery from '../../hooks/use-media-query';
 
 const InvoiceItem = props => {
+  const isTablet = useMediaQuery('(min-width: 768px)');
+
   return (
     <Card cardType='grid-invoiceList'>
       <h4 className={classes.item1}>
@@ -19,11 +22,13 @@ const InvoiceItem = props => {
       <div className={classes.item5}>
         <StatusPill status='Paid' />
       </div>
-      <img
-        className={classes.item6}
-        src={arrowRightSVG}
-        alt='Invoice Details'
-      />
+      {isTablet && (
+        <img
+          className={classes.item6}
+          src={arrowRightSVG}
+          alt='Invoice Details'
+        />
+      )}
     </Card>
   );
 };

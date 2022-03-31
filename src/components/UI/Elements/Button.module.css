@@ -30,10 +30,6 @@
   background-color: var(--button-primary-bg-hover);
 }
 
-.primary-img span {
-  display: none;
-}
-
 .primary {
   background-color: var(--button-primary-bg);
   color: var(--button-primary-text-color);
@@ -76,10 +72,4 @@
   margin-top: 1.5rem;
   justify-self: end;
   padding-right: 0.5rem;
-}
-
-@media screen and (min-width: 768px) {
-  .primary-img span {
-    display: inline;
-  }
 }

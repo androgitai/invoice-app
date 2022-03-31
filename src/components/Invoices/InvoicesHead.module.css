@@ -6,14 +6,6 @@
   text-align: start;
 }
 
-.totalInvoicesSM {
-  color: var(--secondary-text-color-300);
-}
-.totalInvoicesLG {
-  color: var(--secondary-text-color-300);
-  display: none;
-}
-
 .control {
   display: flex;
   gap: 1rem;
@@ -29,14 +21,4 @@
   display: inline-block;
   margin-left: 0.75rem;
   cursor: pointer;
-}
-
-@media screen and (min-width: 768px) {
-  .totalInvoicesLG {
-    display: block;
-  }
-
-  .totalInvoicesSM {
-    display: none;
-  }
 }

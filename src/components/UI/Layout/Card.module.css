@@ -17,7 +17,7 @@
 
 .grid-invoiceDetails {
   display: grid;
-  gap: 1.8rem;
+  gap: 1.5rem;
   grid-template-columns: repeat(2, 1fr);
   grid-template-areas:
     'a  a'
@@ -34,7 +34,7 @@
   align-items: center;
 }
 
-.itemsListTop {
+.itemsListTopSM {
   background-color: var(--primary-bg-color-300);
   padding: 1.5rem;
   box-shadow: none;
@@ -46,11 +46,26 @@
   gap: 1.5rem;
 }
 
-.itemsListTop > h4 {
+.itemsListTopSM > h4 {
   justify-self: end;
 }
+.itemsListTopSM p {
+  font-weight: 700;
+  margin-top: 0.5rem;
+}
 
-.itemsListBottom {
+.itemsListTopLG {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: end;
+  gap: 2rem;
+}
+
+.itemsListTopLG h4 {
+  justify-self: left;
+}
+
+.itemsTotal {
   background-color: var(--secondary-bg-color);
   padding: 2rem;
   box-shadow: none;
@@ -61,7 +76,7 @@
   margin-bottom: 0;
 }
 
-.itemsListBottom > * {
+.itemsTotal > * {
   color: #ffffff;
 }
 
