@@ -59,6 +59,13 @@
 .delete:hover {
   background-color: var(--button-delete-bg-hover);
 }
+.discard {
+  background-color: var(--button-discard-bg);
+  color: var(--button-discard-text-color);
+}
+.discard:hover {
+  background-color: var(--button-discard-bg-hover);
+}
 .form {
   width: 100%;
   background-color: var(--button-form-bg);

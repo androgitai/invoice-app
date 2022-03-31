@@ -19,6 +19,11 @@
   cursor: pointer;
 }
 
+.nav li:hover {
+  background-color: #1e2139;
+  transition: all 200ms ease-in;
+}
+
 .nav ul li:first-child {
   border-right: 1px solid var(--nav-line-color);
 }
@@ -38,7 +43,7 @@
   background-color: var(--primary-color-200);
   position: relative;
   border-radius: 0 25% 25% 0;
-  z-index: 0;
+  z-index: 20;
   overflow: hidden;
 }
 
@@ -63,4 +68,50 @@
 .avatar {
   border-radius: 50%;
   width: 32px;
+}
+
+@media screen and (min-width: 1020px) {
+  .nav {
+    width: 103px;
+    height: 100%;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 150;
+    border-radius: 0 25px 25px 0;
+  }
+  .nav ul {
+    height: 172px;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .nav ul li {
+    height: 50%;
+    width: 100%;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .nav ul li:first-child {
+    border-bottom: 1px solid var(--nav-line-color);
+  }
+  .logo {
+    height: 103px;
+    width: 100%;
+  }
+  .logo::after {
+    height: 103px;
+    width: 103px;
+    bottom: -51px;
+  }
+  .logo img {
+    height: 37px;
+    width: 40px;
+  }
+  .avatar {
+    border-radius: 50%;
+    width: 40px;
+  }
 }

@@ -4,6 +4,8 @@
   margin-bottom: 1rem;
   box-shadow: 1px 1px 5px var(--primary-bg-color-300);
   border-radius: 7px;
+  transition: all 200ms ease-in;
+  border: 1px solid transparent;
 }
 
 .grid-invoiceList {
@@ -13,6 +15,9 @@
     'a  b'
     'c  e'
     'd  e';
+}
+.grid-invoiceList:hover {
+  border: 1px solid var(--primary-color-200);
 }
 
 .grid-invoiceDetails {

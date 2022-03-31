@@ -3,3 +3,8 @@
   margin: 0 auto;
   padding-top: var(--wrapper-padding-top, 2rem);
 }
+.wrapperForm {
+  max-width: 87.5%;
+  margin: 0 auto;
+  padding-top: 2rem;
+}
