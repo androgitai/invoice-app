@@ -5,8 +5,11 @@ import InvoiceDetailsHead from '../components/Invoices/InvoiceDetails/InvoiceDet
 import InvoiceDetailsBody from '../components/Invoices/InvoiceDetails/InvoiceDetailsBody';
 import InvoiceDetailsControl from '../components/Invoices/InvoiceDetails/InvoiceDetailsControl';
 import ConfirmModal from '../components/UI/Modals/ConfirmModal';
+import useMediaQuery from '../hooks/use-media-query';
 
 const Invoice = () => {
+  const isTablet = useMediaQuery('(min-width:768px)');
+
   return (
     <Fragment>
       <Wrapper>
@@ -14,7 +17,7 @@ const Invoice = () => {
         <InvoiceDetailsHead />
         <InvoiceDetailsBody />
       </Wrapper>
-      <InvoiceDetailsControl visible='bottom' />
+      {!isTablet && <InvoiceDetailsControl />}
     </Fragment>
   );
 };

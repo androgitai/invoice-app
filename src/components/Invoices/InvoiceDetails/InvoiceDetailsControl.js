@@ -2,8 +2,7 @@ import classes from './InvoiceDetailsControl.module.css';
 import Button from '../../UI/Elements/Button';
 
 const InvoiceDetailsControl = props => {
-  const contolClasses = `${classes.controls} ${classes[props.visible]}`;
-  console.log(contolClasses);
+  const contolClasses = `${classes.controls} ${classes[props.position]}`;
 
   return (
     <div className={contolClasses}>

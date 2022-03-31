@@ -10,18 +10,8 @@
 }
 
 .top {
-  display: none;
-}
-
-@media screen and (min-width: 768px) {
-  .top {
-    display: flex;
-    margin: 0;
-    height: 100%;
-    justify-content: flex-end;
-    width: 70%;
-  }
-  .bottom {
-    display: none;
-  }
+  margin: 0;
+  height: 100%;
+  justify-content: flex-end;
+  width: 70%;
 }
