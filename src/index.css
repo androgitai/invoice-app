@@ -215,6 +215,11 @@ h5 {
   line-height: 1.25rem;
   word-spacing: -0.31px;
 }
+h6 {
+  font-size: 0.75rem;
+  line-height: 0.9rem;
+  word-spacing: -0.25px;
+}
 
 p {
   color: var(--secondary-text-color-100);
@@ -226,10 +231,6 @@ p {
 
 .bold {
   font-weight: 700;
-}
-
-.mt-sm {
-  margin-top: 0.5rem;
 }
 
 .hidden {
