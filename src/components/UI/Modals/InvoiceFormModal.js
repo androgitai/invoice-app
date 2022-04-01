@@ -16,14 +16,14 @@ const ModalOverlay = props => {
     <section className={classes.formModal}>
       <Wrapper wrapType='form'>
         {!isTablet && (
-          <Link to='/'>
+          <div onClick={props.onClose}>
             <img
               className={classes.backButtonImg}
               src={arrowLeftSVG}
               alt='Back'
             />
             <h4 className={classes.backButtonH4}>Go back</h4>
-          </Link>
+          </div>
         )}
         <h1>Edit #XM9141</h1>
       </Wrapper>
@@ -36,11 +36,11 @@ const InvoiceFormModal = props => {
   return (
     <Fragment>
       {ReactDOM.createPortal(
-        <Backdrop onConfirm={props.onConfirm} />,
+        <Backdrop onClose={props.onClose} />,
         document.getElementById('backdrop-root')
       )}
       {ReactDOM.createPortal(
-        <ModalOverlay invoiceId={props.invoiceId} />,
+        <ModalOverlay invoiceId={props.invoiceId} onClose={props.onClose} />,
         document.getElementById('overlay-root')
       )}
     </Fragment>
