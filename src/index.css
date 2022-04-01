@@ -186,6 +186,10 @@ fieldset {
 /************************************************************/
 
 /* Global styles */
+html[data-theme] {
+  transition: all 300ms ease-in;
+}
+
 h1,
 h2,
 h3,
