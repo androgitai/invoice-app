@@ -8,7 +8,7 @@ import StatusPill from '../../UI/Elements/StatusPill';
 import InvoiceDetailsControl from './InvoiceDetailsControl';
 import useMediaQuery from '../../../hooks/use-media-query';
 
-const InvoiceDetailsHead = () => {
+const InvoiceDetailsHead = props => {
   const isTablet = useMediaQuery('(min-width:768px)');
 
   return (
@@ -19,8 +19,14 @@ const InvoiceDetailsHead = () => {
       </Link>
       <Card cardType='flex'>
         <p>Status</p>
-        <StatusPill status='Pending' />
-        {isTablet && <InvoiceDetailsControl position='top' />}
+        <StatusPill status={props.status} />
+        {isTablet && (
+          <InvoiceDetailsControl
+            position='top'
+            status={props.status}
+            invoiceId={props.invoiceId}
+          />
+        )}
       </Card>
     </Fragment>
   );

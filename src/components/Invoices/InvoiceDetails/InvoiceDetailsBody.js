@@ -1,51 +1,50 @@
-import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import classes from './InvoiceDetailsBody.module.css';
 import Card from '../../UI/Layout/Card';
 import InvoiceDetailsItems from './InvoiceDetailsItems';
 
 const InvoiceDetailsBody = () => {
-  const { invoiceId } = useParams();
+  const currentInvoice = useSelector(state => state.invoices.currentInvoice);
 
   return (
     <Card cardType='grid-invoiceDetails'>
       <div className={classes.griditem1}>
         <h4>
           <span>#</span>
-          {/* {invoiceId} */}
-          XM9191
+          {currentInvoice.id}
         </h4>
-        <p>Graphic Design</p>
+        <p>{currentInvoice.description}</p>
       </div>
       <div className={classes.griditem2}>
         <span>
-          <p>19 Union Terrace</p>
-          <p>London</p>
-          <p>E1 3EZ</p>
-          <p>United Kingdom</p>
+          <p>{currentInvoice.senderAddress.street}</p>
+          <p>{currentInvoice.senderAddress.city}</p>
+          <p>{currentInvoice.senderAddress.postCode}</p>
+          <p>{currentInvoice.senderAddress.country}</p>
         </span>
       </div>
       <div className={classes.griditem3}>
         <p>Invoice Date</p>
-        <h5>21 Aug 2021</h5>
+        <h5>{currentInvoice.createdAt}</h5>
       </div>
       <div className={classes.griditem4}>
         <p>Payment Due</p>
-        <h5>20 Sep 2021</h5>
+        <h5>{currentInvoice.paymentDue}</h5>
       </div>
       <div className={classes.griditem5}>
         <p>Bill To</p>
-        <h5>Alex Grim</h5>
+        <h5>{currentInvoice.clientName}</h5>
         <span>
-          <p>84 Church Way</p>
-          <p>Bradford</p>
-          <p>BD1 9PB</p>
-          <p>United Kingdom</p>
+          <p>{currentInvoice.clientAddress.street}</p>
+          <p>{currentInvoice.clientAddress.city}</p>
+          <p>{currentInvoice.clientAddress.postCode}</p>
+          <p>{currentInvoice.clientAddress.country}</p>
         </span>
       </div>
       <div className={classes.griditem6}>
         <p>Sent to</p>
-        <h5>alexgrim@mail.com</h5>
+        <h5>{currentInvoice.clientEmail}</h5>
       </div>
       <div className={classes.griditem7}>
         <InvoiceDetailsItems />
