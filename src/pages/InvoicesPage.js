@@ -7,11 +7,10 @@ import NoInvoices from '../components/UI/Elements/NoInvoices';
 
 const InvoicesPage = () => {
   const totalInvoices = useSelector(state => state.invoices.totalInvoices);
-  console.log(totalInvoices);
 
   return (
     <Wrapper>
-      <InvoicesHead />
+      <InvoicesHead totalInvoices={totalInvoices} />
       <InvoicesList />
       {!totalInvoices && <NoInvoices />}
     </Wrapper>

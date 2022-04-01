@@ -7,7 +7,7 @@ import Filter from '../UI/Elements/Filter';
 import useMediaQuery from '../../hooks/use-media-query';
 import InvoiceFormModal from '../UI/Modals/InvoiceFormModal';
 
-const InvoicesHead = () => {
+const InvoicesHead = props => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
   const isTablet = useMediaQuery('(min-width: 768px)');
@@ -22,11 +22,20 @@ const InvoicesHead = () => {
 
   return (
     <Fragment>
-      {isInvoiceModalOpen && <InvoiceFormModal formType='new' />}
+      {isInvoiceModalOpen && (
+        <InvoiceFormModal
+          formType='new'
+          onClose={toggleNewInvoiceFormHandler}
+        />
+      )}
       <section className={classes.invoicesheader}>
         <div>
           <h1>Invoices</h1>
-          {isTablet ? <p>There are {7} total invoices</p> : <p>{7} invoices</p>}
+          {isTablet ? (
+            <p>There are {props.totalInvoices} total invoices</p>
+          ) : (
+            <p>{props.totalInvoices} invoices</p>
+          )}
         </div>
         <div className={classes.control}>
           <div className={classes.filterControl}>

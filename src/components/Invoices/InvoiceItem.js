@@ -6,30 +6,34 @@ import useMediaQuery from '../../hooks/use-media-query';
 
 const InvoiceItem = props => {
   const isTablet = useMediaQuery('(min-width: 768px)');
+  const { invoiceId, paymentDue, clientName, total, status } = props;
 
   return (
-    <Card cardType='grid-invoiceList'>
-      <h4 className={classes.item1}>
-        <span>#</span>RT3080
-      </h4>
-      <p className={classes.item2}>Jensen Huang</p>
+    <div onClick={props.onClick}>
+      <Card cardType='grid-invoiceList'>
+        <h4 className={classes.item1}>
+          <span>#</span>
+          {invoiceId}
+        </h4>
+        <p className={classes.item2}>{clientName}</p>
 
-      <p className={classes.item3}>
-        <span>Due</span> 19 Aug 2021
-      </p>
-      <h3 className={classes.item4}>£1,800.90</h3>
+        <p className={classes.item3}>
+          <span>Due</span> {paymentDue}
+        </p>
+        <h3 className={classes.item4}>£{total.toFixed(2)}</h3>
 
-      <div className={classes.item5}>
-        <StatusPill status='Paid' />
-      </div>
-      {isTablet && (
-        <img
-          className={classes.item6}
-          src={arrowRightSVG}
-          alt='Invoice Details'
-        />
-      )}
-    </Card>
+        <div className={classes.item5}>
+          <StatusPill status={status} />
+        </div>
+        {isTablet && (
+          <img
+            className={classes.item6}
+            src={arrowRightSVG}
+            alt='Invoice Details'
+          />
+        )}
+      </Card>
+    </div>
   );
 };
 
