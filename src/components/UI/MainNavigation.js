@@ -2,10 +2,22 @@ import { Link } from 'react-router-dom';
 
 import classes from './MainNavigation.module.css';
 import logo from '../../assets/logo.svg';
-import moonIcon from '../../assets/icon-moon.svg';
+import moonIconSVG from '../../assets/icon-moon.svg';
+import sunIconSVG from '../../assets/icon-sun.svg';
 import avatarPicture from '../../assets/image-avatar.jpg';
+import { useEffect, useState } from 'react';
 
 const MainNavigation = () => {
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  const changeThemeHandler = () => {
+    setTheme(prevState => (prevState === 'light' ? 'dark' : 'light'));
+  };
+
   return (
     <nav className={classes.nav}>
       <div className={classes.logo}>
@@ -14,8 +26,12 @@ const MainNavigation = () => {
         </Link>
       </div>
       <ul>
-        <li>
-          <img src={moonIcon} alt='Color mode button' />
+        <li onClick={changeThemeHandler}>
+          {theme === 'light' ? (
+            <img src={moonIconSVG} alt='Color mode button' />
+          ) : (
+            <img src={sunIconSVG} alt='Color mode button' />
+          )}
         </li>
         <li>
           <img className={classes.avatar} src={avatarPicture} alt='Avatar' />
