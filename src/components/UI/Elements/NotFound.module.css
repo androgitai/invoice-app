@@ -1,0 +1,18 @@
+.empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.empty p span {
+  font-weight: 700;
+}
+
+.empty img {
+  max-width: 240px;
+  margin-bottom: 2.5rem;
+}
