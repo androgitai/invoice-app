@@ -4,7 +4,7 @@
 
 .item2 {
   grid-area: b;
-  justify-self: end;
+  justify-self: flex-end;
   color: var(--secondary-text-color-200);
 }
 
@@ -24,8 +24,8 @@
 }
 .item5 {
   grid-area: e;
-  align-self: end;
-  justify-self: end;
+  justify-self: flex-end;
+  align-self: flex-end;
 }
 .item6 {
   grid-area: f;
@@ -38,8 +38,17 @@
   .item4,
   .item5,
   .item6 {
-    justify-self: center;
     align-self: center;
     margin: 0;
+  }
+  .item1,
+  .item2,
+  .item3 {
+    justify-self: flex-start;
+  }
+  .item4,
+  .item5,
+  .item6 {
+    justify-self: flex-end;
   }
 }
