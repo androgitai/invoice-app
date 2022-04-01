@@ -3,7 +3,7 @@
   height: 91px;
   background-color: var(--primary-bg-color-100);
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   gap: 0.5rem;
   align-items: center;
   margin-top: 5.5rem;
