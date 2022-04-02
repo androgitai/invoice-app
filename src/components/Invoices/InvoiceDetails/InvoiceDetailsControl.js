@@ -20,12 +20,12 @@ const InvoiceDetailsControl = props => {
 
   const deleteInvoiceHandler = invoiceId => {
     dispatch(invoicesActions.deleteInvoice(invoiceId));
-    navigate('/');
+    navigate('/invoices');
   };
 
   return (
     <div className={contolClasses}>
-      {isDraft && <Button btnType='edit'>Edit</Button>}
+      {(isDraft || isPending) && <Button btnType='edit'>Edit</Button>}
       <Button
         btnType='delete'
         onClick={deleteInvoiceHandler.bind(null, invoiceId)}

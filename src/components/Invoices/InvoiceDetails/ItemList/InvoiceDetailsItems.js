@@ -1,9 +1,9 @@
 import { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 
-import Card from '../../UI/Layout/Card';
+import Card from '../../../UI/Layout/Card';
 import InvoiceDetailsItem from './InvoiceDetailsItem';
-import useMediaQuery from '../../../hooks/use-media-query';
+import useMediaQuery from '../../../../hooks/use-media-query';
 import InvoiceDetailsItemsHead from './InvoiceDetailsItemsHead';
 
 const InvoiceDetailsItems = () => {

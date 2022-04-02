@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 
 import classes from './InvoiceDetailsBody.module.css';
 import Card from '../../UI/Layout/Card';
-import InvoiceDetailsItems from './InvoiceDetailsItems';
+import InvoiceDetailsItems from './ItemList/InvoiceDetailsItems';
 
 const InvoiceDetailsBody = () => {
   const currentInvoice = useSelector(state => state.invoices.currentInvoice);
