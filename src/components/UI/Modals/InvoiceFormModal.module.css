@@ -17,6 +17,10 @@
   animation: formModal 300ms ease-in forwards;
 }
 
+.formModal h1 span {
+  color: var(--secondary-text-color-300);
+}
+
 @media screen and (min-width: 768px) {
   .formModal {
     max-width: 652px;
