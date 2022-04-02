@@ -1,8 +1,8 @@
 import { Fragment } from 'react';
 
 import InvoiceFormListItem from './InvoiceFormListItem';
-import Button from '../../UI/Elements/Button';
-import InvoiceFieldset from './InvoiceFieldset';
+import Button from '../../../UI/Elements/Button';
+import InvoiceFieldset from '../Layout/InvoiceFieldset';
 import classes from './InvoiceFormList.module.css';
 
 const InvoiceFormList = props => {

@@ -1,8 +1,8 @@
 import Button from '../../UI/Elements/Button';
-import Form from './Form';
-import FormItem from './FormItem';
-import InvoiceFieldset from './InvoiceFieldset';
-import InvoiceFormList from './InvoiceFormList';
+import Form from './Layout/Form';
+import InvoiceFormItem from './InvoiceFormItem';
+import InvoiceFieldset from './Layout/InvoiceFieldset';
+import InvoiceFormList from './ItemList/InvoiceFormList';
 import Wrapper from '../../UI/Layout/Wrapper';
 import classes from './InvoiceForm.module.css';
 
@@ -16,23 +16,51 @@ const InvoiceForm = () => {
     <Form onSubmit={formSubmitHandler}>
       <Wrapper wrapType='form'>
         <InvoiceFieldset fieldName='Bill From' gridAreas={classes.billFrom}>
-          <FormItem type='text' name='Street Address' id='senderAddresStreet' />
-          <FormItem type='text' name='City' id='senderAddressCity' />
-          <FormItem type='text' name='Post Code' id='senderAddressPostcode' />
-          <FormItem type='text' name='Country' id='senderAddressCountry' />
+          <InvoiceFormItem
+            type='text'
+            name='Street Address'
+            id='senderAddresStreet'
+          />
+          <InvoiceFormItem type='text' name='City' id='senderAddressCity' />
+          <InvoiceFormItem
+            type='text'
+            name='Post Code'
+            id='senderAddressPostcode'
+          />
+          <InvoiceFormItem
+            type='text'
+            name='Country'
+            id='senderAddressCountry'
+          />
         </InvoiceFieldset>
         <InvoiceFieldset fieldName='Bill To' gridAreas={classes.billTo}>
-          <FormItem type='text' name={`Client's Name`} id='clientName' />
-          <FormItem type='email' name={`Client's Email`} id='clientEmail' />
-          <FormItem type='text' name='Street Address' id='clientAddresStreet' />
-          <FormItem type='text' name='City' id='clientAddressCity' />
-          <FormItem type='text' name='Post Code' id='clientAddressPostcode' />
-          <FormItem type='text' name='Country' id='clientAddressCountry' />
+          <InvoiceFormItem type='text' name={`Client's Name`} id='clientName' />
+          <InvoiceFormItem
+            type='email'
+            name={`Client's Email`}
+            id='clientEmail'
+          />
+          <InvoiceFormItem
+            type='text'
+            name='Street Address'
+            id='clientAddresStreet'
+          />
+          <InvoiceFormItem type='text' name='City' id='clientAddressCity' />
+          <InvoiceFormItem
+            type='text'
+            name='Post Code'
+            id='clientAddressPostcode'
+          />
+          <InvoiceFormItem
+            type='text'
+            name='Country'
+            id='clientAddressCountry'
+          />
         </InvoiceFieldset>
         <InvoiceFieldset gridAreas={classes.terms}>
-          <FormItem type='date' name='Invoice Date' />
-          <FormItem type='select' />
-          <FormItem
+          <InvoiceFormItem type='date' name='Invoice Date' />
+          <InvoiceFormItem type='select' />
+          <InvoiceFormItem
             type='text'
             name='Project Description'
             defVal='e.g. Graphic Design Service'

@@ -1,15 +1,16 @@
-import FormItem from './FormItem';
-import classes from './InvoiceFormListItem.module.css';
-import Button from '../../UI/Elements/Button';
-import binSVG from '../../../assets/icon-delete.svg';
 import { Fragment } from 'react';
+
+import classes from './InvoiceFormListItem.module.css';
+import InvoiceFormItem from '../InvoiceFormItem';
+import Button from '../../../UI/Elements/Button';
+import binSVG from '../../../../assets/icon-delete.svg';
 
 const InvoiceFormListItem = () => {
   return (
     <Fragment>
-      <FormItem type='text' name='Item Name' />
-      <FormItem type='number' name='Qty.' />
-      <FormItem type='text' name='Price' />
+      <InvoiceFormItem type='text' name='Item Name' />
+      <InvoiceFormItem type='number' name='Qty.' />
+      <InvoiceFormItem type='text' name='Price' />
       <div className={classes.total}>
         <p>Total</p>
         <h4>400.00</h4>

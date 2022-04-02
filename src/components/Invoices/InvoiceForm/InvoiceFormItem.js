@@ -1,4 +1,4 @@
-import classes from './FormItem.module.css';
+import classes from './InvoiceFormItem.module.css';
 
 const FormItem = props => {
   const today = [
