@@ -1,10 +1,43 @@
 import { createSlice } from '@reduxjs/toolkit';
 import data from '../assets/data.json';
 
+const emptyFormTemplate = {
+  id: '',
+  createdAt: '',
+  paymentDue: '',
+  description: '',
+  paymentTerms: 0,
+  clientName: '',
+  clientEmail: '',
+  status: '',
+  senderAddress: {
+    street: '19 Union Terrace',
+    city: 'London',
+    postCode: 'E1 3EZ',
+    country: 'United Kingdom',
+  },
+  clientAddress: {
+    street: '',
+    city: '',
+    postCode: '',
+    country: '',
+  },
+  items: [
+    {
+      name: '',
+      quantity: 0,
+      price: 0,
+      total: 0,
+    },
+  ],
+  total: 0,
+};
+
 const invoicesInitialState = {
   invoices: data,
   totalInvoices: data.length,
-  currentInvoice: null,
+  currentInvoice: emptyFormTemplate,
+  emptyFormTemplate,
 };
 
 const invoicesSlice = createSlice({
