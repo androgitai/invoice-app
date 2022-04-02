@@ -5,6 +5,66 @@
   gap: 1.5rem;
 }
 
+.billFrom {
+  grid-template-areas:
+    'a  a'
+    'b  c'
+    'd  d';
+}
+
+.billTo {
+  grid-template-areas:
+    'a  a'
+    'b  b'
+    'c  c'
+    'd  e'
+    'f  f';
+}
+
+.terms {
+  grid-template-areas:
+    'a  a'
+    'b  b'
+    'c  c';
+}
+
+.itemList {
+  grid-template-columns: 2fr 4fr 3fr 2fr;
+  gap: 1rem;
+  grid-template-areas:
+    'a  a  a  a'
+    'b  c  d  e';
+}
+
+@media screen and (min-width: 768px) {
+  .billFrom {
+    grid-template-areas:
+      'a  a  a'
+      'b  c  d';
+  }
+
+  .billTo {
+    grid-template-areas:
+      'a  a  a'
+      'b  b  b'
+      'c  c  c'
+      'd  e  f';
+  }
+
+  .terms {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      'a  b'
+      'c  c';
+  }
+
+  .itemList {
+    grid-template-columns: 6fr 1fr 2fr 1fr 1fr;
+    gap: 1rem;
+    grid-template-areas: 'a  b  c  d  e';
+  }
+}
+
 .fieldset label:nth-child(2) {
   grid-area: a;
 }

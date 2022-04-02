@@ -25,7 +25,11 @@ const InvoiceDetailsControl = props => {
 
   return (
     <div className={contolClasses}>
-      {(isDraft || isPending) && <Button btnType='edit'>Edit</Button>}
+      {(isDraft || isPending) && (
+        <Button btnType='edit' onClick={props.toggleForm}>
+          Edit
+        </Button>
+      )}
       <Button
         btnType='delete'
         onClick={deleteInvoiceHandler.bind(null, invoiceId)}

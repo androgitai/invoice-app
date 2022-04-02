@@ -22,6 +22,7 @@ const InvoiceDetailsHead = props => {
         <StatusPill status={props.status} />
         {isTablet && (
           <InvoiceDetailsControl
+            toggleForm={props.toggleForm}
             position='top'
             status={props.status}
             invoiceId={props.invoiceId}

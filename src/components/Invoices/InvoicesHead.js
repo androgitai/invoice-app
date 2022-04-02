@@ -23,7 +23,10 @@ const InvoicesHead = props => {
   return (
     <Fragment>
       {isInvoiceModalOpen && (
-        <InvoiceFormModal formType='new' onClose={toggleInvoiceFormHandler} />
+        <InvoiceFormModal
+          isNewForm={true}
+          onCancel={toggleInvoiceFormHandler}
+        />
       )}
       <section className={classes.invoicesheader}>
         <div>
