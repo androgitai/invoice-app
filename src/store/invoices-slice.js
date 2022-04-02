@@ -21,7 +21,6 @@ const invoicesSlice = createSlice({
     },
     markAsPaid(state, action) {
       const id = action.payload;
-      console.log(id);
       const currentInvoiceIndex = state.invoices.findIndex(
         item => item.id === id
       );
