@@ -16,17 +16,14 @@ const InvoicesHead = props => {
     setFilterOpen(prevState => !prevState);
   };
 
-  const toggleNewInvoiceFormHandler = () => {
+  const toggleInvoiceFormHandler = () => {
     setIsInvoiceModalOpen(prevState => !isInvoiceModalOpen);
   };
 
   return (
     <Fragment>
       {isInvoiceModalOpen && (
-        <InvoiceFormModal
-          formType='new'
-          onClose={toggleNewInvoiceFormHandler}
-        />
+        <InvoiceFormModal formType='new' onClose={toggleInvoiceFormHandler} />
       )}
       <section className={classes.invoicesheader}>
         <div>
@@ -44,7 +41,7 @@ const InvoicesHead = props => {
             </h4>
             {filterOpen && <Filter />}
           </div>
-          <Button btnType='primary-img' onClick={toggleNewInvoiceFormHandler}>
+          <Button btnType='primary-img' onClick={toggleInvoiceFormHandler}>
             {<img src={plusIcon} alt='New Invoice'></img>}
             New {isTablet && 'Invoice'}
           </Button>

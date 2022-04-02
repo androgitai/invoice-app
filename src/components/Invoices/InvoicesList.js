@@ -1,5 +1,5 @@
 import classes from './InvoicesList.module.css';
-import InvoiceItem from './InvoiceItem';
+import InvoicesItem from './InvoicesItem';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ const InvoicesList = () => {
   return (
     <section className={classes.invoicesList}>
       {invoices.map(item => (
-        <InvoiceItem
+        <InvoicesItem
           key={item.id}
           invoiceId={item.id}
           paymentDue={item.paymentDue}

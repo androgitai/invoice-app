@@ -1,4 +1,4 @@
-import classes from './InvoiceItem.module.css';
+import classes from './InvoicesItem.module.css';
 import Card from '../UI/Layout/Card';
 import StatusPill from '../UI/Elements/StatusPill';
 import arrowRightSVG from '../../assets/icon-arrow-right.svg';
