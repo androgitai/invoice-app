@@ -5,15 +5,15 @@ import InvoiceFormItem from '../InvoiceFormItem';
 import Button from '../../../UI/Elements/Button';
 import binSVG from '../../../../assets/icon-delete.svg';
 
-const InvoiceFormListItem = () => {
+const InvoiceFormListItem = props => {
   return (
     <Fragment>
-      <InvoiceFormItem type='text' name='Item Name' />
-      <InvoiceFormItem type='number' name='Qty.' />
-      <InvoiceFormItem type='text' name='Price' />
+      <InvoiceFormItem type='text' name='Item Name' defVal={props.name} />
+      <InvoiceFormItem type='number' name='Qty.' defVal={props.quantity} />
+      <InvoiceFormItem type='text' name='Price' defVal={props.price} />
       <div className={classes.total}>
         <p>Total</p>
-        <h4>400.00</h4>
+        <h4>£{props.total}</h4>
       </div>
       <Button btnType='bin'>
         <img

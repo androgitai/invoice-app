@@ -7,9 +7,15 @@ const FormItem = props => {
     new Date().getDate().toString().padStart(2, '0'),
   ].join('-');
 
-  const defVal = props.type === 'date' ? today : '';
+  let defVal;
+  defVal = props.defVal;
+  if (props.type === 'date') {
+    defVal = props.defVal === '' ? today : props.defVal;
+  }
 
   if (props.type === 'select') {
+    defVal = props.defVal === 0 ? 30 : props.defVal;
+
     return (
       <label htmlFor='Payment Terms' className={classes.gridItem}>
         <p>Payment Terms</p>
@@ -17,7 +23,7 @@ const FormItem = props => {
           name='paymentTerms'
           id='paymentTerms'
           form='invoiceForm'
-          defaultValue={30}
+          defaultValue={defVal}
         >
           <option value={1}>Net 1 day</option>
           <option value={7}>Net 7 days</option>
@@ -36,7 +42,7 @@ const FormItem = props => {
         disabled={props.disabled}
         required={false}
         defaultValue={defVal}
-        placeholder={props.defVal}
+        placeholder={props.placeHold}
       />
     </label>
   );

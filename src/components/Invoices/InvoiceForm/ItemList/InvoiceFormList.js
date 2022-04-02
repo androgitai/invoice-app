@@ -6,6 +6,9 @@ import InvoiceFieldset from '../Layout/InvoiceFieldset';
 import classes from './InvoiceFormList.module.css';
 
 const InvoiceFormList = props => {
+  const { items } = props;
+  console.log(items);
+
   return (
     <Fragment>
       <InvoiceFieldset
@@ -13,7 +16,15 @@ const InvoiceFormList = props => {
         legendStyle={classes.header}
         gridAreas={props.gridAreas}
       >
-        <InvoiceFormListItem />
+        {items.map(item => (
+          <InvoiceFormListItem
+            key={item.name}
+            name={item.name}
+            quantity={item.quantity}
+            price={item.price}
+            total={item.total}
+          />
+        ))}
       </InvoiceFieldset>
       <Button btnType='form'>+Add New Item</Button>
     </Fragment>

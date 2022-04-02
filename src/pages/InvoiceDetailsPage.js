@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { invoicesActions } from '../store/invoices-slice';
@@ -18,6 +18,7 @@ const InvoiceDetailsPage = () => {
   const dispatch = useDispatch();
   const currentInvoice = useSelector(state => state.invoices.currentInvoice);
   const { invoiceId } = useParams();
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   useEffect(() => {
     dispatch(invoicesActions.getInvoice(invoiceId));
@@ -25,16 +26,26 @@ const InvoiceDetailsPage = () => {
     return () => {};
   }, [dispatch, invoiceId]);
 
+  const toggleInvoiceFormHandler = () => {
+    setIsFormOpen(prevState => !prevState);
+  };
+
   if (!currentInvoice) {
     return <NotFound />;
   }
-
   return (
     <Fragment>
-      {/* <InvoiceFormModal /> */}
+      {isFormOpen && (
+        <InvoiceFormModal
+          isNewForm={false}
+          invoiceId={currentInvoice.id}
+          onCancel={toggleInvoiceFormHandler}
+        />
+      )}
       <Wrapper>
         {/* <ConfirmModal invoiceId='XM9141' /> */}
         <InvoiceDetailsHead
+          toggleForm={toggleInvoiceFormHandler}
           invoiceId={invoiceId}
           status={currentInvoice.status}
         />
@@ -42,6 +53,7 @@ const InvoiceDetailsPage = () => {
       </Wrapper>
       {!isTablet && (
         <InvoiceDetailsControl
+          toggleForm={toggleInvoiceFormHandler}
           status={currentInvoice.status}
           invoiceId={invoiceId}
         />
