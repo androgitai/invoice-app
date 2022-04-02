@@ -187,7 +187,7 @@ fieldset {
 
 /* Global styles */
 html[data-theme] {
-  transition: all 300ms ease-in;
+  transition: all 200ms ease-in;
 }
 
 h1,
@@ -249,14 +249,6 @@ p {
 
 .bold {
   font-weight: 700;
-}
-
-.hidden {
-  visibility: hidden;
-}
-
-.nodisplay {
-  display: none;
 }
 
 /* Global Media queries Mobile first */
