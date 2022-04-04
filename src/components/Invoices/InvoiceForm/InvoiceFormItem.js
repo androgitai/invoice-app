@@ -1,7 +1,9 @@
 import classes from './InvoiceFormItem.module.css';
 
 const FormItem = props => {
-  const today = [
+  const itemClasses = `${classes.gridItem} ${classes[props.gridArea]}`;
+
+  const todaysDate = [
     new Date().getFullYear(),
     (new Date().getMonth() + 1).toString().padStart(2, '0'),
     new Date().getDate().toString().padStart(2, '0'),
@@ -10,14 +12,14 @@ const FormItem = props => {
   let defVal;
   defVal = props.defVal;
   if (props.type === 'date') {
-    defVal = props.defVal === '' ? today : props.defVal;
+    defVal = props.defVal === '' ? todaysDate : props.defVal;
   }
 
   if (props.type === 'select') {
     defVal = props.defVal === 0 ? 30 : props.defVal;
 
     return (
-      <label htmlFor='Payment Terms' className={classes.gridItem}>
+      <label htmlFor='Payment Terms' className={itemClasses}>
         <p>Payment Terms</p>
         <select
           name='paymentTerms'
@@ -34,8 +36,28 @@ const FormItem = props => {
     );
   }
 
+  if (props.type === 'price') {
+    return (
+      <label htmlFor={props.fieldName} className={itemClasses}>
+        <p>{props.name}</p>
+        <div className={classes.pricebox}>
+          <span>£</span>
+          <input
+            className={classes.price}
+            type={props.type}
+            disabled={props.disabled}
+            required={false}
+            defaultValue={defVal.toFixed(2)}
+            placeholder={props.placeHold}
+            step={0.01}
+          />
+        </div>
+      </label>
+    );
+  }
+
   return (
-    <label htmlFor={props.fieldName} className={classes.gridItem}>
+    <label htmlFor={props.fieldName} className={itemClasses}>
       <p>{props.name}</p>
       <input
         type={props.type}

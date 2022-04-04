@@ -14,6 +14,10 @@
   background-color: var(--form-item-bg-color);
   color: var(--primary-text-color);
 }
+.gridItem select {
+  padding: 1rem;
+}
+
 .gridItem select:focus,
 .gridItem select:active,
 .gridItem select:hover,
@@ -26,4 +30,46 @@
 
 .gridItem input:invalid {
   border: 1px solid var(--button-delete-bg);
+}
+
+.gridArea1 {
+  grid-area: a;
+}
+.gridArea2 {
+  grid-area: b;
+}
+.gridArea3 {
+  grid-area: c;
+}
+.gridArea4 {
+  grid-area: d;
+}
+.gridArea5 {
+  grid-area: e;
+}
+.gridArea6 {
+  grid-area: f;
+}
+
+.gridAreaItemName {
+  grid-column: span 4;
+}
+
+.pricebox {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.pricebox span {
+  top: 25px;
+  left: 5px;
+  position: absolute;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+@media screen and (min-width: 768px) {
+  .gridAreaItemName {
+    grid-column: unset;
+  }
 }

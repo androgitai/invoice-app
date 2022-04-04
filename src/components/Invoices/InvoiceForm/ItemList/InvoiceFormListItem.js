@@ -8,12 +8,17 @@ import binSVG from '../../../../assets/icon-delete.svg';
 const InvoiceFormListItem = props => {
   return (
     <Fragment>
-      <InvoiceFormItem type='text' name='Item Name' defVal={props.name} />
-      <InvoiceFormItem type='number' name='Qty.' defVal={props.quantity} />
-      <InvoiceFormItem type='text' name='Price' defVal={props.price} />
+      <InvoiceFormItem
+        type='text'
+        name='Item Name'
+        defVal={props.name}
+        gridArea='gridAreaItemName'
+      />
+      <InvoiceFormItem type='text' name='Qty.' defVal={props.quantity} />
+      <InvoiceFormItem type='price' name='Price' defVal={props.price} />
       <div className={classes.total}>
         <p>Total</p>
-        <h4>£{props.total}</h4>
+        <h4>£{props.total.toFixed(2)}</h4>
       </div>
       <Button btnType='bin'>
         <img

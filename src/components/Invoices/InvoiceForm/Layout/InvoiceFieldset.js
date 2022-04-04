@@ -1,7 +1,7 @@
 import classes from './InvoiceFieldset.module.css';
 
 const InvoiceFieldset = props => {
-  const fieldsetClasses = `${classes.fieldset} ${props.gridAreas}`;
+  const fieldsetClasses = `${classes.fieldset} ${classes[props.gridType]}`;
 
   return (
     <fieldset className={fieldsetClasses}>

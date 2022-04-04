@@ -14,7 +14,7 @@ const InvoiceFormList = props => {
       <InvoiceFieldset
         fieldName='Item List'
         legendStyle={classes.header}
-        gridAreas={props.gridAreas}
+        gridType='itemList'
       >
         {items.map(item => (
           <InvoiceFormListItem

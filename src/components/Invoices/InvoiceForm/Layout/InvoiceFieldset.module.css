@@ -1,8 +1,8 @@
 .fieldset {
   margin-bottom: 1.5rem;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .billFrom {
@@ -29,14 +29,20 @@
 }
 
 .itemList {
-  grid-template-columns: 2fr 4fr 3fr 2fr;
+  grid-template-columns: 1fr 2fr 1fr 1fr;
   gap: 1rem;
-  grid-template-areas:
-    'a  a  a  a'
-    'b  c  d  e';
+}
+
+.fieldset legend {
+  color: var(--primary-color-200);
+  margin-bottom: 1.5rem;
 }
 
 @media screen and (min-width: 768px) {
+  .fieldset {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   .billFrom {
     grid-template-areas:
       'a  a  a'
@@ -59,38 +65,6 @@
   }
 
   .itemList {
-    grid-template-columns: 6fr 1fr 2fr 1fr 1fr;
-    gap: 1rem;
-    grid-template-areas: 'a  b  c  d  e';
-  }
-}
-
-.fieldset label:nth-child(2) {
-  grid-area: a;
-}
-.fieldset label:nth-child(3) {
-  grid-area: b;
-}
-.fieldset label:nth-child(4) {
-  grid-area: c;
-}
-.fieldset label:nth-child(5) {
-  grid-area: d;
-}
-.fieldset label:nth-child(6) {
-  grid-area: e;
-}
-.fieldset label:nth-child(7) {
-  grid-area: f;
-}
-
-.fieldset legend {
-  color: var(--primary-color-200);
-  margin-bottom: 1.5rem;
-}
-
-@media screen and (min-width: 768px) {
-  .fieldset {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 40% 10% 20% 10% 10%;
   }
 }
