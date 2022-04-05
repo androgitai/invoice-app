@@ -33,6 +33,18 @@ const emptyFormTemplate = {
   total: 0,
 };
 
+const calculateAndFormatDueDate = (date, days) => {
+  let result = new Date(date);
+  result.setDate(result.getDate() + days);
+
+  const newPaymentDueDate = [
+    result.getFullYear(),
+    (result.getMonth() + 1).toString().padStart(2, '0'),
+    result.getDate().toString().padStart(2, '0'),
+  ].join('-');
+  return newPaymentDueDate;
+};
+
 const invoicesInitialState = {
   invoices: data,
   totalInvoices: data.length,
@@ -68,6 +80,56 @@ const invoicesSlice = createSlice({
       state.invoices = state.invoices.filter(item => item.id !== id);
       state.currentInvoice = null;
       state.totalInvoices = state.invoices.length;
+    },
+    saveAsDraftInvoice(state, action) {
+      console.log(
+        action.payload.submittedData,
+        action.payload.listItemsState,
+        action.payload.id
+      );
+      const { id, submittedData, listItemsState } = action.payload;
+
+      if (id === 'new') return;
+
+      const grandTotalAmount = listItemsState.reduce(
+        (sum, item) => (sum += item.total),
+        0
+      );
+
+      const newDueDate = calculateAndFormatDueDate(
+        submittedData.createdAt,
+        +submittedData.paymentTerms
+      );
+
+      const invoiceIndex = state.invoices.findIndex(
+        invoice => invoice.id === id
+      );
+      const newInvoiceItem = {
+        id: id,
+        createdAt: submittedData.createdAt,
+        paymentDue: newDueDate,
+        description: submittedData.description,
+        paymentTerms: +submittedData.paymentTerms,
+        clientName: submittedData.clientName,
+        clientEmail: submittedData.clientEmail,
+        status: state.currentInvoice.status,
+        senderAddress: {
+          street: submittedData.senderAddressStreet,
+          city: submittedData.senderAddressCity,
+          postCode: submittedData.senderAddressPostcode,
+          country: submittedData.senderAddressCountry,
+        },
+        clientAddress: {
+          street: submittedData.clientAddressStreet,
+          city: submittedData.clientAddressCity,
+          postCode: submittedData.clientAddressPostcode,
+          country: submittedData.clientAddressCountry,
+        },
+        items: listItemsState,
+        total: grandTotalAmount,
+      };
+      state.invoices[invoiceIndex] = newInvoiceItem;
+      state.currentInvoice = newInvoiceItem;
     },
   },
 });
