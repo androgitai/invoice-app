@@ -55,7 +55,7 @@ const listItemsReducer = (state, action) => {
     return newState;
   }
 
-  return state;
+  return listItemsReducer;
 };
 
 const InvoiceFormList = props => {
