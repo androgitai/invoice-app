@@ -1,47 +1,54 @@
-import { Fragment, useLayoutEffect, useState } from 'react';
+import { Fragment } from 'react';
 
 import classes from './InvoiceFormListItem.module.css';
 import Button from '../../../UI/Elements/Button';
 import binSVG from '../../../../assets/icon-delete.svg';
 
 const InvoiceFormListItem = props => {
-  const [item, setItem] = useState(props.item);
+  const { id, name, price, quantity, total } = props.item;
 
-  useLayoutEffect(() => {
-    setItem(props.item);
-  }, [props.item]);
+  const inputFieldOnChangeHandler = event => {
+    props.onUpdate(props.item.id, event.target.id, event.target.value);
+  };
 
-  console.log(props.item.name);
   return (
     <Fragment>
       <label
         htmlFor='Item Name'
+        id='name'
         className={`${classes.gridItem} ${classes.gridAreaItemName}`}
       >
         <p>Item Name</p>
-        <input type='text' defaultValue={item.name} />
+        <input
+          type='text'
+          value={name}
+          id='name'
+          onChange={inputFieldOnChangeHandler}
+        />
       </label>
-      <label htmlFor='Qty.' className={classes.gridItem}>
+      <label htmlFor='Qty.' id='quantity' className={classes.gridItem}>
         <p>Qty.</p>
-        <input type='text' defaultValue={item.quantity} />
+        <input
+          type='text'
+          id='quantity'
+          value={quantity}
+          onChange={inputFieldOnChangeHandler}
+        />
       </label>
-      <label htmlFor='Price' className={classes.gridItem}>
+      <label htmlFor='Price' id='price' className={classes.gridItem}>
         <p>Price</p>
-        <input type='text' defaultValue={item.price.toFixed(2)} />
+        <input
+          type='text'
+          id='price'
+          value={price.toFixed(2)}
+          onChange={inputFieldOnChangeHandler}
+        />
       </label>
-      {/* <InvoiceFormItem
-        type='text'
-        name='Item Name'
-        defVal={props.name}
-        gridArea='gridAreaItemName'
-      />
-      <InvoiceFormItem type='text' name='Qty.' defVal={props.quantity} />
-      <InvoiceFormItem type='price' name='Price' defVal={props.price} /> */}
       <div className={classes.total}>
         <p>Total</p>
-        <h4>£{item.total.toFixed(2)}</h4>
+        <h4>£{total.toFixed(2)}</h4>
       </div>
-      <Button btnType='bin' onClick={props.onDelete.bind(null, props.id)}>
+      <Button btnType='bin' onClick={props.onDelete.bind(null, id)}>
         <img
           className={classes.binButton}
           src={binSVG}

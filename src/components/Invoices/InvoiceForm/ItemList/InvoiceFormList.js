@@ -1,31 +1,90 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useReducer } from 'react';
 
 import InvoiceFormListItem from './InvoiceFormListItem';
 import Button from '../../../UI/Elements/Button';
 import InvoiceFieldset from '../Layout/InvoiceFieldset';
 import classes from './InvoiceFormList.module.css';
 
+const listItemsReducer = (state, action) => {
+  if (action.type === 'ADD_NEW_ITEM') {
+    return [
+      ...state,
+      {
+        id: state.length,
+        name: '',
+        quantity: 1,
+        price: 0,
+        total: 0,
+      },
+    ];
+  }
+  if (action.type === 'DELETE_ITEM') {
+    const id = action.id;
+    const filteredState = state
+      .filter(item => item.id !== id)
+      .map((item, index) => {
+        return { ...item, id: index };
+      });
+    return filteredState;
+  }
+  if (action.type === 'UPDATE_INPUT') {
+    const { id, key, value } = action;
+    console.log(id, key, value);
+    const newState = [...state];
+    newState.forEach(item => {
+      if (item.id === id) {
+        switch (key) {
+          case 'name':
+            item[key] = value;
+            break;
+          case 'quantity': {
+            item[key] = +value;
+            item.total = item.quantity * item.price;
+            break;
+          }
+          case 'price': {
+            item[key] = +value;
+            item.total = item.quantity * item.price;
+            break;
+          }
+          default:
+            break;
+        }
+      }
+    });
+    return newState;
+  }
+
+  return state;
+};
+
 const InvoiceFormList = props => {
-  const [listItems, setListItems] = useState(props.items);
-  console.log(listItems);
-  const emptyItem = {
-    name: 'dsadsa',
-    quantity: 10,
-    price: 100,
-    total: 100,
-  };
+  const initialState = props.items.map((item, index) => {
+    return {
+      id: index,
+      name: item.name,
+      quantity: item.quantity,
+      price: item.price,
+      total: item.price * item.quantity,
+    };
+  });
+  const [listItemsState, dispatchListItem] = useReducer(
+    listItemsReducer,
+    initialState
+  );
+  console.log(listItemsState);
 
   const addNewListItemHandler = () => {
-    setListItems(prevListItems => [...prevListItems, emptyItem]);
+    dispatchListItem({ type: 'ADD_NEW_ITEM' });
   };
 
-  const removeListItemHandler = indexId => {
-    setListItems(prevListItems => {
-      const filteredList = prevListItems.filter((item, index) => {
-        return index !== indexId;
-      });
-      return filteredList;
-    });
+  const removeListItemHandler = id => {
+    dispatchListItem({ type: 'DELETE_ITEM', id });
+  };
+
+  const updateListItemField = (id, key, value) => {
+    // console.log(id, key, value);
+    dispatchListItem({ type: 'UPDATE_INPUT', id, key, value });
   };
 
   return (
@@ -35,14 +94,13 @@ const InvoiceFormList = props => {
         legendStyle={classes.header}
         gridType='itemList'
       >
-        {listItems.map((item, index) => {
-          console.log(item);
+        {listItemsState.map(item => {
           return (
             <InvoiceFormListItem
-              key={index}
-              id={index}
+              key={item.id}
               item={item}
               onDelete={removeListItemHandler}
+              onUpdate={updateListItemField}
             />
           );
         })}
