@@ -7,16 +7,14 @@ import useMediaQuery from '../../../../hooks/use-media-query';
 import InvoiceDetailsItemsHead from './InvoiceDetailsItemsHead';
 
 const InvoiceDetailsItems = () => {
-  const currentInvoiceItems = useSelector(
-    state => state.invoices.currentInvoice.items
-  );
+  const { items, total } = useSelector(state => state.invoices.currentInvoice);
   const isTablet = useMediaQuery('(min-width:768px)');
 
   return (
     <Fragment>
       <Card cardType={isTablet ? 'itemsListTopLG' : 'itemsListTopSM'}>
         {isTablet && <InvoiceDetailsItemsHead />}
-        {currentInvoiceItems.map(item => (
+        {items.map(item => (
           <InvoiceDetailsItem
             key={item.name}
             name={item.name}
@@ -28,7 +26,7 @@ const InvoiceDetailsItems = () => {
       </Card>
       <Card cardType='itemsTotal'>
         {isTablet ? <p>Amount Due</p> : <p>Grand Total</p>}
-        <h2>£ 556.00</h2>
+        <h2>£ {total.toFixed(2)}</h2>
       </Card>
     </Fragment>
   );
