@@ -36,31 +36,13 @@ const FormItem = props => {
     );
   }
 
-  if (props.type === 'price') {
-    return (
-      <label htmlFor={props.fieldName} className={itemClasses}>
-        <p>{props.name}</p>
-        <div className={classes.pricebox}>
-          <span>£</span>
-          <input
-            className={classes.price}
-            type={props.type}
-            disabled={props.disabled}
-            required={false}
-            defaultValue={defVal.toFixed(2)}
-            placeholder={props.placeHold}
-            step={0.01}
-          />
-        </div>
-      </label>
-    );
-  }
-
   return (
-    <label htmlFor={props.fieldName} className={itemClasses}>
+    <label htmlFor={props.id} className={itemClasses}>
       <p>{props.name}</p>
       <input
         type={props.type}
+        id={props.id}
+        name={props.id}
         disabled={props.disabled}
         required={false}
         defaultValue={defVal}
