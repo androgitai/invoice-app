@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { invoicesActions } from '../../../store/invoices-slice';
-import useFormListItems from '../../../hooks/use-form-item';
+import useFormListItems from '../../../hooks/use-form-list';
 
 import Button from '../../UI/Elements/Button';
 import Form from './Layout/Form';
@@ -11,15 +11,16 @@ import Wrapper from '../../UI/Layout/Wrapper';
 import classes from './InvoiceForm.module.css';
 
 const InvoiceForm = props => {
+  const isNewForm = props.isNewForm;
+
   const dispatch = useDispatch();
   const { currentInvoice, emptyFormTemplate } = useSelector(
     state => state.invoices
   );
   const { listItemsState, dispatchListItem } = useFormListItems(
-    currentInvoice.items
+    isNewForm ? emptyFormTemplate.items : currentInvoice.items
   );
 
-  const isNewForm = props.isNewForm;
   const formData = isNewForm ? emptyFormTemplate : currentInvoice;
 
   const formSubmitHandler = event => {

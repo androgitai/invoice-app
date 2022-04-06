@@ -6,7 +6,7 @@ const emptyFormTemplate = {
   createdAt: '',
   paymentDue: '',
   description: '',
-  paymentTerms: 0,
+  paymentTerms: 30,
   clientName: '',
   clientEmail: '',
   status: '',
@@ -24,6 +24,7 @@ const emptyFormTemplate = {
   },
   items: [
     {
+      id: 0,
       name: '',
       quantity: 0,
       price: 0,
@@ -43,6 +44,17 @@ const calculateAndFormatDueDate = (date, days) => {
     result.getDate().toString().padStart(2, '0'),
   ].join('-');
   return newPaymentDueDate;
+};
+
+const idGenerator = () => {
+  const DEFAULT_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const getNewChar = () =>
+    DEFAULT_ALPHABET.charAt(
+      Math.floor(Math.random() * DEFAULT_ALPHABET.length)
+    );
+  const getNewNumber = Math.floor(Math.random() * (9999 - 1000 + 1) + 1000);
+  const newId = getNewChar() + getNewChar() + getNewNumber;
+  return newId;
 };
 
 const invoicesInitialState = {
@@ -89,7 +101,13 @@ const invoicesSlice = createSlice({
       );
       const { id, submittedData, listItemsState } = action.payload;
 
-      if (id === 'new') return;
+      let status = state.currentInvoice.status;
+      if (id === 'new') {
+        const newId = idGenerator();
+        status = 'draft';
+
+        return;
+      }
 
       const grandTotalAmount = listItemsState.reduce(
         (sum, item) => (sum += item.total),
@@ -112,7 +130,7 @@ const invoicesSlice = createSlice({
         paymentTerms: +submittedData.paymentTerms,
         clientName: submittedData.clientName,
         clientEmail: submittedData.clientEmail,
-        status: state.currentInvoice.status,
+        status: status,
         senderAddress: {
           street: submittedData.senderAddressStreet,
           city: submittedData.senderAddressCity,
