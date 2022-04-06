@@ -14,9 +14,7 @@ const InvoiceForm = props => {
   const isNewForm = props.isNewForm;
 
   const dispatch = useDispatch();
-  const { currentInvoice, emptyFormTemplate } = useSelector(
-    state => state.invoices
-  );
+  const { currentInvoice, emptyFormTemplate } = useSelector(state => state.invoices);
   const { listItemsState, dispatchListItem } = useFormListItems(
     isNewForm ? emptyFormTemplate.items : currentInvoice.items
   );
@@ -25,20 +23,21 @@ const InvoiceForm = props => {
 
   const formSubmitHandler = event => {
     event.preventDefault();
-    if (event.nativeEvent.submitter.name === 'draft') {
-      const formData = new FormData(event.target);
-      const submittedData = Object.fromEntries(formData.entries());
-      const id = isNewForm ? 'new' : currentInvoice.id;
-      dispatch(
-        invoicesActions.saveAsDraftInvoice({
-          submittedData,
-          listItemsState,
-          id,
-        })
-      );
-      console.log('Submitted...');
-      props.onCancel();
-    }
+    const id = isNewForm ? 'new' : currentInvoice.id;
+    const formData = new FormData(event.target);
+    const submittedData = Object.fromEntries(formData.entries());
+    const submitType = event.nativeEvent.submitter.name;
+    const currentInvoiceStatus = formData.status;
+    dispatch(
+      invoicesActions.submittedInvoiceHandler({
+        submittedData,
+        listItemsState,
+        id,
+        submitType,
+        currentInvoiceStatus,
+      })
+    );
+    props.onCancel();
   };
 
   return (
@@ -127,11 +126,7 @@ const InvoiceForm = props => {
             defVal={formData.createdAt}
             gridArea='gridArea1'
           />
-          <InvoiceFormItem
-            type='select'
-            defVal={formData.paymentTerms}
-            gridArea='gridArea2'
-          />
+          <InvoiceFormItem type='select' defVal={formData.paymentTerms} gridArea='gridArea2' />
           <InvoiceFormItem
             type='text'
             name='Project Description'
@@ -143,7 +138,7 @@ const InvoiceForm = props => {
         </InvoiceFieldset>
         <InvoiceFormList
           gridAreas={classes.itemList}
-          items={isNewForm ? formData.items : listItemsState}
+          items={listItemsState}
           dispatchChange={dispatchListItem}
         />
       </Wrapper>
@@ -151,9 +146,11 @@ const InvoiceForm = props => {
         <Button btnType='discard' type='button' onClick={props.onCancel}>
           {isNewForm ? 'Discard' : 'Cancel'}
         </Button>
-        <Button btnType='draft' type='submit' name='draft'>
-          Save as Draft
-        </Button>
+        {(isNewForm || formData.status === 'draft') && (
+          <Button btnType='draft' type='submit' name='draft'>
+            Save as Draft
+          </Button>
+        )}
         <Button btnType='primary' type='submit' name='send'>
           {'Save & Send'}
         </Button>
