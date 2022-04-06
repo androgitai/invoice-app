@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { invoicesActions } from '../../../store/invoices-slice';
-import useFormListItems from '../../../hooks/use-form-item-list';
+import useFormListItems from '../../../hooks/use-form-item';
 
 import Button from '../../UI/Elements/Button';
 import Form from './Layout/Form';

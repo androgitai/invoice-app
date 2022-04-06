@@ -17,7 +17,6 @@ const InvoiceFormList = props => {
   };
 
   const updateListItemField = (id, key, value) => {
-    // console.log(id, key, value);
     props.dispatchChange({ type: 'UPDATE_INPUT', id, key, value });
   };
 
