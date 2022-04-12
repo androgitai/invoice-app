@@ -39,7 +39,6 @@ const invoicesSlice = createSlice({
         action.payload;
 
       const currentIds = state.invoices.map(invoice => invoice.id);
-      console.log(currentIds);
 
       const newInvoiceItem = generateInvoice(
         id,
