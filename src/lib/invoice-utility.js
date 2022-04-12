@@ -43,14 +43,14 @@ export const calculateAndFormatDueDate = (date, days) => {
   return newPaymentDueDate;
 };
 
-export const idGenerator = () => {
+export const idGenerator = currentIds => {
   const DEFAULT_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const getNewChar = () =>
-    DEFAULT_ALPHABET.charAt(
-      Math.floor(Math.random() * DEFAULT_ALPHABET.length)
-    );
+    DEFAULT_ALPHABET.charAt(Math.floor(Math.random() * DEFAULT_ALPHABET.length));
   const getNewNumber = Math.floor(Math.random() * (9999 - 1000 + 1) + 1000);
   const newId = getNewChar() + getNewChar() + getNewNumber;
+  console.log('generated', newId);
+  if (currentIds.includes(newId)) return idGenerator(currentIds);
   return newId;
 };
 
@@ -59,21 +59,19 @@ export const generateInvoice = (
   submittedData,
   listItemsState,
   submitType,
-  currentInvoiceStatus
+  currentInvoiceStatus,
+  currentIds
 ) => {
   let status = currentInvoiceStatus;
   let currentId = id;
 
   if (id === 'new') {
-    currentId = idGenerator();
+    currentId = idGenerator(currentIds);
   }
   if (submitType === 'draft') status = 'draft';
   if (submitType === 'send') status = 'pending';
 
-  const grandTotalAmount = listItemsState.reduce(
-    (sum, item) => (sum += item.total),
-    0
-  );
+  const grandTotalAmount = listItemsState.reduce((sum, item) => (sum += item.total), 0);
 
   const newDueDate = calculateAndFormatDueDate(
     submittedData.createdAt,

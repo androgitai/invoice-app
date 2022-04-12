@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import data from '../assets/data.json';
 import { emptyFormTemplate, generateInvoice } from '../lib/invoice-utility';
+import data from '../assets/data.json';
 
 const invoicesInitialState = {
   invoices: data,
@@ -38,12 +38,16 @@ const invoicesSlice = createSlice({
       const { id, submittedData, listItemsState, submitType, currentInvoiceStatus } =
         action.payload;
 
+      const currentIds = state.invoices.map(invoice => invoice.id);
+      console.log(currentIds);
+
       const newInvoiceItem = generateInvoice(
         id,
         submittedData,
         listItemsState,
         submitType,
-        currentInvoiceStatus
+        currentInvoiceStatus,
+        currentIds
       );
 
       if (id === 'new' && submitType === 'draft') {
