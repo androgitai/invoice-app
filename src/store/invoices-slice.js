@@ -7,6 +7,7 @@ const invoicesInitialState = {
   totalInvoices: data.length,
   currentInvoice: emptyFormTemplate,
   emptyFormTemplate,
+  filterBy: [],
 };
 
 const invoicesSlice = createSlice({
@@ -70,6 +71,15 @@ const invoicesSlice = createSlice({
         state.invoices[invoiceIndex] = newInvoiceItem;
         state.currentInvoice = newInvoiceItem;
         console.log('Invoice sent...');
+      }
+    },
+    toggleFilter(state, action) {
+      const filterTerm = action.payload;
+      if (filterTerm === '') return;
+      if (state.filterBy.includes(filterTerm)) {
+        state.filterBy = state.filterBy.filter(item => item !== filterTerm);
+      } else {
+        state.filterBy.push(filterTerm);
       }
     },
   },

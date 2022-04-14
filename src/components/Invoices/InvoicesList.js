@@ -5,15 +5,29 @@ import { useNavigate } from 'react-router-dom';
 
 const InvoicesList = () => {
   const invoices = useSelector(state => state.invoices.invoices);
+  const invoiceFilters = useSelector(state => state.invoices.filterBy);
   const navigate = useNavigate();
 
   const openInvoiceDetailsHandler = id => {
     navigate(`./${id}`);
   };
 
+  let invoiceList = [];
+
+  if (invoiceFilters.length !== 0) {
+    invoiceFilters.forEach(filterItem =>
+      invoices.forEach(item => {
+        if (item.status === filterItem) {
+          invoiceList.push(item);
+        }
+      })
+    );
+  } else invoiceList = invoices;
+  console.log(invoiceList);
+
   return (
     <section className={classes.invoicesList}>
-      {invoices.map(item => (
+      {invoiceList.map(item => (
         <InvoicesItem
           key={item.id}
           invoiceId={item.id}
