@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { invoicesActions } from '../../../store/invoices-slice';
-import useFormListItems from '../../../hooks/use-form-list';
+import useForm from '../../../hooks/use-form';
 
 import Button from '../../UI/Elements/Button';
 import Form from './Layout/Form';
@@ -15,26 +15,19 @@ const InvoiceForm = props => {
 
   const dispatch = useDispatch();
   const { currentInvoice, emptyFormTemplate } = useSelector(state => state.invoices);
-  const { listItemsState, dispatchListItem } = useFormListItems(
-    isNewForm ? emptyFormTemplate.items : currentInvoice.items
-  );
 
-  const formData = isNewForm ? emptyFormTemplate : currentInvoice;
+  const { formState, dispatchFormChange } = useForm(isNewForm ? emptyFormTemplate : currentInvoice);
+  console.log(formState);
 
   const formSubmitHandler = event => {
     event.preventDefault();
     const id = isNewForm ? 'new' : currentInvoice.id;
-    const formData = new FormData(event.target);
-    const submittedData = Object.fromEntries(formData.entries());
     const submitType = event.nativeEvent.submitter.name;
-    const currentInvoiceStatus = formData.status;
     dispatch(
       invoicesActions.submittedInvoiceHandler({
-        submittedData,
-        listItemsState,
+        formState,
         id,
         submitType,
-        currentInvoiceStatus,
       })
     );
     props.onCancel();
@@ -47,30 +40,34 @@ const InvoiceForm = props => {
           <InvoiceFormItem
             type='text'
             name='Street Address'
-            id='senderAddressStreet'
-            defVal={formData.senderAddress.street}
+            id='senderAddress.street'
+            defVal={formState.senderAddress.street}
             gridArea='gridArea1'
+            dispatchChange={dispatchFormChange}
           />
           <InvoiceFormItem
             type='text'
             name='City'
-            id='senderAddressCity'
-            defVal={formData.senderAddress.city}
+            id='senderAddress.city'
+            defVal={formState.senderAddress.city}
             gridArea='gridArea2'
+            dispatchChange={dispatchFormChange}
           />
           <InvoiceFormItem
             type='text'
             name='Post Code'
-            id='senderAddressPostcode'
-            defVal={formData.senderAddress.postCode}
+            id='senderAddress.postCode'
+            defVal={formState.senderAddress.postCode}
             gridArea='gridArea3'
+            dispatchChange={dispatchFormChange}
           />
           <InvoiceFormItem
             type='text'
             name='Country'
-            id='senderAddressCountry'
-            defVal={formData.senderAddress.country}
+            id='senderAddress.country'
+            defVal={formState.senderAddress.country}
             gridArea='gridArea4'
+            dispatchChange={dispatchFormChange}
           />
         </InvoiceFieldset>
         <InvoiceFieldset fieldName='Bill To' gridType='billTo'>
@@ -78,44 +75,50 @@ const InvoiceForm = props => {
             type='text'
             name={`Client's Name`}
             id='clientName'
-            defVal={formData.clientName}
+            defVal={formState.clientName}
             gridArea='gridArea1'
+            dispatchChange={dispatchFormChange}
           />
           <InvoiceFormItem
             type='email'
             name={`Client's Email`}
             id='clientEmail'
             placeHold='e.g. email@example.com'
-            defVal={formData.clientEmail}
+            defVal={formState.clientEmail}
             gridArea='gridArea2'
+            dispatchChange={dispatchFormChange}
           />
           <InvoiceFormItem
             type='text'
             name='Street Address'
-            id='clientAddressStreet'
-            defVal={formData.clientAddress.street}
+            id='clientAddress.street'
+            defVal={formState.clientAddress.street}
             gridArea='gridArea3'
+            dispatchChange={dispatchFormChange}
           />
           <InvoiceFormItem
             type='text'
             name='City'
-            id='clientAddressCity'
-            defVal={formData.clientAddress.city}
+            id='clientAddress.city'
+            defVal={formState.clientAddress.city}
             gridArea='gridArea4'
+            dispatchChange={dispatchFormChange}
           />
           <InvoiceFormItem
             type='text'
             name='Post Code'
-            id='clientAddressPostcode'
-            defVal={formData.clientAddress.postCode}
+            id='clientAddress.postCode'
+            defVal={formState.clientAddress.postCode}
             gridArea='gridArea5'
+            dispatchChange={dispatchFormChange}
           />
           <InvoiceFormItem
             type='text'
             name='Country'
-            id='clientAddressCountry'
-            defVal={formData.clientAddress.country}
+            id='clientAddress.country'
+            defVal={formState.clientAddress.country}
             gridArea='gridArea6'
+            dispatchChange={dispatchFormChange}
           />
         </InvoiceFieldset>
         <InvoiceFieldset gridType='terms'>
@@ -123,30 +126,37 @@ const InvoiceForm = props => {
             type='date'
             name='Invoice Date'
             id='createdAt'
-            defVal={formData.createdAt}
+            defVal={formState.createdAt}
             gridArea='gridArea1'
+            dispatchChange={dispatchFormChange}
           />
-          <InvoiceFormItem type='select' defVal={formData.paymentTerms} gridArea='gridArea2' />
+          <InvoiceFormItem
+            type='select'
+            defVal={formState.paymentTerms}
+            gridArea='gridArea2'
+            dispatchChange={dispatchFormChange}
+          />
           <InvoiceFormItem
             type='text'
             name='Project Description'
             id='description'
             placeHold='e.g. Graphic Design Service'
-            defVal={formData.description}
+            defVal={formState.description}
             gridArea='gridArea3'
+            dispatchChange={dispatchFormChange}
           />
         </InvoiceFieldset>
         <InvoiceFormList
           gridAreas={classes.itemList}
-          items={listItemsState}
-          dispatchChange={dispatchListItem}
+          items={formState.items}
+          dispatchChange={dispatchFormChange}
         />
       </Wrapper>
       <div className={classes.controls}>
         <Button btnType='discard' type='button' onClick={props.onCancel}>
           {isNewForm ? 'Discard' : 'Cancel'}
         </Button>
-        {(isNewForm || formData.status === 'draft') && (
+        {(isNewForm || formState.status === 'draft') && (
           <Button btnType='draft' type='submit' name='draft'>
             Save as Draft
           </Button>

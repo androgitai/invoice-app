@@ -15,6 +15,11 @@ const FormItem = props => {
     defVal = props.defVal === '' ? todaysDate : props.defVal;
   }
 
+  const inputChangeHandler = event => {
+    const inputId = event.target.id;
+    const inputValue = event.target.value;
+    props.dispatchChange({ type: 'UPDATE_FORM_INPUT', inputId, inputValue });
+  };
   if (props.type === 'select') {
     defVal = props.defVal === 0 ? 30 : props.defVal;
 
@@ -25,7 +30,8 @@ const FormItem = props => {
           name='paymentTerms'
           id='paymentTerms'
           form='invoiceForm'
-          defaultValue={defVal}
+          value={defVal}
+          onChange={inputChangeHandler}
         >
           <option value={1}>Net 1 day</option>
           <option value={7}>Net 7 days</option>
@@ -45,8 +51,9 @@ const FormItem = props => {
         name={props.id}
         disabled={props.disabled}
         required={false}
-        defaultValue={defVal}
+        value={defVal}
         placeholder={props.placeHold}
+        onChange={inputChangeHandler}
       />
     </label>
   );

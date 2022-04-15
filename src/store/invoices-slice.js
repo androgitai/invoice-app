@@ -36,34 +36,26 @@ const invoicesSlice = createSlice({
       state.totalInvoices = state.invoices.length;
     },
     submittedInvoiceHandler(state, action) {
-      const { id, submittedData, listItemsState, submitType, currentInvoiceStatus } =
-        action.payload;
+      const { formState, id, submitType } = action.payload;
 
       const currentIds = state.invoices.map(invoice => invoice.id);
 
-      const newInvoiceItem = generateInvoice(
-        id,
-        submittedData,
-        listItemsState,
-        submitType,
-        currentInvoiceStatus,
-        currentIds
-      );
+      const newInvoiceItem = generateInvoice(formState, id, submitType, currentIds);
 
       if (id === 'new' && submitType === 'draft') {
         state.invoices.push(newInvoiceItem);
-        console.log('Saved as draft...');
-      }
-      if (id !== 'new' && submitType === 'draft') {
-        const invoiceIndex = state.invoices.findIndex(invoice => invoice.id === id);
-        state.invoices[invoiceIndex] = newInvoiceItem;
-        state.currentInvoice = newInvoiceItem;
         console.log('Saved as draft...');
       }
       if (id === 'new' && submitType === 'send') {
         console.log('Validating...');
         state.invoices.push(newInvoiceItem);
         console.log('Invoice sent...');
+      }
+      if (id !== 'new' && submitType === 'draft') {
+        const invoiceIndex = state.invoices.findIndex(invoice => invoice.id === id);
+        state.invoices[invoiceIndex] = newInvoiceItem;
+        state.currentInvoice = newInvoiceItem;
+        console.log('Saved as draft...');
       }
       if (id !== 'new' && submitType === 'send') {
         console.log('Validating...');

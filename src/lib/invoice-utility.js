@@ -23,7 +23,7 @@ export const emptyFormTemplate = {
     {
       id: 0,
       name: '',
-      quantity: 0,
+      quantity: 1,
       price: 0,
       total: 0,
     },
@@ -49,57 +49,25 @@ export const idGenerator = currentIds => {
     DEFAULT_ALPHABET.charAt(Math.floor(Math.random() * DEFAULT_ALPHABET.length));
   const getNewNumber = Math.floor(Math.random() * (9999 - 1000 + 1) + 1000);
   const newId = getNewChar() + getNewChar() + getNewNumber;
-  console.log('generated', newId);
   if (currentIds.includes(newId)) return idGenerator(currentIds);
   return newId;
 };
 
-export const generateInvoice = (
-  id,
-  submittedData,
-  listItemsState,
-  submitType,
-  currentInvoiceStatus,
-  currentIds
-) => {
-  let status = currentInvoiceStatus;
+export const generateInvoice = (formState, id, submitType, currentIds) => {
   let currentId = id;
 
   if (id === 'new') {
     currentId = idGenerator(currentIds);
   }
-  if (submitType === 'draft') status = 'draft';
-  if (submitType === 'send') status = 'pending';
+  const grandTotalAmount = formState.items.reduce((sum, item) => (sum += item.total), 0);
 
-  const grandTotalAmount = listItemsState.reduce((sum, item) => (sum += item.total), 0);
-
-  const newDueDate = calculateAndFormatDueDate(
-    submittedData.createdAt,
-    +submittedData.paymentTerms
-  );
+  const newDueDate = calculateAndFormatDueDate(formState.createdAt, +formState.paymentTerms);
 
   const newInvoiceItem = {
+    ...formState,
     id: currentId,
-    createdAt: submittedData.createdAt,
+    status: submitType === 'draft' ? 'draft' : 'pending',
     paymentDue: newDueDate,
-    description: submittedData.description,
-    paymentTerms: +submittedData.paymentTerms,
-    clientName: submittedData.clientName,
-    clientEmail: submittedData.clientEmail,
-    status: status,
-    senderAddress: {
-      street: submittedData.senderAddressStreet,
-      city: submittedData.senderAddressCity,
-      postCode: submittedData.senderAddressPostcode,
-      country: submittedData.senderAddressCountry,
-    },
-    clientAddress: {
-      street: submittedData.clientAddressStreet,
-      city: submittedData.clientAddressCity,
-      postCode: submittedData.clientAddressPostcode,
-      country: submittedData.clientAddressCountry,
-    },
-    items: listItemsState,
     total: grandTotalAmount,
   };
   return newInvoiceItem;

@@ -9,24 +9,20 @@ const InvoiceFormList = props => {
   const { items } = props;
 
   const addNewListItemHandler = () => {
-    props.dispatchChange({ type: 'ADD_NEW_ITEM' });
+    props.dispatchChange({ type: 'ADD_NEW_LIST_ITEM' });
   };
 
   const removeListItemHandler = id => {
-    props.dispatchChange({ type: 'DELETE_ITEM', id });
+    props.dispatchChange({ type: 'DELETE_LIST_ITEM', id });
   };
 
   const updateListItemField = (id, key, value) => {
-    props.dispatchChange({ type: 'UPDATE_INPUT', id, key, value });
+    props.dispatchChange({ type: 'UPDATE_LIST_INPUT', id, key, value });
   };
 
   return (
     <Fragment>
-      <InvoiceFieldset
-        fieldName='Item List'
-        legendStyle={classes.header}
-        gridType='itemList'
-      >
+      <InvoiceFieldset fieldName='Item List' legendStyle={classes.header} gridType='itemList'>
         {items.map(item => {
           return (
             <InvoiceFormListItem
