@@ -23,7 +23,6 @@ const InvoicesList = () => {
       })
     );
   } else invoiceList = invoices;
-  console.log(invoiceList);
 
   return (
     <section className={classes.invoicesList}>
