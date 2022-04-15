@@ -8,7 +8,7 @@ import avatarPicture from '../../assets/image-avatar.jpg';
 import { useEffect, useState } from 'react';
 
 const MainNavigation = () => {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
