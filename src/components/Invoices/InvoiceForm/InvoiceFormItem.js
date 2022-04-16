@@ -1,7 +1,8 @@
 import classes from './InvoiceFormItem.module.css';
 
 const FormItem = props => {
-  const itemClasses = `${classes.gridItem} ${classes[props.gridArea]}`;
+  let itemClasses = `${classes.gridItem} ${classes[props.gridArea]}`;
+  if (props.error) itemClasses = `${classes.gridItem} ${classes[props.gridArea]} ${classes.error}`;
 
   const todaysDate = [
     new Date().getFullYear(),
@@ -44,7 +45,9 @@ const FormItem = props => {
 
   return (
     <label htmlFor={props.id} className={itemClasses}>
-      <p>{props.name}</p>
+      <p>
+        {props.name} <span>{props.error}</span>
+      </p>
       <input
         type={props.type}
         id={props.id}
