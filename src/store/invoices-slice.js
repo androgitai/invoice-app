@@ -47,7 +47,6 @@ const invoicesSlice = createSlice({
         console.log('Saved as draft...');
       }
       if (id === 'new' && submitType === 'send') {
-        console.log('Validating...');
         state.invoices.push(newInvoiceItem);
         console.log('Invoice sent...');
       }
@@ -58,7 +57,6 @@ const invoicesSlice = createSlice({
         console.log('Saved as draft...');
       }
       if (id !== 'new' && submitType === 'send') {
-        console.log('Validating...');
         const invoiceIndex = state.invoices.findIndex(invoice => invoice.id === id);
         state.invoices[invoiceIndex] = newInvoiceItem;
         state.currentInvoice = newInvoiceItem;
