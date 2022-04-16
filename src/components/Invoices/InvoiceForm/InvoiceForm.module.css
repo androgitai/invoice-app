@@ -10,3 +10,9 @@
   padding-right: 1.5rem;
   box-shadow: 0px -34px 34px rgba(30, 33, 57, 0.1);
 }
+
+.error {
+  font-size: 0.6rem;
+  margin-top: 1rem;
+  color: var(--button-delete-bg);
+}
