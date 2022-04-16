@@ -28,8 +28,23 @@
   border: 1px solid var(--primary-color-100);
 }
 
-.gridItem input:invalid {
+.error input,
+.error input:active,
+.error input:hover {
   border: 1px solid var(--button-delete-bg);
+}
+
+.error p {
+  position: relative;
+  color: var(--button-delete-bg);
+}
+.error span {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 0.6rem;
+  text-align: end;
+  color: var(--button-delete-bg);
 }
 
 .gridArea1 {
