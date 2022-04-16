@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useCallback, useEffect, useReducer, useState } from 'react';
 
 const formReducer = (state, action) => {
   if (action.type === 'ADD_NEW_LIST_ITEM') {
@@ -60,6 +60,26 @@ const formReducer = (state, action) => {
   return formReducer;
 };
 
+const initialErrorState = {
+  description: '',
+  clientName: '',
+  clientEmail: '',
+  senderAddress: {
+    street: '',
+    city: '',
+    postCode: '',
+    country: '',
+  },
+  clientAddress: {
+    street: '',
+    city: '',
+    postCode: '',
+    country: '',
+  },
+  items: '',
+  total: '',
+};
+
 const useForm = formData => {
   const todaysDate = [
     new Date().getFullYear(),
@@ -83,9 +103,81 @@ const useForm = formData => {
   };
 
   const [formState, dispatchFormChange] = useReducer(formReducer, initialState);
+  const [errors, setErrors] = useState(initialErrorState);
+  const [allFormErrors, setAllFormErrors] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const validateFormData = useCallback(() => {
+    setIsFormValid(true);
+    setAllFormErrors('');
+    for (const inputField in initialErrorState) {
+      if (formState[inputField].length === 0) {
+        setIsFormValid(false);
+        setAllFormErrors(`- All fields must be added`);
+        setErrors(prevState => {
+          return { ...prevState, [inputField]: `can't be empty` };
+        });
+      }
+    }
+    for (const inputField in initialErrorState.clientAddress) {
+      if (formState.clientAddress[inputField].length === 0) {
+        setErrors(prevState => {
+          setIsFormValid(false);
+          setAllFormErrors(`- All fields must be added`);
+          return {
+            ...prevState,
+            clientAddress: { ...prevState.clientAddress, [inputField]: `can't be empty` },
+          };
+        });
+      }
+    }
+    for (const inputField in initialErrorState.senderAddress) {
+      if (formState.senderAddress[inputField].length === 0) {
+        setErrors(prevState => {
+          setIsFormValid(false);
+          setAllFormErrors(`- All fields must be added`);
+          return {
+            ...prevState,
+            senderAddress: { ...prevState.senderAddress, [inputField]: `can't be empty` },
+          };
+        });
+      }
+    }
+    if (formState.items.length === 0) {
+      setErrors(prevState => {
+        setIsFormValid(false);
+        return { ...prevState, items: `- An item must be added` };
+      });
+    } else
+      setErrors(prevState => {
+        if (formState.items[0].total === 0) setIsFormValid(false);
+        return { ...prevState, items: '' };
+      });
+  }, [formState]);
+
+  useEffect(() => {
+    validateFormData();
+  }, [validateFormData]);
+
+  useEffect(() => {
+    setErrors(initialErrorState);
+    if (isSubmitting) {
+      setErrors(prevState => {
+        return { ...prevState, items: formState.items };
+      });
+      validateFormData();
+    }
+  }, [formState, validateFormData, isSubmitting]);
+
   return {
     formState,
     dispatchFormChange,
+    errors,
+    isFormValid,
+    setIsSubmitting,
+    isSubmitting,
+    allFormErrors,
   };
 };
 
