@@ -23,6 +23,7 @@ const InvoiceDetailsHead = props => {
         {isTablet && (
           <InvoiceDetailsControl
             toggleForm={props.toggleForm}
+            toggleModal={props.toggleModal}
             position='top'
             status={props.status}
             invoiceId={props.invoiceId}

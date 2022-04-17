@@ -3,11 +3,10 @@ import { invoicesActions } from '../../../store/invoices-slice';
 
 import classes from './InvoiceDetailsControl.module.css';
 import Button from '../../UI/Elements/Button';
-import { useNavigate } from 'react-router-dom';
 
 const InvoiceDetailsControl = props => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
   const contolClasses = `${classes.controls} ${classes[props.position]}`;
   const isDraft = props.status === 'draft';
   const isPending = props.status === 'pending';
@@ -18,11 +17,6 @@ const InvoiceDetailsControl = props => {
     dispatch(invoicesActions.markAsPaid(invoiceId));
   };
 
-  const deleteInvoiceHandler = invoiceId => {
-    dispatch(invoicesActions.deleteInvoice(invoiceId));
-    navigate('/invoices');
-  };
-
   return (
     <div className={contolClasses}>
       {(isDraft || isPending) && (
@@ -30,17 +24,11 @@ const InvoiceDetailsControl = props => {
           Edit
         </Button>
       )}
-      <Button
-        btnType='delete'
-        onClick={deleteInvoiceHandler.bind(null, invoiceId)}
-      >
+      <Button btnType='delete' onClick={props.toggleModal}>
         Delete
       </Button>
       {isPending && (
-        <Button
-          btnType='primary'
-          onClick={markAsPaidHandler.bind(null, invoiceId)}
-        >
+        <Button btnType='primary' onClick={markAsPaidHandler.bind(null, invoiceId)}>
           Mark as Paid
         </Button>
       )}

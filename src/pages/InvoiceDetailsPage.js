@@ -19,6 +19,7 @@ const InvoiceDetailsPage = () => {
   const currentInvoice = useSelector(state => state.invoices.currentInvoice);
   const { invoiceId } = useParams();
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(invoicesActions.getInvoice(invoiceId));
@@ -28,6 +29,9 @@ const InvoiceDetailsPage = () => {
 
   const toggleInvoiceFormHandler = () => {
     setIsFormOpen(prevState => !prevState);
+  };
+  const toggleDeleteModalHandler = () => {
+    setIsModalOpen(prevState => !prevState);
   };
 
   if (!currentInvoice) {
@@ -43,9 +47,10 @@ const InvoiceDetailsPage = () => {
         />
       )}
       <Wrapper>
-        {/* <ConfirmModal invoiceId='XM9141' /> */}
+        {isModalOpen && <ConfirmModal invoiceId={invoiceId} onClose={toggleDeleteModalHandler} />}
         <InvoiceDetailsHead
           toggleForm={toggleInvoiceFormHandler}
+          toggleModal={toggleDeleteModalHandler}
           invoiceId={invoiceId}
           status={currentInvoice.status}
         />
@@ -54,6 +59,7 @@ const InvoiceDetailsPage = () => {
       {!isTablet && (
         <InvoiceDetailsControl
           toggleForm={toggleInvoiceFormHandler}
+          toggleModal={toggleDeleteModalHandler}
           status={currentInvoice.status}
           invoiceId={invoiceId}
         />
