@@ -9,4 +9,5 @@
 .details:hover {
   color: var(--secondary-text-color-100);
   transition: all 200ms ease-in;
+  cursor: pointer;
 }

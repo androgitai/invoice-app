@@ -26,12 +26,8 @@ const ModalOverlay = props => {
     <section className={classes.formModal}>
       <Wrapper wrapType='form'>
         {!isTablet && (
-          <div onClick={props.onCancel}>
-            <img
-              className={classes.backButtonImg}
-              src={arrowLeftSVG}
-              alt='Back'
-            />
+          <div onClick={props.onCancel} className={classes.backBtn}>
+            <img className={classes.backButtonImg} src={arrowLeftSVG} alt='Back' />
             <h4 className={classes.backButtonH4}>Go back</h4>
           </div>
         )}

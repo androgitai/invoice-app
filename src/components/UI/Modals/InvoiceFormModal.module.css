@@ -6,6 +6,12 @@
   display: inline-block;
   color: var(--back-button-color, unset);
 }
+.backButtonImg:hover,
+.backButtonH4:hover {
+  color: var(--secondary-text-color-100);
+  transition: all 200ms ease-in;
+  cursor: pointer;
+}
 
 .formModal {
   position: absolute;
