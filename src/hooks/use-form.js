@@ -59,6 +59,11 @@ const formReducer = (state, action) => {
 
   return formReducer;
 };
+const todaysDate = [
+  new Date().getFullYear(),
+  (new Date().getMonth() + 1).toString().padStart(2, '0'),
+  new Date().getDate().toString().padStart(2, '0'),
+].join('-');
 
 const initialErrorState = {
   description: '',
@@ -81,12 +86,6 @@ const initialErrorState = {
 };
 
 const useForm = formData => {
-  const todaysDate = [
-    new Date().getFullYear(),
-    (new Date().getMonth() + 1).toString().padStart(2, '0'),
-    new Date().getDate().toString().padStart(2, '0'),
-  ].join('-');
-
   const initialListState = formData.items.map((item, index) => {
     return {
       id: index,
@@ -108,52 +107,45 @@ const useForm = formData => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  //Validation funcion for empty input fields or empty item list
   const validateFormData = useCallback(() => {
     setIsFormValid(true);
     setAllFormErrors('');
-    for (const inputField in initialErrorState) {
-      if (formState[inputField].length === 0) {
-        setIsFormValid(false);
-        setAllFormErrors(`- All fields must be added`);
-        setErrors(prevState => {
-          return { ...prevState, [inputField]: `can't be empty` };
-        });
-      }
-    }
-    for (const inputField in initialErrorState.clientAddress) {
-      if (formState.clientAddress[inputField].length === 0) {
-        setErrors(prevState => {
+    const validateInputField = (inputs, comparedData, subLevel = null) => {
+      for (const inputField in inputs) {
+        if (comparedData[inputField].length === 0) {
           setIsFormValid(false);
           setAllFormErrors(`- All fields must be added`);
-          return {
-            ...prevState,
-            clientAddress: { ...prevState.clientAddress, [inputField]: `can't be empty` },
-          };
-        });
+          if (!subLevel) {
+            setErrors(prevState => {
+              return { ...prevState, [inputField]: `can't be empty` };
+            });
+          }
+          if (subLevel) {
+            setErrors(prevState => {
+              return {
+                ...prevState,
+                [subLevel]: { ...prevState[subLevel], [inputField]: `can't be empty` },
+              };
+            });
+          }
+        }
       }
-    }
-    for (const inputField in initialErrorState.senderAddress) {
-      if (formState.senderAddress[inputField].length === 0) {
-        setErrors(prevState => {
-          setIsFormValid(false);
-          setAllFormErrors(`- All fields must be added`);
-          return {
-            ...prevState,
-            senderAddress: { ...prevState.senderAddress, [inputField]: `can't be empty` },
-          };
-        });
-      }
-    }
+    };
+    validateInputField(initialErrorState, formState);
+    validateInputField(initialErrorState.clientAddress, formState.clientAddress, 'clientAddress');
+    validateInputField(initialErrorState.senderAddress, formState.senderAddress, 'senderAddress');
+
     if (formState.items.length === 0) {
       setErrors(prevState => {
         setIsFormValid(false);
         return { ...prevState, items: `- An item must be added` };
       });
-    } else
+    } else {
       setErrors(prevState => {
-        if (formState.items[0].total === 0) setIsFormValid(false);
         return { ...prevState, items: '' };
       });
+    }
   }, [formState]);
 
   useEffect(() => {

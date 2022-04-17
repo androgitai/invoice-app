@@ -175,7 +175,7 @@ const InvoiceForm = props => {
           error={errors.items}
         />
         {isSubmitting && <p className={classes.error}>{errors.items}</p>}
-        {isSubmitting && errors.total === '' && <p className={classes.error}>- Add a valid item</p>}
+        {isSubmitting && errors.total !== '' && <p className={classes.error}>- Add a valid item</p>}
         {isSubmitting && <p className={classes.error}>{allFormErrors}</p>}
       </Wrapper>
       <div className={classes.controls}>
