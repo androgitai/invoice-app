@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { emptyFormTemplate, generateInvoice } from '../lib/invoice-utility';
-import data from '../assets/data.json';
+import { emptyFormTemplate } from '../lib/invoice-utility';
 
 const invoicesInitialState = {
-  invoices: data,
-  totalInvoices: data.length,
+  invoices: [],
+  totalInvoices: 0,
   currentInvoice: emptyFormTemplate,
+  currentInvoiceIndex: null,
   emptyFormTemplate,
   filterBy: [],
 };
@@ -14,10 +14,16 @@ const invoicesSlice = createSlice({
   name: 'invoices',
   initialState: invoicesInitialState,
   reducers: {
+    updateInvoices(state, action) {
+      state.invoices = action.payload;
+      state.totalInvoices = action.payload.length;
+    },
     getInvoice(state, action) {
       const requestedID = action.payload;
       const currentInvoice = state.invoices.find(item => item.id === requestedID);
+      const currentInvoiceIndex = state.invoices.findIndex(item => item.id === requestedID);
       state.currentInvoice = currentInvoice ? currentInvoice : null;
+      state.currentInvoiceIndex = currentInvoiceIndex ? currentInvoiceIndex : null;
       state.totalInvoices = state.invoices.length;
     },
     markAsPaid(state, action) {
@@ -36,11 +42,7 @@ const invoicesSlice = createSlice({
       state.totalInvoices = state.invoices.length;
     },
     submittedInvoiceHandler(state, action) {
-      const { formState, id, submitType } = action.payload;
-
-      const currentIds = state.invoices.map(invoice => invoice.id);
-
-      const newInvoiceItem = generateInvoice(formState, id, submitType, currentIds);
+      const { newInvoiceItem, id, submitType } = action.payload;
 
       if (id === 'new' && submitType === 'draft') {
         state.invoices.push(newInvoiceItem);
