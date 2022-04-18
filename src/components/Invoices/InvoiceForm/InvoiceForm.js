@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { invoicesActions } from '../../../store/invoices-slice';
+import { updateInvoiceList } from '../../../store/invoices-http-actions';
+import { generateInvoice } from '../../../lib/invoice-utility';
 import useForm from '../../../hooks/use-form';
 
 import Button from '../../UI/Elements/Button';
@@ -14,8 +15,8 @@ const InvoiceForm = props => {
   const isNewForm = props.isNewForm;
 
   const dispatch = useDispatch();
-  const { currentInvoice, emptyFormTemplate } = useSelector(state => state.invoices);
-
+  const { currentInvoice, currentInvoiceIndex, emptyFormTemplate, invoices, totalInvoices } =
+    useSelector(state => state.invoices);
   const {
     formState,
     dispatchFormChange,
@@ -30,17 +31,13 @@ const InvoiceForm = props => {
     event.preventDefault();
     const id = isNewForm ? 'new' : currentInvoice.id;
     const submitType = event.nativeEvent.submitter.name;
+    const currentIds = invoices.map(invoice => invoice.id);
     if (submitType === 'send') {
       setIsSubmitting(true);
       if (!isFormValid) return;
     }
-    dispatch(
-      invoicesActions.submittedInvoiceHandler({
-        formState,
-        id,
-        submitType,
-      })
-    );
+    const newInvoiceItem = generateInvoice(formState, id, submitType, currentIds);
+    dispatch(updateInvoiceList(newInvoiceItem, id, submitType, currentInvoiceIndex, totalInvoices));
     props.onCancel();
   };
 
