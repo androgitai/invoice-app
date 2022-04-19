@@ -26,7 +26,6 @@ const InvoiceDetailsHead = props => {
             toggleModal={props.toggleModal}
             position='top'
             status={props.status}
-            invoiceId={props.invoiceId}
           />
         )}
       </Card>

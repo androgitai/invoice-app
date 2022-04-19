@@ -1,20 +1,19 @@
-import { useDispatch } from 'react-redux';
-import { invoicesActions } from '../../../store/invoices-slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { markInvoiceAsPaid } from '../../../store/invoices-http-actions';
 
 import classes from './InvoiceDetailsControl.module.css';
 import Button from '../../UI/Elements/Button';
 
 const InvoiceDetailsControl = props => {
   const dispatch = useDispatch();
+  const { currentInvoiceIndex } = useSelector(state => state.invoices);
 
   const contolClasses = `${classes.controls} ${classes[props.position]}`;
   const isDraft = props.status === 'draft';
   const isPending = props.status === 'pending';
 
-  const invoiceId = props.invoiceId;
-
-  const markAsPaidHandler = invoiceId => {
-    dispatch(invoicesActions.markAsPaid(invoiceId));
+  const markAsPaidHandler = () => {
+    dispatch(markInvoiceAsPaid(currentInvoiceIndex));
   };
 
   return (
@@ -28,7 +27,7 @@ const InvoiceDetailsControl = props => {
         Delete
       </Button>
       {isPending && (
-        <Button btnType='primary' onClick={markAsPaidHandler.bind(null, invoiceId)}>
+        <Button btnType='primary' onClick={markAsPaidHandler}>
           Mark as Paid
         </Button>
       )}
