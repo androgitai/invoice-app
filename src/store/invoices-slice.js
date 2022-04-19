@@ -18,27 +18,23 @@ const invoicesSlice = createSlice({
       state.invoices = action.payload;
       state.totalInvoices = action.payload.length;
     },
-    getInvoice(state, action) {
-      const requestedID = action.payload;
-      const currentInvoice = state.invoices.find(item => item.id === requestedID);
-      const currentInvoiceIndex = state.invoices.findIndex(item => item.id === requestedID);
-      state.currentInvoice = currentInvoice ? currentInvoice : null;
-      state.currentInvoiceIndex = currentInvoiceIndex ? currentInvoiceIndex : null;
-      state.totalInvoices = state.invoices.length;
+    setCurrentInvoice(state, action) {
+      const { data, invoiceId } = action.payload;
+      const [currentInvoice] = data.filter(item => item.id === invoiceId);
+      const invoiceIndex = data.findIndex(invoice => invoice.id === invoiceId);
+      state.currentInvoice = currentInvoice;
+      state.currentInvoiceIndex = invoiceIndex;
     },
     markAsPaid(state, action) {
-      const id = action.payload;
-      const currentInvoiceIndex = state.invoices.findIndex(item => item.id === id);
-      if (currentInvoiceIndex !== -1) {
-        state.invoices[currentInvoiceIndex].status = 'paid';
-        state.currentInvoice.status = 'paid';
-        state.totalInvoices = state.invoices.length;
-      }
+      const currentInvoiceIndex = action.payload;
+      state.invoices[currentInvoiceIndex].status = 'paid';
+      state.currentInvoice.status = 'paid';
     },
     deleteInvoice(state, action) {
       const id = action.payload;
       state.invoices = state.invoices.filter(item => item.id !== id);
       state.currentInvoice = null;
+      state.currentInvoiceIndex = null;
       state.totalInvoices = state.invoices.length;
     },
     submittedInvoiceHandler(state, action) {
@@ -64,6 +60,7 @@ const invoicesSlice = createSlice({
         state.currentInvoice = newInvoiceItem;
         console.log('Invoice sent...');
       }
+      state.totalInvoices = state.invoices.length;
     },
     toggleFilter(state, action) {
       const filterTerm = action.payload;
