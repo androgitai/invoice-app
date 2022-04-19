@@ -1,7 +1,8 @@
-import classes from './InvoicesList.module.css';
-import InvoicesItem from './InvoicesItem';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
+import classes from './InvoicesList.module.css';
+import InvoicesItem from './InvoicesItem';
 
 const InvoicesList = () => {
   const invoices = useSelector(state => state.invoices.invoices);
