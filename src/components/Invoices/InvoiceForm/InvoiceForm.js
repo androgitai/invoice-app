@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { updateInvoiceList } from '../../../store/invoices-http-actions';
+import { updateInvoice } from '../../../store/invoices-http-actions';
 import { generateInvoice } from '../../../lib/invoice-utility';
 import useForm from '../../../hooks/use-form';
 
@@ -37,7 +37,7 @@ const InvoiceForm = props => {
       if (!isFormValid) return;
     }
     const newInvoiceItem = generateInvoice(formState, id, submitType, currentIds);
-    dispatch(updateInvoiceList(newInvoiceItem, id, submitType, currentInvoiceIndex, totalInvoices));
+    dispatch(updateInvoice(newInvoiceItem, id, submitType, currentInvoiceIndex, totalInvoices));
     props.onCancel();
   };
 
