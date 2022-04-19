@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { fetchAllInvoices } from './store/invoices-http-actions';
 
 import Layout from './components/UI/Layout/Layout';
@@ -8,14 +8,11 @@ import NotFound from './components/UI/Elements/NotFound';
 import InvoiceDetailsPage from './pages/InvoiceDetailsPage';
 import InvoicesPage from './pages/InvoicesPage';
 
-let initialLoad = true;
-
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchAllInvoices());
-    initialLoad = true;
   }, [dispatch]);
 
   return (
