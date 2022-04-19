@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { invoicesActions } from '../store/invoices-slice';
+import { fetchInvoice } from '../store/invoices-http-actions';
 
 import useMediaQuery from '../hooks/use-media-query';
 
@@ -16,15 +16,13 @@ import NotFound from '../components/UI/Elements/NotFound';
 const InvoiceDetailsPage = () => {
   const isTablet = useMediaQuery('(min-width:768px)');
   const dispatch = useDispatch();
-  const currentInvoice = useSelector(state => state.invoices.currentInvoice);
+  const { currentInvoice, currentInvoiceIndex } = useSelector(state => state.invoices);
   const { invoiceId } = useParams();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(invoicesActions.getInvoice(invoiceId));
-
-    return () => {};
+    dispatch(fetchInvoice(invoiceId));
   }, [dispatch, invoiceId]);
 
   const toggleInvoiceFormHandler = () => {
@@ -42,16 +40,21 @@ const InvoiceDetailsPage = () => {
       {isFormOpen && (
         <InvoiceFormModal
           isNewForm={false}
-          invoiceId={currentInvoice.id}
+          invoiceId={invoiceId}
           onCancel={toggleInvoiceFormHandler}
         />
       )}
       <Wrapper>
-        {isModalOpen && <ConfirmModal invoiceId={invoiceId} onClose={toggleDeleteModalHandler} />}
+        {isModalOpen && (
+          <ConfirmModal
+            invoiceId={invoiceId}
+            invoiceIndex={currentInvoiceIndex}
+            onClose={toggleDeleteModalHandler}
+          />
+        )}
         <InvoiceDetailsHead
           toggleForm={toggleInvoiceFormHandler}
           toggleModal={toggleDeleteModalHandler}
-          invoiceId={invoiceId}
           status={currentInvoice.status}
         />
         <InvoiceDetailsBody />
