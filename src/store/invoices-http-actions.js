@@ -1,22 +1,20 @@
 import { invoicesActions } from './invoices-slice';
-import store from './index';
+
+const URL = 'https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app';
+
+const invoiceHttp = async (subURL, options = {}) => {
+  const response = await fetch(`${URL}${subURL}`, options);
+
+  if (!response) throw new Error('Something went wrong...');
+  const data = response.json();
+  return data;
+};
 
 export const fetchAllInvoices = () => {
   return async dispatch => {
-    const fetchData = async () => {
-      const response = await fetch(
-        'https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices.json'
-      );
-
-      if (!response) throw new Error('Fetching invoices failed.');
-
-      const data = await response.json();
-      return data;
-    };
-
     try {
-      const data = await fetchData();
-      dispatch(invoicesActions.updateInvoices(data));
+      const invoices = await invoiceHttp(`/invoices.json`);
+      dispatch(invoicesActions.updateInvoices(invoices));
     } catch (error) {
       console.log(error.message);
     }
@@ -25,19 +23,8 @@ export const fetchAllInvoices = () => {
 
 export const fetchInvoice = invoiceId => {
   return async dispatch => {
-    const fetchData = async () => {
-      const response = await fetch(
-        `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices/${invoiceId}.json`
-      );
-
-      if (!response) throw new Error('Fetching invoices failed.');
-
-      const data = await response.json();
-      return data;
-    };
-
     try {
-      const invoice = await fetchData();
+      const invoice = await invoiceHttp(`/invoices/${invoiceId}.json`);
       dispatch(invoicesActions.setCurrentInvoice({ invoice, invoiceId }));
     } catch (error) {
       console.log(error.message);
@@ -47,19 +34,10 @@ export const fetchInvoice = invoiceId => {
 
 export const deleteInvoice = invoiceId => {
   return async dispatch => {
-    const sendRequest = async () => {
-      const response = await fetch(
-        `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices/${invoiceId}.json`,
-        {
-          method: 'DELETE',
-        }
-      );
-
-      if (!response) throw new Error('Something went wrong...');
-    };
-
     try {
-      await sendRequest();
+      await invoiceHttp(`/invoices/${invoiceId}.json`, {
+        method: 'DELETE',
+      });
       dispatch(invoicesActions.deleteInvoice(invoiceId));
     } catch (error) {
       console.log(error.message);
@@ -69,20 +47,11 @@ export const deleteInvoice = invoiceId => {
 
 export const updateInvoiceStatus = invoiceId => {
   return async dispatch => {
-    const sendRequest = async () => {
-      const response = await fetch(
-        `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices/${invoiceId}/.json`,
-        {
-          method: 'PATCH',
-          body: JSON.stringify({ status: 'paid' }),
-        }
-      );
-
-      if (!response) throw new Error('Something went wrong...');
-    };
-
     try {
-      await sendRequest();
+      await invoiceHttp(`/invoices/${invoiceId}/.json`, {
+        method: 'PATCH',
+        body: JSON.stringify({ status: 'paid' }),
+      });
       dispatch(invoicesActions.updateInvoiceStatus(invoiceId));
     } catch (error) {
       console.log(error.message);
@@ -92,20 +61,11 @@ export const updateInvoiceStatus = invoiceId => {
 
 export const updateInvoice = (updatedInvoice, invoiceId) => {
   return async dispatch => {
-    const sendRequest = async () => {
-      const response = await fetch(
-        `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices/${invoiceId}.json`,
-        {
-          method: 'PUT',
-          body: JSON.stringify(updatedInvoice),
-        }
-      );
-
-      if (!response) throw new Error('Something went wrong...');
-    };
-
     try {
-      await sendRequest();
+      await invoiceHttp(`/invoices/${invoiceId}.json`, {
+        method: 'PUT',
+        body: JSON.stringify(updatedInvoice),
+      });
       dispatch(
         invoicesActions.submittedFormUpdateInvoiceHandler({
           updatedInvoice,
@@ -119,21 +79,12 @@ export const updateInvoice = (updatedInvoice, invoiceId) => {
 };
 export const sendNewInvoice = newInvoice => {
   return async dispatch => {
-    const sendRequest = async () => {
-      const response = await fetch(
-        `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices.json`,
-        {
-          method: 'POST',
-          body: JSON.stringify(newInvoice),
-        }
-      );
-      if (!response) throw new Error('Something went wrong...');
-      const newServerId = response.json();
-      return newServerId;
-    };
-
     try {
-      const { name: newId } = await sendRequest();
+      const { name: newId } = await invoiceHttp(`/invoices.json`, {
+        method: 'POST',
+        body: JSON.stringify(newInvoice),
+      });
+      console.log(newId);
       dispatch(
         invoicesActions.submittedFormNewInvoiceHandler({
           newInvoice,
