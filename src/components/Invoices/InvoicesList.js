@@ -18,26 +18,32 @@ const InvoicesList = () => {
   if (invoiceFilters.length !== 0) {
     invoiceFilters.forEach(filterItem =>
       invoices.forEach(item => {
-        if (item.status === filterItem) {
+        const invoiceKey = Object.keys(item);
+        if (item[invoiceKey].status === filterItem) {
           invoiceList.push(item);
         }
       })
     );
   } else invoiceList = invoices;
 
+  console.log(invoiceList);
+
   return (
     <section className={classes.invoicesList}>
-      {invoiceList.map(item => (
-        <InvoicesItem
-          key={item.id}
-          invoiceId={item.id}
-          paymentDue={item.paymentDue}
-          clientName={item.clientName}
-          total={item.total}
-          status={item.status}
-          onClick={openInvoiceDetailsHandler.bind(null, item.id)}
-        />
-      ))}
+      {invoiceList.map(item => {
+        const invoiceKey = Object.keys(item);
+        return (
+          <InvoicesItem
+            key={invoiceKey}
+            invoiceId={item[invoiceKey].id}
+            paymentDue={item[invoiceKey].paymentDue}
+            clientName={item[invoiceKey].clientName}
+            total={item[invoiceKey].total}
+            status={item[invoiceKey].status}
+            onClick={openInvoiceDetailsHandler.bind(null, invoiceKey)}
+          />
+        );
+      })}
     </section>
   );
 };
