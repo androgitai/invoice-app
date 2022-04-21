@@ -1,19 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { markInvoiceAsPaid } from '../../../store/invoices-http-actions';
+import { updateInvoiceStatus } from '../../../store/invoices-http-actions';
 
 import classes from './InvoiceDetailsControl.module.css';
 import Button from '../../UI/Elements/Button';
 
 const InvoiceDetailsControl = props => {
   const dispatch = useDispatch();
-  const { currentInvoiceIndex } = useSelector(state => state.invoices);
+  const { currentInvoice, currentInvoiceId } = useSelector(state => state.invoices);
 
   const contolClasses = `${classes.controls} ${classes[props.position]}`;
-  const isDraft = props.status === 'draft';
-  const isPending = props.status === 'pending';
+  const isDraft = currentInvoice.status === 'draft';
+  const isPending = currentInvoice.status === 'pending';
 
   const markAsPaidHandler = () => {
-    dispatch(markInvoiceAsPaid(currentInvoiceIndex));
+    dispatch(updateInvoiceStatus(currentInvoiceId));
   };
 
   return (
