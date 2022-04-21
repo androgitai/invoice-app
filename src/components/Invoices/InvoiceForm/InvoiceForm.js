@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { updateInvoice } from '../../../store/invoices-http-actions';
+import { updateInvoice, sendNewInvoice } from '../../../store/invoices-http-actions';
 import { generateInvoice } from '../../../lib/invoice-utility';
 import useForm from '../../../hooks/use-form';
 
@@ -13,10 +13,10 @@ import classes from './InvoiceForm.module.css';
 
 const InvoiceForm = props => {
   const isNewForm = props.isNewForm;
-
   const dispatch = useDispatch();
-  const { currentInvoice, currentInvoiceIndex, emptyFormTemplate, invoices, totalInvoices } =
-    useSelector(state => state.invoices);
+  const { currentInvoice, currentInvoiceId, emptyFormTemplate, invoices } = useSelector(
+    state => state.invoices
+  );
   const {
     formState,
     dispatchFormChange,
@@ -26,18 +26,24 @@ const InvoiceForm = props => {
     setIsSubmitting,
     allFormErrors,
   } = useForm(isNewForm ? emptyFormTemplate : currentInvoice);
+  const openFormId = isNewForm ? 'new' : currentInvoice.id;
+  const currentIds = invoices.map(item => item[Object.keys(item)].id);
 
   const formSubmitHandler = event => {
     event.preventDefault();
-    const id = isNewForm ? 'new' : currentInvoice.id;
     const submitType = event.nativeEvent.submitter.name;
-    const currentIds = invoices.map(invoice => invoice.id);
     if (submitType === 'send') {
       setIsSubmitting(true);
       if (!isFormValid) return;
     }
-    const newInvoiceItem = generateInvoice(formState, id, submitType, currentIds);
-    dispatch(updateInvoice(newInvoiceItem, id, submitType, currentInvoiceIndex, totalInvoices));
+    const newInvoiceItem = generateInvoice(formState, openFormId, submitType, currentIds);
+
+    if (openFormId !== 'new') {
+      dispatch(updateInvoice(newInvoiceItem, currentInvoiceId));
+    }
+    if (openFormId === 'new') {
+      dispatch(sendNewInvoice(newInvoiceItem));
+    }
     props.onCancel();
   };
 
