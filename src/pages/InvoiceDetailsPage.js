@@ -16,14 +16,14 @@ import NotFound from '../components/UI/Elements/NotFound';
 const InvoiceDetailsPage = () => {
   const isTablet = useMediaQuery('(min-width:768px)');
   const dispatch = useDispatch();
-  const { currentInvoice, currentInvoiceIndex } = useSelector(state => state.invoices);
-  const { invoiceId } = useParams();
+  const { currentInvoice, currentInvoiceId } = useSelector(state => state.invoices);
+  const { invoiceIdFromRoute } = useParams();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchInvoice(invoiceId));
-  }, [dispatch, invoiceId]);
+    dispatch(fetchInvoice(invoiceIdFromRoute));
+  }, [dispatch, invoiceIdFromRoute]);
 
   const toggleInvoiceFormHandler = () => {
     setIsFormOpen(prevState => !prevState);
@@ -40,15 +40,15 @@ const InvoiceDetailsPage = () => {
       {isFormOpen && (
         <InvoiceFormModal
           isNewForm={false}
-          invoiceId={invoiceId}
+          invoiceId={currentInvoice.id}
           onCancel={toggleInvoiceFormHandler}
         />
       )}
       <Wrapper>
         {isModalOpen && (
           <ConfirmModal
-            invoiceId={invoiceId}
-            invoiceIndex={currentInvoiceIndex}
+            invoiceId={currentInvoice.id}
+            invoiceServerId={currentInvoiceId}
             onClose={toggleDeleteModalHandler}
           />
         )}
@@ -63,8 +63,6 @@ const InvoiceDetailsPage = () => {
         <InvoiceDetailsControl
           toggleForm={toggleInvoiceFormHandler}
           toggleModal={toggleDeleteModalHandler}
-          status={currentInvoice.status}
-          invoiceId={invoiceId}
         />
       )}
     </Fragment>
