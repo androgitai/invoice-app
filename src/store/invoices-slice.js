@@ -15,9 +15,10 @@ const invoicesSlice = createSlice({
   initialState: invoicesInitialState,
   reducers: {
     updateInvoices(state, action) {
+      const invoices = action.payload;
       let newInvoiceList = [];
-      for (const item in action.payload) {
-        newInvoiceList.push({ [item]: action.payload[item] });
+      for (const item in invoices) {
+        newInvoiceList.push({ [item]: invoices[item] });
       }
       state.invoices = newInvoiceList;
       state.totalInvoices = newInvoiceList.length;
