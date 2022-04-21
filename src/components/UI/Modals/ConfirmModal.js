@@ -2,8 +2,7 @@ import { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { invoicesActions } from '../../../store/invoices-slice';
-import { updateInvoiceList } from '../../../store/invoices-http-actions';
+import { deleteInvoice } from '../../../store/invoices-http-actions';
 
 import Button from '../Elements/Button';
 import Card from '../Layout/Card';
@@ -31,11 +30,10 @@ const ModalOverlay = props => {
 const ConfirmModal = props => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { invoiceId } = props;
+  const { invoiceId, invoiceServerId } = props;
 
   const deleteInvoiceHandler = () => {
-    dispatch(invoicesActions.deleteInvoice(invoiceId));
-    updateInvoiceList();
+    dispatch(deleteInvoice(invoiceServerId));
     navigate('/invoices');
   };
 
