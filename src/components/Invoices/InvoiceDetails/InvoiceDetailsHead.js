@@ -25,7 +25,6 @@ const InvoiceDetailsHead = props => {
             toggleForm={props.toggleForm}
             toggleModal={props.toggleModal}
             position='top'
-            status={props.status}
           />
         )}
       </Card>
