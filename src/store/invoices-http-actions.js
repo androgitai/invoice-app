@@ -23,59 +23,11 @@ export const fetchAllInvoices = () => {
   };
 };
 
-export const updateInvoice = (
-  newInvoiceItem,
-  id,
-  submitType,
-  currentInvoiceIndex,
-  totalInvoices
-) => {
-  return async dispatch => {
-    const sendPatchRequest = async () => {
-      const response = await fetch(
-        `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices.json/`,
-        {
-          method: 'PATCH',
-          body: JSON.stringify({ [currentInvoiceIndex]: newInvoiceItem }),
-        }
-      );
-
-      if (!response) throw new Error('Something went wrong...');
-    };
-    const sendPostRequest = async () => {
-      const response = await fetch(
-        `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices/${totalInvoices}.json`,
-        {
-          method: 'PUT',
-          body: JSON.stringify(newInvoiceItem),
-        }
-      );
-
-      if (!response) throw new Error('Something went wrong...');
-    };
-
-    try {
-      if (id === 'new') await sendPostRequest();
-      else await sendPatchRequest();
-
-      dispatch(
-        invoicesActions.submittedInvoiceHandler({
-          newInvoiceItem,
-          id,
-          submitType,
-        })
-      );
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-};
-
 export const fetchInvoice = invoiceId => {
   return async dispatch => {
     const fetchData = async () => {
       const response = await fetch(
-        `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices.json`
+        `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices/${invoiceId}.json`
       );
 
       if (!response) throw new Error('Fetching invoices failed.');
@@ -85,22 +37,21 @@ export const fetchInvoice = invoiceId => {
     };
 
     try {
-      const data = await fetchData();
-      dispatch(invoicesActions.setCurrentInvoice({ data, invoiceId }));
+      const invoice = await fetchData();
+      dispatch(invoicesActions.setCurrentInvoice({ invoice, invoiceId }));
     } catch (error) {
       console.log(error.message);
     }
   };
 };
 
-export const markInvoiceAsPaid = currentInvoiceIndex => {
+export const deleteInvoice = invoiceId => {
   return async dispatch => {
     const sendRequest = async () => {
       const response = await fetch(
-        `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices/${currentInvoiceIndex}/status.json`,
+        `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices/${invoiceId}.json`,
         {
-          method: 'PUT',
-          body: JSON.stringify('paid'),
+          method: 'DELETE',
         }
       );
 
@@ -109,30 +60,113 @@ export const markInvoiceAsPaid = currentInvoiceIndex => {
 
     try {
       await sendRequest();
-      dispatch(invoicesActions.markAsPaid(currentInvoiceIndex));
+      dispatch(invoicesActions.deleteInvoice(invoiceId));
     } catch (error) {
       console.log(error.message);
     }
   };
 };
 
-export const updateInvoiceList = async () => {
-  const sendRequest = async invoices => {
-    const response = await fetch(
-      `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices.json`,
-      {
-        method: 'PUT',
-        body: JSON.stringify(invoices),
-      }
-    );
+export const updateInvoiceStatus = invoiceId => {
+  return async dispatch => {
+    const sendRequest = async () => {
+      const response = await fetch(
+        `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices/${invoiceId}/.json`,
+        {
+          method: 'PATCH',
+          body: JSON.stringify({ status: 'paid' }),
+        }
+      );
 
-    if (!response) throw new Error('Something went wrong...');
+      if (!response) throw new Error('Something went wrong...');
+    };
+
+    try {
+      await sendRequest();
+      dispatch(invoicesActions.updateInvoiceStatus(invoiceId));
+    } catch (error) {
+      console.log(error.message);
+    }
   };
-
-  try {
-    const { invoices } = store.getState().invoices;
-    await sendRequest(invoices);
-  } catch (error) {
-    console.log(error.message);
-  }
 };
+
+export const updateInvoice = (updatedInvoice, invoiceId) => {
+  return async dispatch => {
+    const sendRequest = async () => {
+      const response = await fetch(
+        `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices/${invoiceId}.json`,
+        {
+          method: 'PUT',
+          body: JSON.stringify(updatedInvoice),
+        }
+      );
+
+      if (!response) throw new Error('Something went wrong...');
+    };
+
+    try {
+      await sendRequest();
+      dispatch(
+        invoicesActions.submittedFormUpdateInvoiceHandler({
+          updatedInvoice,
+          invoiceId,
+        })
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+};
+export const sendNewInvoice = newInvoice => {
+  return async dispatch => {
+    const sendRequest = async () => {
+      const response = await fetch(
+        `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices.json`,
+        {
+          method: 'POST',
+          body: JSON.stringify(newInvoice),
+        }
+      );
+      if (!response) throw new Error('Something went wrong...');
+      const newServerId = response.json();
+      return newServerId;
+    };
+
+    try {
+      const { name: newId } = await sendRequest();
+      dispatch(
+        invoicesActions.submittedFormNewInvoiceHandler({
+          newInvoice,
+          newId,
+        })
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+};
+
+//////////////////////
+
+// export const populateServer = async item => {
+//   const sendRequest = async item => {
+//     const response = await fetch(
+//       `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices.json`,
+//       {
+//         method: 'POST',
+//         body: JSON.stringify(item),
+//       }
+//     );
+
+//     if (!response) throw new Error('Something went wrong...');
+//     const data = await response.json();
+//     return data;
+//   };
+
+//   try {
+//     const data = await sendRequest(item);
+//     console.log(data);
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// };
