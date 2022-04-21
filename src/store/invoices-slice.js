@@ -32,25 +32,31 @@ const invoicesSlice = createSlice({
       const invoiceIndex = state.invoices.findIndex(item => {
         return Object.keys(item)[0] === invoiceId;
       });
-      state.invoices[invoiceIndex][invoiceId].status = 'paid';
-      state.currentInvoice.status = 'paid';
+      if (invoiceIndex !== -1) {
+        state.invoices[invoiceIndex][invoiceId].status = 'paid';
+        state.currentInvoice.status = 'paid';
+      }
     },
     deleteInvoice(state, action) {
       const invoiceId = action.payload;
       const newInvoiceState = state.invoices.filter(item => !Object.keys(item).includes(invoiceId));
-      state.invoices = newInvoiceState;
-      state.currentInvoice = null;
-      state.currentInvoiceId = null;
-      state.totalInvoices = state.invoices.length;
+      if (newInvoiceState) {
+        state.invoices = newInvoiceState;
+        state.currentInvoice = null;
+        state.currentInvoiceId = null;
+        state.totalInvoices = state.invoices.length;
+      }
     },
     submittedFormUpdateInvoiceHandler(state, action) {
       const { updatedInvoice, invoiceId } = action.payload;
       const invoiceIndex = state.invoices.findIndex(item => {
         return Object.keys(item)[0] === invoiceId;
       });
-      state.invoices[invoiceIndex][invoiceId] = updatedInvoice;
-      state.currentInvoice = updatedInvoice;
-      state.totalInvoices = state.invoices.length;
+      if (invoiceIndex !== -1) {
+        state.invoices[invoiceIndex][invoiceId] = updatedInvoice;
+        state.currentInvoice = updatedInvoice;
+        state.totalInvoices = state.invoices.length;
+      }
     },
     submittedFormNewInvoiceHandler(state, action) {
       const { newInvoice, newId } = action.payload;
