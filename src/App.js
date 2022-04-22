@@ -9,6 +9,7 @@ import NotFound from './components/UI/Elements/NotFound';
 import InvoiceDetailsPage from './pages/InvoiceDetailsPage';
 import InvoicesPage from './pages/InvoicesPage';
 import Notification from './components/UI/Elements/Notification';
+import HomePage from './pages/HomePage';
 
 const initialData = [
   {
@@ -266,7 +267,8 @@ function App() {
     <Layout>
       {notification && <Notification notification={notification} />}
       <Routes>
-        <Route path='/' element={<Navigate to='/invoices' />} />
+        <Route path='/' element={<HomePage />} />
+        {/* element={<Navigate to='/invoices' />}  */}
         <Route path='/invoices' element={<InvoicesPage />} />
         <Route path='/invoices/:invoiceIdFromRoute' element={<InvoiceDetailsPage />} />
         <Route
