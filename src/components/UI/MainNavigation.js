@@ -19,7 +19,7 @@ const MainNavigation = () => {
   };
 
   return (
-    <nav className={classes.nav}>
+    <nav className={classes.nav} data-theme=''>
       <div className={classes.logo}>
         <Link to='/'>
           <img src={logo} alt='Logo' />
