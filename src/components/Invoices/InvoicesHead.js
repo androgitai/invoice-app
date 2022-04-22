@@ -1,4 +1,5 @@
 import { Fragment, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Button from '../UI/Elements/Button';
 import plusIcon from '../../assets/icon-plus.svg';
 import classes from './InvoicesHead.module.css';
@@ -7,9 +8,10 @@ import Filter from '../UI/Elements/Filter';
 import useMediaQuery from '../../hooks/use-media-query';
 import InvoiceFormModal from '../UI/Modals/InvoiceFormModal';
 
-const InvoicesHead = props => {
+const InvoicesHead = () => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
+  const totalInvoices = useSelector(state => state.invoices.totalInvoices);
   const isTablet = useMediaQuery('(min-width: 768px)');
 
   const toggleFilterHandler = () => {
@@ -17,24 +19,21 @@ const InvoicesHead = props => {
   };
 
   const toggleInvoiceFormHandler = () => {
-    setIsInvoiceModalOpen(prevState => !isInvoiceModalOpen);
+    setIsInvoiceModalOpen(prevState => !prevState);
   };
 
   return (
     <Fragment>
       {isInvoiceModalOpen && (
-        <InvoiceFormModal
-          isNewForm={true}
-          onCancel={toggleInvoiceFormHandler}
-        />
+        <InvoiceFormModal isNewForm={true} onCancel={toggleInvoiceFormHandler} />
       )}
       <section className={classes.invoicesheader}>
         <div>
           <h1>Invoices</h1>
           {isTablet ? (
-            <p>There are {props.totalInvoices} total invoices</p>
+            <p>There are {totalInvoices} total invoices</p>
           ) : (
-            <p>{props.totalInvoices} invoices</p>
+            <p>{totalInvoices} invoices</p>
           )}
         </div>
         <div className={classes.control}>
