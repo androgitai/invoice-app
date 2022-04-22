@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllInvoices, populateServer } from './store/invoices-http-actions';
+import { uiActions } from './store/ui-slice';
 
 import Layout from './components/UI/Layout/Layout';
 import NotFound from './components/UI/Elements/NotFound';
 import InvoiceDetailsPage from './pages/InvoiceDetailsPage';
 import InvoicesPage from './pages/InvoicesPage';
+import Notification from './components/UI/Elements/Notification';
 
 const initialData = [
   {
@@ -241,6 +243,7 @@ const initialData = [
 ];
 
 function App() {
+  const notification = useSelector(state => state.ui.notification);
   const dispatch = useDispatch();
 
   // useEffect(() => {
@@ -248,11 +251,20 @@ function App() {
   // }, []);
 
   useEffect(() => {
+    if (notification) {
+      setTimeout(() => {
+        dispatch(uiActions.showNotification());
+      }, 5000);
+    }
+  }, [dispatch, notification]);
+
+  useEffect(() => {
     dispatch(fetchAllInvoices());
   }, [dispatch]);
 
   return (
     <Layout>
+      {notification && <Notification notification={notification} />}
       <Routes>
         <Route path='/' element={<Navigate to='/invoices' />} />
         <Route path='/invoices' element={<InvoicesPage />} />
