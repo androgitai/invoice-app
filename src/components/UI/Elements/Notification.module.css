@@ -1,0 +1,47 @@
+.notification {
+  position: fixed;
+  left: 50vw;
+  top: 10vh;
+  z-index: 100;
+  transform: translate(-50%, -50%);
+  min-width: 300px;
+  max-width: 450px;
+  min-height: 100px;
+  max-height: 250px;
+  background-color: rgba(107, 83, 204, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 15px;
+  animation: notification 5000ms ease-in 1 forwards;
+}
+
+.notification h3,
+.notification p {
+  color: var(--primary-text-color);
+  margin: 0;
+}
+
+.error {
+  background-color: rgba(205, 112, 112, 0.5);
+}
+
+.success {
+  background-color: rgba(51, 214, 159, 0.5);
+}
+@keyframes notification {
+  0% {
+    transform: translate(-50%, -100%);
+  }
+  5% {
+    transform: translate(-50%, -50%);
+  }
+  95% {
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    transform: translate(-50%, -100%);
+  }
+}
