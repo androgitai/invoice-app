@@ -1,0 +1,34 @@
+.spinner {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 1rem;
+  border-radius: 15px;
+}
+
+.spinnerSVGPath {
+  display: inline-block;
+  fill: var(--primary-color-200);
+}
+
+.spinnerSVG {
+  animation: spinner 1s linear infinite forwards;
+}
+
+.spinner h3 {
+  display: inline-block;
+  color: var(--primary-color-100);
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
