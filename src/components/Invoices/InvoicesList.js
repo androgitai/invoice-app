@@ -3,10 +3,14 @@ import { useNavigate } from 'react-router-dom';
 
 import classes from './InvoicesList.module.css';
 import InvoicesItem from './InvoicesItem';
+import Spinner from '../UI/Elements/Spinner';
+import NoInvoices from '../UI/Elements/NoInvoices';
 
 const InvoicesList = () => {
   const invoices = useSelector(state => state.invoices.invoices);
+  const totalInvoices = useSelector(state => state.invoices.totalInvoices);
   const invoiceFilters = useSelector(state => state.invoices.filterBy);
+  const isLoading = useSelector(state => state.ui.isLoading);
   const navigate = useNavigate();
 
   const openInvoiceDetailsHandler = id => {
@@ -30,6 +34,8 @@ const InvoicesList = () => {
 
   return (
     <section className={classes.invoicesList}>
+      {!isLoading && !totalInvoices && <NoInvoices />}
+      {isLoading && <Spinner />}
       {invoiceList.map(item => {
         const invoiceKey = Object.keys(item);
         return (
