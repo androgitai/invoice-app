@@ -9,7 +9,7 @@ const invoiceHttp = async (dispatch, subURL, options = {}) => {
     const response = await fetch(`${URL}${subURL}`, options);
 
     if (!response) throw new Error('Something went wrong...');
-    const data = response.json();
+    const data = await response.json();
     return data;
   };
   try {
