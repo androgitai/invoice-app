@@ -12,32 +12,37 @@
 
 .nav ul {
   height: 100%;
-  width: 144px;
   display: flex;
 }
 
-.nav ul li {
-  width: 50%;
-  position: relative;
+.nav img {
   cursor: pointer;
 }
 
-.nav li:hover {
-  background-color: #1e2139;
+.nav ul li {
+  /* width: 72px; */
+  padding: 0 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border-right: 1px dotted var(--nav-line-color); */
+}
+
+.nav ul li a {
+  cursor: pointer;
+  color: var(--nav-link-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.nav ul li a:hover {
+  color: var(--primary-color-100);
   transition: all 200ms ease-in;
+  text-decoration: underline;
 }
 
-.nav ul li:first-child {
-  border-right: 1px solid var(--nav-line-color);
-}
-
-.nav img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 50;
-}
+/* .nav li:hover {
+  background-color: #1e2139;
+} */
 
 .logo {
   cursor: pointer;
@@ -47,6 +52,9 @@
   position: relative;
   border-radius: 0 25% 25% 0;
   z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
 }
 
@@ -63,14 +71,16 @@
 }
 
 .logo img {
-  margin: auto;
+  position: relative;
+  z-index: 90;
   height: 26px;
   width: 28px;
 }
 
 .avatar {
+  cursor: pointer;
   border-radius: 50%;
-  width: 32px;
+  width: 50%;
 }
 
 @media screen and (min-width: 1020px) {

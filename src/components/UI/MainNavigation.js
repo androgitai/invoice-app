@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import classes from './MainNavigation.module.css';
@@ -5,7 +6,6 @@ import logo from '../../assets/logo.svg';
 import moonIconSVG from '../../assets/icon-moon.svg';
 import sunIconSVG from '../../assets/icon-sun.svg';
 import avatarPicture from '../../assets/image-avatar.jpg';
-import { useEffect, useState } from 'react';
 
 const MainNavigation = () => {
   const [theme, setTheme] = useState('dark');
@@ -34,8 +34,20 @@ const MainNavigation = () => {
           )}
         </li>
         <li>
-          <img className={classes.avatar} src={avatarPicture} alt='Avatar' />
+          <Link to='/invoices'>Invoices</Link>
         </li>
+        <li>
+          <Link to='/about'>About</Link>
+        </li>
+        <li>
+          <Link to='/profile'>Profile</Link>
+        </li>
+        <li>
+          <Link to='/auth'>Login</Link>
+        </li>
+        {/* <li>
+          <img className={classes.avatar} src={avatarPicture} alt='Avatar' />
+        </li> */}
       </ul>
     </nav>
   );
