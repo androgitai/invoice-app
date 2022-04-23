@@ -12,6 +12,10 @@
   cursor: pointer;
 }
 
+.btn:disabled {
+  cursor: progress;
+}
+
 .primary-img img {
   display: inline;
   margin: 0 0.5rem 0 0;
