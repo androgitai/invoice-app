@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllInvoices, populateServer } from './store/invoices-http-actions';
 import { uiActions } from './store/ui-slice';
@@ -10,6 +10,8 @@ import InvoiceDetailsPage from './pages/InvoiceDetailsPage';
 import InvoicesPage from './pages/InvoicesPage';
 import Notification from './components/UI/Elements/Notification';
 import HomePage from './pages/HomePage';
+import AuthPage from './pages/AuthPage';
+import ProfilePage from './pages/ProfilePage';
 
 const initialData = [
   {
@@ -268,7 +270,8 @@ function App() {
       {notification && <Notification notification={notification} />}
       <Routes>
         <Route path='/' element={<HomePage />} />
-        {/* element={<Navigate to='/invoices' />}  */}
+        <Route path='/profile' element={<ProfilePage />} />
+        <Route path='/auth' element={<AuthPage />} />
         <Route path='/invoices' element={<InvoicesPage />} />
         <Route path='/invoices/:invoiceIdFromRoute' element={<InvoiceDetailsPage />} />
         <Route
