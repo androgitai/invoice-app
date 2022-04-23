@@ -19,9 +19,11 @@
   --secondary-text-color-300: #888eb0;
 
   --nav-line-color: #494e6e;
+  --nav-link-color: #f9fafe;
   --backdrop-bg-color: rgba(0, 0, 0, 0.5);
   --form-item-bg-color: #ffffff;
   --form-item-border-color: #dfe3fa;
+  --form-login-border-color: #d5c2ee;
 
   --pill-pending-text-color: rgb(255, 143, 0);
   --pill-pending-bg-color: rgba(255, 143, 0, 0.05);
@@ -115,8 +117,7 @@ dd {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
