@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import classes from './InvoicesList.module.css';
 import InvoicesItem from './InvoicesItem';
-import Spinner from '../UI/Elements/Spinner';
+
 import NoInvoices from '../UI/Elements/NoInvoices';
 
 const InvoicesList = () => {
@@ -35,7 +35,6 @@ const InvoicesList = () => {
   return (
     <section className={classes.invoicesList}>
       {!isLoading && !totalInvoices && <NoInvoices />}
-      {isLoading && <Spinner />}
       {invoiceList.map(item => {
         const invoiceKey = Object.keys(item);
         return (

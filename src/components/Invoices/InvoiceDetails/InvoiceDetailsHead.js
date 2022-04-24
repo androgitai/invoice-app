@@ -13,7 +13,7 @@ const InvoiceDetailsHead = props => {
 
   return (
     <Fragment>
-      <Link className={classes.details} to='/'>
+      <Link className={classes.details} to='/invoices'>
         <img className={classes.detailsHeadImg} src={arrowLeftSVG} alt='Back' />
         <h4 className={classes.detailsHeadH4}>Go back</h4>
       </Link>
