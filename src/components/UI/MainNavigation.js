@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { authActions } from '../../store/auth-slice';
 
 import classes from './MainNavigation.module.css';
 import logo from '../../assets/logo.svg';
@@ -8,7 +10,10 @@ import sunIconSVG from '../../assets/icon-sun.svg';
 import avatarPicture from '../../assets/image-avatar.jpg';
 
 const MainNavigation = () => {
+  const { isLoggedIn } = useSelector(state => state.auth);
   const [theme, setTheme] = useState('dark');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -16,6 +21,11 @@ const MainNavigation = () => {
 
   const changeThemeHandler = () => {
     setTheme(prevState => (prevState === 'light' ? 'dark' : 'light'));
+  };
+
+  const logoutHandler = () => {
+    dispatch(authActions.logoutUser());
+    navigate('/');
   };
 
   return (
@@ -33,18 +43,29 @@ const MainNavigation = () => {
             <img src={sunIconSVG} alt='Color mode button' />
           )}
         </li>
-        <li>
-          <Link to='/invoices'>Invoices</Link>
-        </li>
+        {isLoggedIn && (
+          <li>
+            <Link to='/invoices'>Invoices</Link>
+          </li>
+        )}
         <li>
           <Link to='/about'>About</Link>
         </li>
-        <li>
-          <Link to='/profile'>Profile</Link>
-        </li>
-        <li>
-          <Link to='/auth'>Login</Link>
-        </li>
+        {isLoggedIn && (
+          <li>
+            <Link to='/profile'>Profile</Link>
+          </li>
+        )}
+        {!isLoggedIn && (
+          <li>
+            <Link to='/auth'>Login</Link>
+          </li>
+        )}
+        {isLoggedIn && (
+          <li>
+            <p onClick={logoutHandler}>Logout</p>
+          </li>
+        )}
         {/* <li>
           <img className={classes.avatar} src={avatarPicture} alt='Avatar' />
         </li> */}
