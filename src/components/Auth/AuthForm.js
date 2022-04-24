@@ -27,10 +27,10 @@ const AuthForm = () => {
 
     if (!isLogin) {
       dispatch(registerUser(enteredEmail, enteredPassrord));
-      navigate('/auth');
     }
     if (isLogin) {
       dispatch(loginUser(enteredEmail, enteredPassrord));
+      navigate('/invoices');
     }
   };
 
