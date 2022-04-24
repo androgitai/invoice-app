@@ -12,7 +12,6 @@ import InvoiceDetailsControl from '../components/Invoices/InvoiceDetails/Invoice
 import ConfirmModal from '../components/UI/Modals/ConfirmModal';
 import InvoiceFormModal from '../components/UI/Modals/InvoiceFormModal';
 import NotFound from '../components/UI/Elements/NotFound';
-import Spinner from '../components/UI/Elements/Spinner';
 
 const InvoiceDetailsPage = () => {
   const isTablet = useMediaQuery('(min-width:768px)');
@@ -21,7 +20,6 @@ const InvoiceDetailsPage = () => {
   const { invoiceIdFromRoute } = useParams();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const isLoading = useSelector(state => state.ui.isLoading);
 
   useEffect(() => {
     dispatch(fetchInvoice(invoiceIdFromRoute));
@@ -39,7 +37,6 @@ const InvoiceDetailsPage = () => {
   }
   return (
     <Fragment>
-      {isLoading && <Spinner />}
       {isFormOpen && (
         <InvoiceFormModal
           isNewForm={false}
