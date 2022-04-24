@@ -1,5 +1,6 @@
 import { invoicesActions } from './invoices-slice';
 import { uiActions } from './ui-slice';
+import store from './index';
 
 const URL = 'https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app';
 
@@ -8,15 +9,21 @@ const invoiceHttp = async (dispatch, subURL, options = {}) => {
   const httpRequest = async () => {
     const response = await fetch(`${URL}${subURL}`, options);
 
-    if (!response) throw new Error('Something went wrong...');
+    if (!response.ok) {
+      const error = await response.json();
+      console.log(error);
+      throw new Error(error.error);
+    }
     const data = await response.json();
     return data;
   };
   try {
     const data = await httpRequest();
+    console.log(data);
     dispatch(uiActions.unSetIsLoading());
     return data;
   } catch (error) {
+    dispatch(uiActions.unSetIsLoading());
     dispatch(
       uiActions.showNotification({
         status: 'error',
@@ -24,29 +31,42 @@ const invoiceHttp = async (dispatch, subURL, options = {}) => {
         message: 'Something went wrong...',
       })
     );
-    console.log(error.message);
+    return { error: error.message };
   }
 };
 
 export const fetchAllInvoices = () => {
   return async dispatch => {
-    const invoices = await invoiceHttp(dispatch, `/invoices.json`);
+    const { userId, idToken } = store.getState().auth;
+    const invoices = await invoiceHttp(dispatch, `/users/${userId}/invoices.json?auth=${idToken}`);
+    if (invoices.error) return;
     dispatch(invoicesActions.updateInvoices(invoices));
   };
 };
 
 export const fetchInvoice = invoiceId => {
   return async dispatch => {
-    const invoice = await invoiceHttp(dispatch, `/invoices/${invoiceId}.json`);
+    const { userId, idToken } = store.getState().auth;
+    const invoice = await invoiceHttp(
+      dispatch,
+      `/users/${userId}/invoices/${invoiceId}.json?auth=${idToken}`
+    );
+    if (invoice.error) return;
     dispatch(invoicesActions.setCurrentInvoice({ invoice, invoiceId }));
   };
 };
 
 export const deleteInvoice = invoiceId => {
   return async dispatch => {
-    await invoiceHttp(dispatch, `/invoices/${invoiceId}.json`, {
-      method: 'DELETE',
-    });
+    const { userId, idToken } = store.getState().auth;
+    const response = invoiceHttp(
+      dispatch,
+      `/users/${userId}/invoices/${invoiceId}.json?auth=${idToken}`,
+      {
+        method: 'DELETE',
+      }
+    );
+    if (response.error) return;
     dispatch(invoicesActions.deleteInvoice(invoiceId));
     dispatch(
       uiActions.showNotification({
@@ -60,10 +80,16 @@ export const deleteInvoice = invoiceId => {
 
 export const updateInvoiceStatus = invoiceId => {
   return async dispatch => {
-    await invoiceHttp(dispatch, `/invoices/${invoiceId}/.json`, {
-      method: 'PATCH',
-      body: JSON.stringify({ status: 'paid' }),
-    });
+    const { userId, idToken } = store.getState().auth;
+    const response = await invoiceHttp(
+      dispatch,
+      `/users/${userId}/invoices/${invoiceId}/.json?auth=${idToken}`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify({ status: 'paid' }),
+      }
+    );
+    if (response.error) return;
     dispatch(invoicesActions.updateInvoiceStatus(invoiceId));
     dispatch(
       uiActions.showNotification({
@@ -77,10 +103,16 @@ export const updateInvoiceStatus = invoiceId => {
 
 export const updateInvoice = (updatedInvoice, invoiceId) => {
   return async dispatch => {
-    await invoiceHttp(dispatch, `/invoices/${invoiceId}.json`, {
-      method: 'PUT',
-      body: JSON.stringify(updatedInvoice),
-    });
+    const { userId, idToken } = store.getState().auth;
+    const response = await invoiceHttp(
+      dispatch,
+      `/users/${userId}/invoices/${invoiceId}.json?auth=${idToken}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(updatedInvoice),
+      }
+    );
+    if (response.error) return;
     dispatch(
       invoicesActions.submittedFormUpdateInvoiceHandler({
         updatedInvoice,
@@ -96,16 +128,20 @@ export const updateInvoice = (updatedInvoice, invoiceId) => {
     );
   };
 };
+
 export const sendNewInvoice = newInvoice => {
   return async dispatch => {
-    const { name: newId } = await invoiceHttp(dispatch, `/invoices.json`, {
+    const { userId, idToken } = store.getState().auth;
+    const response = await invoiceHttp(dispatch, `/users/${userId}/invoices.json?auth=${idToken}`, {
       method: 'POST',
       body: JSON.stringify(newInvoice),
     });
+    console.log(response);
+    if (response.error) return;
     dispatch(
       invoicesActions.submittedFormNewInvoiceHandler({
         newInvoice,
-        newId,
+        newId: response.name,
       })
     );
     dispatch(
@@ -120,25 +156,26 @@ export const sendNewInvoice = newInvoice => {
 
 //////////////////////
 
-// export const populateServer = async item => {
-//   const sendRequest = async item => {
-//     const response = await fetch(
-//       `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/invoices.json`,
-//       {
-//         method: 'POST',
-//         body: JSON.stringify(item),
-//       }
-//     );
+export const populateServer = async item => {
+  const sendRequest = async item => {
+    const { userId } = store.getState().auth;
+    const response = await fetch(
+      `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/invoices.json`,
+      {
+        method: 'POST',
+        body: JSON.stringify(item),
+      }
+    );
 
-//     if (!response) throw new Error('Something went wrong...');
-//     const data = await response.json();
-//     return data;
-//   };
+    if (!response) throw new Error('Something went wrong...');
+    const data = await response.json();
+    return data;
+  };
 
-//   try {
-//     const data = await sendRequest(item);
-//     console.log(data);
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
+  try {
+    const data = await sendRequest(item);
+    console.log(data);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
