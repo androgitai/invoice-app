@@ -74,13 +74,6 @@ export const loginUser = (enteredEmail, enteredPassrord) => {
     });
     console.log(authDetails);
     if (authDetails.error) return;
-    dispatch(
-      uiActions.showNotification({
-        status: 'success',
-        title: 'Success',
-        message: `You have logged in successfully!`,
-      })
-    );
     console.log(authDetails);
     dispatch(authActions.loginUser(authDetails));
   };
