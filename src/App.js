@@ -12,15 +12,18 @@ import Notification from './components/UI/Elements/Notification';
 import HomePage from './pages/HomePage';
 import AuthPage from './pages/AuthPage';
 import ProfilePage from './pages/ProfilePage';
-import dummyData from './assets/data.json';
+import initialData from './assets/data.json';
+import Spinner from './components/UI/Elements/Spinner';
 
 function App() {
-  const notification = useSelector(state => state.ui.notification);
   const dispatch = useDispatch();
+  const notification = useSelector(state => state.ui.notification);
+  const { idToken, userId, isLoggedIn } = useSelector(state => state.auth);
+  const isLoading = useSelector(state => state.ui.isLoading);
 
-  // useEffect(() => {
-  //   dummyData.forEach(item => populateServer(item));
-  // }, []);
+  const pushServer = () => {
+    initialData.forEach(item => populateServer(item));
+  };
 
   useEffect(() => {
     if (notification) {
@@ -31,11 +34,15 @@ function App() {
   }, [dispatch, notification]);
 
   useEffect(() => {
-    dispatch(fetchAllInvoices());
-  }, [dispatch]);
+    if (isLoggedIn) {
+      dispatch(fetchAllInvoices());
+    }
+  }, [dispatch, idToken, userId, isLoggedIn]);
 
   return (
     <Layout>
+      {/* <button onClick={pushServer}>Populate</button> */}
+      {isLoading && <Spinner />}
       {notification && <Notification notification={notification} />}
       <Routes>
         <Route path='/' element={<HomePage />} />
