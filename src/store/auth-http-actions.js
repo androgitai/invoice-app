@@ -1,19 +1,23 @@
 import { uiActions } from './ui-slice';
 import { authActions } from './auth-slice';
+import store from './index';
 
 const signUpURL =
   'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDI9U_PK_J6UfDb_b1GP7AMcRY7s1ZNrhQ';
 const loginURL =
   'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDI9U_PK_J6UfDb_b1GP7AMcRY7s1ZNrhQ';
+const passwordChangeURL =
+  'https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDI9U_PK_J6UfDb_b1GP7AMcRY7s1ZNrhQ';
 
-const authHttp = async (dispatch, URL, subURL, options = {}) => {
+const authHttp = async (dispatch, URL, options = {}) => {
   dispatch(authActions.setIsLoading());
   const httpRequest = async () => {
-    const response = await fetch(`${URL}${subURL}`, options);
+    const response = await fetch(`${URL}`, options);
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.error.message);
+      const errorMessage = error.error.message.replace('_', ' ').toLowerCase();
+      throw new Error(errorMessage);
     }
     const data = await response.json();
     return data;
@@ -37,7 +41,7 @@ const authHttp = async (dispatch, URL, subURL, options = {}) => {
 
 export const registerUser = (enteredEmail, enteredPassrord) => {
   return async dispatch => {
-    const authDetails = await authHttp(dispatch, signUpURL, '', {
+    const authDetails = await authHttp(dispatch, signUpURL, {
       method: 'POST',
       body: JSON.stringify({
         email: enteredEmail,
@@ -59,9 +63,10 @@ export const registerUser = (enteredEmail, enteredPassrord) => {
     dispatch(authActions.toggleIsLogin(authDetails));
   };
 };
+
 export const loginUser = (enteredEmail, enteredPassrord) => {
   return async dispatch => {
-    const authDetails = await authHttp(dispatch, loginURL, '', {
+    const authDetails = await authHttp(dispatch, loginURL, {
       method: 'POST',
       body: JSON.stringify({
         email: enteredEmail,
@@ -72,9 +77,45 @@ export const loginUser = (enteredEmail, enteredPassrord) => {
         'Content-Type': 'application/json',
       },
     });
-    console.log(authDetails);
-    if (authDetails.error) return;
+    if (authDetails.error) return authDetails;
     console.log(authDetails);
     dispatch(authActions.loginUser(authDetails));
+  };
+};
+
+export const changeUserPassword = (newPassword, confirmNewPassword) => {
+  return async dispatch => {
+    if (newPassword !== confirmNewPassword) {
+      dispatch(
+        uiActions.showNotification({
+          status: 'error',
+          title: 'Password Error',
+          message: `The two fields has to be the same!`,
+        })
+      );
+      return;
+    }
+    const { idToken } = store.getState().auth;
+    const authDetails = await authHttp(dispatch, passwordChangeURL, {
+      method: 'POST',
+      body: JSON.stringify({
+        idToken,
+        password: newPassword,
+        returnSecureToken: true,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (authDetails.error) return;
+    console.log(authDetails);
+    dispatch(
+      uiActions.showNotification({
+        status: 'success',
+        title: 'Success!',
+        message: `You have successfully changed your password!`,
+      })
+    );
+    dispatch(authActions.userPasswordChange(authDetails));
   };
 };
