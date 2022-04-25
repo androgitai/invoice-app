@@ -46,10 +46,12 @@ function App() {
       {notification && <Notification notification={notification} />}
       <Routes>
         <Route path='/' element={<HomePage />} />
-        <Route path='/profile' element={<ProfilePage />} />
-        <Route path='/auth' element={<AuthPage />} />
-        <Route path='/invoices' element={<InvoicesPage />} />
-        <Route path='/invoices/:invoiceIdFromRoute' element={<InvoiceDetailsPage />} />
+        {isLoggedIn && <Route path='/profile' element={<ProfilePage />} />}
+        {!isLoggedIn && <Route path='/auth' element={<AuthPage />} />}
+        {isLoggedIn && <Route path='/invoices' element={<InvoicesPage />} />}
+        {isLoggedIn && (
+          <Route path='/invoices/:invoiceIdFromRoute' element={<InvoiceDetailsPage />} />
+        )}
         <Route
           path='*'
           element={
