@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { authActions } from '../../store/auth-slice';
+import { uiActions } from '../../store/ui-slice';
+import { invoicesActions } from '../../store/invoices-slice';
 
 import classes from './MainNavigation.module.css';
 import logo from '../../assets/logo.svg';
@@ -25,6 +27,14 @@ const MainNavigation = () => {
 
   const logoutHandler = () => {
     dispatch(authActions.logoutUser());
+    dispatch(invoicesActions.resetInvoiceData());
+    dispatch(
+      uiActions.showNotification({
+        status: 'success',
+        title: 'Logout',
+        message: `You have successfully logged out!`,
+      })
+    );
     navigate('/');
   };
 
