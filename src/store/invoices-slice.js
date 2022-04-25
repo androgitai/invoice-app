@@ -64,6 +64,13 @@ const invoicesSlice = createSlice({
       state.invoices.push({ [newId]: newInvoice });
       state.totalInvoices = state.invoices.length;
     },
+    resetInvoiceData(state) {
+      state.invoices = [];
+      state.totalInvoices = 0;
+      state.currentInvoice = null;
+      state.currentInvoiceId = null;
+      state.filterBy = [];
+    },
     toggleFilter(state, action) {
       const filterTerm = action.payload;
       if (filterTerm === '') return;
