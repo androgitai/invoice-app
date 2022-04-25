@@ -11,15 +11,14 @@ const invoiceHttp = async (dispatch, subURL, options = {}) => {
 
     if (!response.ok) {
       const error = await response.json();
-      console.log(error);
       throw new Error(error.error);
     }
     const data = await response.json();
+    if (data === null) return false;
     return data;
   };
   try {
     const data = await httpRequest();
-    console.log(data);
     dispatch(uiActions.unSetIsLoading());
     return data;
   } catch (error) {
@@ -39,7 +38,9 @@ export const fetchAllInvoices = () => {
   return async dispatch => {
     const { userId, idToken } = store.getState().auth;
     const invoices = await invoiceHttp(dispatch, `/users/${userId}/invoices.json?auth=${idToken}`);
-    if (invoices.error) return;
+    if (invoices.error || !invoices) {
+      return;
+    }
     dispatch(invoicesActions.updateInvoices(invoices));
   };
 };
@@ -51,7 +52,7 @@ export const fetchInvoice = invoiceId => {
       dispatch,
       `/users/${userId}/invoices/${invoiceId}.json?auth=${idToken}`
     );
-    if (invoice.error) return;
+    if (invoice.error || !invoice) return;
     dispatch(invoicesActions.setCurrentInvoice({ invoice, invoiceId }));
   };
 };
@@ -66,7 +67,7 @@ export const deleteInvoice = invoiceId => {
         method: 'DELETE',
       }
     );
-    if (response.error) return;
+    if (response.error || !response) return;
     dispatch(invoicesActions.deleteInvoice(invoiceId));
     dispatch(
       uiActions.showNotification({
@@ -89,7 +90,7 @@ export const updateInvoiceStatus = invoiceId => {
         body: JSON.stringify({ status: 'paid' }),
       }
     );
-    if (response.error) return;
+    if (response.error || !response) return;
     dispatch(invoicesActions.updateInvoiceStatus(invoiceId));
     dispatch(
       uiActions.showNotification({
@@ -112,7 +113,7 @@ export const updateInvoice = (updatedInvoice, invoiceId) => {
         body: JSON.stringify(updatedInvoice),
       }
     );
-    if (response.error) return;
+    if (response.error || !response) return;
     dispatch(
       invoicesActions.submittedFormUpdateInvoiceHandler({
         updatedInvoice,
@@ -137,7 +138,7 @@ export const sendNewInvoice = newInvoice => {
       body: JSON.stringify(newInvoice),
     });
     console.log(response);
-    if (response.error) return;
+    if (response.error || !response) return;
     dispatch(
       invoicesActions.submittedFormNewInvoiceHandler({
         newInvoice,
