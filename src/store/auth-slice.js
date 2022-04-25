@@ -30,6 +30,14 @@ const authSlice = createSlice({
     logoutUser(state) {
       state.idToken = '';
       state.isLoggedIn = false;
+      state.isLogin = true;
+      state.userId = '';
+      state.tokenExpiresIn = 0;
+    },
+    userPasswordChange(state, action) {
+      const { idToken, expiresIn } = action.payload;
+      state.idToken = idToken;
+      state.expiresIn = expiresIn;
     },
   },
 });
