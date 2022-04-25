@@ -29,8 +29,9 @@ const AuthForm = () => {
       dispatch(registerUser(enteredEmail, enteredPassrord));
     }
     if (isLogin) {
-      dispatch(loginUser(enteredEmail, enteredPassrord));
-      navigate('/invoices');
+      dispatch(loginUser(enteredEmail, enteredPassrord)).then(data => {
+        if (!data) navigate('/invoices');
+      });
     }
   };
 
