@@ -8,6 +8,8 @@ const loginURL =
   'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDI9U_PK_J6UfDb_b1GP7AMcRY7s1ZNrhQ';
 const passwordChangeURL =
   'https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDI9U_PK_J6UfDb_b1GP7AMcRY7s1ZNrhQ';
+const tokenRefreshURL =
+  'https://securetoken.googleapis.com/v1/token?key=AIzaSyDI9U_PK_J6UfDb_b1GP7AMcRY7s1ZNrhQ';
 
 const authHttp = async (dispatch, URL, options = {}) => {
   dispatch(authActions.setIsLoading());
@@ -78,7 +80,6 @@ export const loginUser = (enteredEmail, enteredPassrord) => {
       },
     });
     if (authDetails.error) return authDetails;
-    console.log(authDetails);
     dispatch(authActions.loginUser(authDetails));
   };
 };
@@ -108,7 +109,6 @@ export const changeUserPassword = (newPassword, confirmNewPassword) => {
       },
     });
     if (authDetails.error) return;
-    console.log(authDetails);
     dispatch(
       uiActions.showNotification({
         status: 'success',
@@ -117,5 +117,19 @@ export const changeUserPassword = (newPassword, confirmNewPassword) => {
       })
     );
     dispatch(authActions.userPasswordChange(authDetails));
+  };
+};
+
+export const refreshUserToken = refreshToken => {
+  return async dispatch => {
+    const authDetails = await authHttp(dispatch, tokenRefreshURL, {
+      method: 'POST',
+      body: `grant_type=refresh_token&refresh_token=${refreshToken}`,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+    if (authDetails.error) return;
+    dispatch(authActions.refreshToken(authDetails));
   };
 };
