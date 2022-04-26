@@ -137,7 +137,6 @@ export const sendNewInvoice = newInvoice => {
       method: 'POST',
       body: JSON.stringify(newInvoice),
     });
-    console.log(response);
     if (response.error || !response) return;
     dispatch(
       invoicesActions.submittedFormNewInvoiceHandler({
