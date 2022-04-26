@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllInvoices, populateServer } from './store/invoices-http-actions';
 import { uiActions } from './store/ui-slice';
+import { authActions } from './store/auth-slice';
 
 import Layout from './components/UI/Layout/Layout';
 import NotFound from './components/UI/Elements/NotFound';
@@ -18,12 +19,24 @@ import Spinner from './components/UI/Elements/Spinner';
 function App() {
   const dispatch = useDispatch();
   const notification = useSelector(state => state.ui.notification);
-  const { idToken, userId, isLoggedIn } = useSelector(state => state.auth);
+  const { idToken, userId, isLoggedIn, tokenRemainingTime } = useSelector(state => state.auth);
+
   const isLoading = useSelector(state => state.ui.isLoading);
 
   const pushServer = () => {
     initialData.forEach(item => populateServer(item));
   };
+
+  useEffect(() => {
+    const logoutTimer = () =>
+      setTimeout(() => dispatch(authActions.logoutUser()), tokenRemainingTime);
+    if (isLoggedIn) {
+      logoutTimer();
+    }
+    return () => {
+      clearTimeout(logoutTimer);
+    };
+  }, [dispatch, isLoggedIn, tokenRemainingTime]);
 
   useEffect(() => {
     if (notification) {
@@ -46,20 +59,14 @@ function App() {
       {notification && <Notification notification={notification} />}
       <Routes>
         <Route path='/' element={<HomePage />} />
+        <Route path='/about' element={<NotFound />} />
         {isLoggedIn && <Route path='/profile' element={<ProfilePage />} />}
         {!isLoggedIn && <Route path='/auth' element={<AuthPage />} />}
         {isLoggedIn && <Route path='/invoices' element={<InvoicesPage />} />}
         {isLoggedIn && (
           <Route path='/invoices/:invoiceIdFromRoute' element={<InvoiceDetailsPage />} />
         )}
-        <Route
-          path='*'
-          element={
-            <main>
-              <NotFound />
-            </main>
-          }
-        />
+        <Route path='*' element={<Navigate to='/' replace />} />
       </Routes>
     </Layout>
   );
