@@ -1,15 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { calculateExpiryTime, calculateRemainingTime } from '../lib/helper';
 
-const initialIdToken = localStorage.getItem('idToken');
-const initialUserId = initialIdToken ? localStorage.getItem('userId') : '';
-const localStorageTokenTime = +localStorage.getItem('idTokenExpiryTime');
-const initialRefreshToken = +localStorage.getItem('refreshToken');
+let initialIdToken = '';
+let initialUserId = '';
+let initialRefreshToken = '';
+let initialRemainingTime = 0;
 
-const initialRemainingTime =
-  localStorageTokenTime > 0 && +calculateRemainingTime(localStorageTokenTime) > 300000
-    ? +calculateRemainingTime(localStorageTokenTime)
-    : 0;
+let localStorageTokenTime = +localStorage.getItem('idTokenExpiryTime');
+
+if (localStorageTokenTime > 0 && +calculateRemainingTime(localStorageTokenTime) > 300000) {
+  initialRemainingTime = +calculateRemainingTime(localStorageTokenTime);
+  initialIdToken = localStorage.getItem('idToken');
+  initialUserId = localStorage.getItem('userId');
+  initialRefreshToken = localStorage.getItem('refreshToken');
+}
 
 const authSlice = createSlice({
   name: 'authSlice',
@@ -19,7 +23,6 @@ const authSlice = createSlice({
     isLoggedIn: initialIdToken && initialRemainingTime !== 0 ? true : false,
     idToken: initialIdToken,
     userId: initialUserId,
-    tokenExpiryTime: localStorageTokenTime ? localStorageTokenTime : 0,
     tokenRemainingTime: initialRemainingTime,
     refreshToken: initialRefreshToken ? initialRefreshToken : '',
   },
