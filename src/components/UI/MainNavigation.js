@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { authActions } from '../../store/auth-slice';
 import { uiActions } from '../../store/ui-slice';
 import { invoicesActions } from '../../store/invoices-slice';
+import useCountdown from '../../hooks/use-countdown';
 
 import classes from './MainNavigation.module.css';
 import logo from '../../assets/logo.svg';
@@ -12,7 +13,8 @@ import sunIconSVG from '../../assets/icon-sun.svg';
 import avatarPicture from '../../assets/image-avatar.jpg';
 
 const MainNavigation = () => {
-  const { isLoggedIn } = useSelector(state => state.auth);
+  const { isLoggedIn, tokenRemainingTime } = useSelector(state => state.auth);
+  const { remainingTime, setTimer } = useCountdown(tokenRemainingTime);
   const [theme, setTheme] = useState('dark');
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,6 +26,14 @@ const MainNavigation = () => {
   const changeThemeHandler = () => {
     setTheme(prevState => (prevState === 'light' ? 'dark' : 'light'));
   };
+
+  useEffect(() => {
+    setTimer(tokenRemainingTime);
+
+    return () => {
+      setTimer();
+    };
+  }, [setTimer, tokenRemainingTime]);
 
   const logoutHandler = () => {
     dispatch(authActions.logoutUser());
@@ -41,9 +51,9 @@ const MainNavigation = () => {
   return (
     <nav className={classes.nav} data-theme=''>
       <div className={classes.logo}>
-        <Link to='/'>
+        <NavLink to='/'>
           <img src={logo} alt='Logo' />
-        </Link>
+        </NavLink>
       </div>
       <ul>
         <li onClick={changeThemeHandler}>
@@ -55,25 +65,46 @@ const MainNavigation = () => {
         </li>
         {isLoggedIn && (
           <li>
-            <Link to='/invoices'>Invoices</Link>
+            <NavLink
+              className={({ isActive }) => (isActive ? classes.active : classes.inactive)}
+              to='/invoices'
+            >
+              Invoices
+            </NavLink>
           </li>
         )}
         <li>
-          <Link to='/about'>About</Link>
+          <NavLink
+            className={({ isActive }) => (isActive ? classes.active : classes.inactive)}
+            to='/about'
+          >
+            About
+          </NavLink>
         </li>
         {isLoggedIn && (
           <li>
-            <Link to='/profile'>Profile</Link>
+            <NavLink
+              to='/profile'
+              className={({ isActive }) => (isActive ? classes.active : classes.inactive)}
+            >
+              Profile
+            </NavLink>
           </li>
         )}
         {!isLoggedIn && (
           <li>
-            <Link to='/auth'>Login</Link>
+            <NavLink
+              className={({ isActive }) => (isActive ? classes.active : classes.inactive)}
+              to='/auth'
+            >
+              Login
+            </NavLink>
           </li>
         )}
         {isLoggedIn && (
           <li>
             <p onClick={logoutHandler}>Logout</p>
+            <p className={classes.timer}>{remainingTime}</p>
           </li>
         )}
         {/* <li>

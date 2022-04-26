@@ -26,7 +26,18 @@
   align-items: center;
 }
 
-.nav ul li a,
+.nav ul li .timer {
+  position: absolute;
+  bottom: 15%;
+  font-size: 0.6rem;
+}
+.nav ul li .timer:hover {
+  text-decoration: none;
+  color: inherit;
+  cursor: default;
+}
+
+.inactive,
 .nav ul li p {
   cursor: pointer;
   color: var(--nav-link-color);
@@ -35,6 +46,12 @@
 }
 .nav ul li a:hover,
 .nav ul li p:hover {
+  color: var(--primary-color-100);
+  transition: all 200ms ease-in;
+  text-decoration: underline;
+}
+
+.active {
   color: var(--primary-color-100);
   transition: all 200ms ease-in;
   text-decoration: underline;
