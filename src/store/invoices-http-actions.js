@@ -115,7 +115,7 @@ export const updateInvoice = (updatedInvoice, invoiceId) => {
     );
     if (response.error || !response) return;
     dispatch(
-      invoicesActions.submittedFormUpdateInvoiceHandler({
+      invoicesActions.submittedFormUpdateInvoice({
         updatedInvoice,
         invoiceId,
       })
@@ -139,7 +139,7 @@ export const sendNewInvoice = newInvoice => {
     });
     if (response.error || !response) return;
     dispatch(
-      invoicesActions.submittedFormNewInvoiceHandler({
+      invoicesActions.submittedFormNewInvoice({
         newInvoice,
         newId: response.name,
       })
