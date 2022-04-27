@@ -26,7 +26,7 @@ const useCountdown = (initialTimer = 0) => {
   };
 
   const timer = displayTime();
-  return { remainingTime: timer, setTimer };
+  return { remainingTime: timer, setTimer, remainingTimeInSecs: remainingTime };
 };
 
 export default useCountdown;
