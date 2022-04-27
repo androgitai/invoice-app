@@ -5,6 +5,8 @@ const uiSlice = createSlice({
   initialState: {
     isLoading: false,
     notification: null,
+    showLogoutModal: false,
+    logoutWarned: true,
   },
   reducers: {
     setIsLoading(state) {
@@ -22,6 +24,18 @@ const uiSlice = createSlice({
         };
       }
       if (!action.payload) state.notification = null;
+    },
+    showLogoutModal(state) {
+      state.showLogoutModal = true;
+    },
+    hideLogoutModal(state) {
+      state.showLogoutModal = false;
+    },
+    logoutWarnedTrue(state) {
+      state.logoutWarned = true;
+    },
+    logoutWarnedFalse(state) {
+      state.logoutWarned = false;
     },
   },
 });
