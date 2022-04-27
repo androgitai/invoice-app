@@ -48,7 +48,7 @@ const invoicesSlice = createSlice({
         state.totalInvoices = state.invoices.length;
       }
     },
-    submittedFormUpdateInvoiceHandler(state, action) {
+    submittedFormUpdateInvoice(state, action) {
       const { updatedInvoice, invoiceId } = action.payload;
       const invoiceIndex = state.invoices.findIndex(item => {
         return Object.keys(item)[0] === invoiceId;
@@ -59,7 +59,7 @@ const invoicesSlice = createSlice({
         state.totalInvoices = state.invoices.length;
       }
     },
-    submittedFormNewInvoiceHandler(state, action) {
+    submittedFormNewInvoice(state, action) {
       const { newInvoice, newId } = action.payload;
       state.invoices.push({ [newId]: newInvoice });
       state.totalInvoices = state.invoices.length;
