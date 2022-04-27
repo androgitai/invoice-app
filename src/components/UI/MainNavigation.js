@@ -10,14 +10,31 @@ import classes from './MainNavigation.module.css';
 import logo from '../../assets/logo.svg';
 import moonIconSVG from '../../assets/icon-moon.svg';
 import sunIconSVG from '../../assets/icon-sun.svg';
+import LogoutWarningModal from './Modals/LogoutWarningModal';
 import avatarPicture from '../../assets/image-avatar.jpg';
 
 const MainNavigation = () => {
   const { isLoggedIn, tokenRemainingTime } = useSelector(state => state.auth);
-  const { remainingTime, setTimer } = useCountdown(tokenRemainingTime);
+  const { showLogoutModal, logoutWarned } = useSelector(state => state.ui);
+  const { remainingTime, setTimer, remainingTimeInSecs } = useCountdown(tokenRemainingTime);
   const [theme, setTheme] = useState('dark');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setTimer(tokenRemainingTime);
+    dispatch(uiActions.logoutWarnedFalse());
+    return () => {
+      setTimer();
+    };
+  }, [dispatch, setTimer, tokenRemainingTime]);
+
+  useEffect(() => {
+    if (isLoggedIn && !logoutWarned && remainingTimeInSecs !== 0 && remainingTimeInSecs < 300000) {
+      dispatch(uiActions.showLogoutModal());
+      dispatch(uiActions.logoutWarnedTrue());
+    }
+  }, [dispatch, remainingTimeInSecs, showLogoutModal, logoutWarned, isLoggedIn]);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -26,14 +43,6 @@ const MainNavigation = () => {
   const changeThemeHandler = () => {
     setTheme(prevState => (prevState === 'light' ? 'dark' : 'light'));
   };
-
-  useEffect(() => {
-    setTimer(tokenRemainingTime);
-
-    return () => {
-      setTimer();
-    };
-  }, [setTimer, tokenRemainingTime]);
 
   const logoutHandler = () => {
     dispatch(authActions.logoutUser());
@@ -45,11 +54,14 @@ const MainNavigation = () => {
         message: `You have successfully logged out!`,
       })
     );
+    dispatch(uiActions.hideLogoutModal());
+    dispatch(uiActions.logoutWarnedFalse());
     navigate('/');
   };
 
   return (
     <nav className={classes.nav} data-theme=''>
+      {showLogoutModal && <LogoutWarningModal onLogout={logoutHandler} />}
       <div className={classes.logo}>
         <NavLink to='/'>
           <img src={logo} alt='Logo' />
