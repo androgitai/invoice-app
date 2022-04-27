@@ -5,7 +5,8 @@ let initialIdToken = '';
 let initialUserId = '';
 let initialRefreshToken = '';
 let initialRemainingTime = 0;
-
+let initialtokenExpiryTime = 0;
+let isLoggedIn = false;
 let localStorageTokenTime = +localStorage.getItem('idTokenExpiryTime');
 
 if (localStorageTokenTime > 0 && +calculateRemainingTime(localStorageTokenTime) > 300000) {
@@ -13,19 +14,23 @@ if (localStorageTokenTime > 0 && +calculateRemainingTime(localStorageTokenTime) 
   initialIdToken = localStorage.getItem('idToken');
   initialUserId = localStorage.getItem('userId');
   initialRefreshToken = localStorage.getItem('refreshToken');
+  initialtokenExpiryTime = localStorageTokenTime;
+  isLoggedIn = initialIdToken && true;
 }
+const initialState = {
+  isLoading: false,
+  isLogin: true,
+  isLoggedIn,
+  userId: initialUserId,
+  idToken: initialIdToken,
+  refreshToken: initialRefreshToken,
+  tokenRemainingTime: initialRemainingTime,
+  tokenExpiryTime: initialtokenExpiryTime,
+};
 
 const authSlice = createSlice({
   name: 'authSlice',
-  initialState: {
-    isLoading: false,
-    isLogin: true,
-    isLoggedIn: initialIdToken && initialRemainingTime !== 0 ? true : false,
-    idToken: initialIdToken,
-    userId: initialUserId,
-    tokenRemainingTime: initialRemainingTime,
-    refreshToken: initialRefreshToken ? initialRefreshToken : '',
-  },
+  initialState,
   reducers: {
     setIsLoading(state) {
       state.isLoading = true;
@@ -35,18 +40,6 @@ const authSlice = createSlice({
     },
     toggleIsLogin(state) {
       state.isLogin = !state.isLogin;
-    },
-    logoutUser(state) {
-      state.idToken = '';
-      state.isLoggedIn = false;
-      state.isLogin = true;
-      state.userId = '';
-      state.tokenExpiryTime = 0;
-      state.tokenRemainingTime = 0;
-      localStorage.removeItem('idToken');
-      localStorage.removeItem('userId');
-      localStorage.removeItem('idTokenExpiryTime');
-      localStorage.removeItem('refreshToken');
     },
     loginUser(state, action) {
       const { idToken, localId, expiresIn, refreshToken } = action.payload;
@@ -64,10 +57,26 @@ const authSlice = createSlice({
       localStorage.setItem('userId', localId);
       localStorage.setItem('idTokenExpiryTime', tokenExpiryTime);
     },
+    logoutUser(state) {
+      state.idToken = '';
+      state.isLoggedIn = false;
+      state.isLogin = true;
+      state.userId = '';
+      state.tokenExpiryTime = '';
+      state.tokenRemainingTime = '';
+      localStorage.removeItem('idToken');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('idTokenExpiryTime');
+      localStorage.removeItem('refreshToken');
+    },
     userPasswordChange(state, action) {
-      const { idToken, expiresIn } = action.payload;
+      const { idToken, expiresIn, refreshToken } = action.payload;
       state.idToken = idToken;
-      state.expiresIn = expiresIn;
+      state.refreshToken = refreshToken;
+      const tokenExpiryTime = calculateExpiryTime(expiresIn);
+      state.tokenExpiryTime = tokenExpiryTime;
+      const tokenRemainingTime = calculateRemainingTime(tokenExpiryTime);
+      state.tokenRemainingTime = tokenRemainingTime;
     },
     refreshToken(state, action) {
       const { id_token, refresh_token, expires_in } = action.payload;
