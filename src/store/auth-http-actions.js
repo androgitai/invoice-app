@@ -120,8 +120,9 @@ export const changeUserPassword = (newPassword, confirmNewPassword) => {
   };
 };
 
-export const refreshUserToken = refreshToken => {
+export const refreshUserToken = () => {
   return async dispatch => {
+    const { refreshToken } = store.getState().auth;
     const authDetails = await authHttp(dispatch, tokenRefreshURL, {
       method: 'POST',
       body: `grant_type=refresh_token&refresh_token=${refreshToken}`,
@@ -129,7 +130,23 @@ export const refreshUserToken = refreshToken => {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
-    if (authDetails.error) return;
+    if (authDetails.error) {
+      dispatch(
+        uiActions.showNotification({
+          status: 'error',
+          title: 'Error!',
+          message: `Something went wrong... Please logout & login again...`,
+        })
+      );
+      return;
+    }
+    dispatch(
+      uiActions.showNotification({
+        status: 'success',
+        title: 'Update',
+        message: `Your login status remians. You have one hour before automatic logout!`,
+      })
+    );
     dispatch(authActions.refreshToken(authDetails));
   };
 };
