@@ -7,6 +7,7 @@ const uiSlice = createSlice({
     notification: null,
     showLogoutModal: false,
     logoutWarned: true,
+    showDetailsConfirmModal: false,
   },
   reducers: {
     setIsLoading(state) {
@@ -36,6 +37,9 @@ const uiSlice = createSlice({
     },
     logoutWarnedFalse(state) {
       state.logoutWarned = false;
+    },
+    toggleProfileModal(state) {
+      state.showDetailsConfirmModal = !state.showDetailsConfirmModal;
     },
   },
 });
