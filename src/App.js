@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllInvoices, populateServer } from './store/invoices-http-actions';
 import { uiActions } from './store/ui-slice';
 import { authActions } from './store/auth-slice';
+import { fetchProfile } from './store/profile-http-actions';
 
 import Layout from './components/UI/Layout/Layout';
 import NotFound from './components/UI/Elements/NotFound';
@@ -49,6 +50,7 @@ function App() {
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(fetchAllInvoices());
+      dispatch(fetchProfile());
     }
   }, [dispatch, idToken, userId, isLoggedIn]);
 
