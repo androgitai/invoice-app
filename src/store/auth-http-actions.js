@@ -1,5 +1,6 @@
 import { uiActions } from './ui-slice';
 import { authActions } from './auth-slice';
+import { fetchProfile, setupProfile } from './profile-http-actions';
 import store from './index';
 
 const signUpURL =
@@ -62,7 +63,9 @@ export const registerUser = (enteredEmail, enteredPassrord) => {
         message: `You have successfully registered!`,
       })
     );
-    dispatch(authActions.toggleIsLogin(authDetails));
+    // dispatch(authActions.toggleIsLogin());
+    dispatch(setupProfile(authDetails));
+    dispatch(authActions.loginUser(authDetails));
   };
 };
 
@@ -81,6 +84,7 @@ export const loginUser = (enteredEmail, enteredPassrord) => {
     });
     if (authDetails.error) return authDetails;
     dispatch(authActions.loginUser(authDetails));
+    dispatch(fetchProfile(authDetails));
   };
 };
 
