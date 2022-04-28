@@ -39,18 +39,19 @@ const AuthForm = () => {
     <section className={classes.auth} key={isLogin}>
       <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
       <form onSubmit={submitHandler}>
-        <div className={classes.control}>
+        <fieldset className={classes.control}>
           <label htmlFor='email'>Your Email</label>
-          <input type='email' id='email' required ref={emailInputRef} />
-        </div>
-        <div className={classes.control}>
+          <input type='email' id='email' name='email' min='6' ref={emailInputRef} />
+        </fieldset>
+        <fieldset className={classes.control}>
           <label htmlFor='password'>Your Password</label>
-          <input type='password' id='password' required ref={passwordInputRef} />
-        </div>
-        <div className={classes.actions}>
+          <input type='password' id='password' name='password' min='6' ref={passwordInputRef} />
+        </fieldset>
+        <fieldset className={classes.actions}>
           <Button type='submit' btnType='primary' disabled={isLoading}>
             {isLoading ? 'Loading...' : isLogin ? 'Login' : 'Create Account'}
           </Button>
+          {isLogin && <p>You don't have an account? Why not create one?</p>}
           <Button
             disabled={isLoading}
             btnType='discard'
@@ -59,7 +60,7 @@ const AuthForm = () => {
           >
             {isLogin ? 'Create new account' : 'Login with existing account'}
           </Button>
-        </div>
+        </fieldset>
       </form>
     </section>
   );

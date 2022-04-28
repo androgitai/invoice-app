@@ -20,6 +20,11 @@
   color: var(--primary-text-color);
   margin: 1rem 0 2rem;
 }
+.auth p {
+  text-align: center;
+  color: var(--primary-text-color);
+  margin: 2rem 0 0.2rem;
+}
 
 .control {
   margin: 1rem;
@@ -55,7 +60,7 @@
 }
 
 .actions {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,6 +68,6 @@
 }
 
 .actions button {
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   width: 60%;
 }
