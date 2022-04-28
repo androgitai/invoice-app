@@ -1,40 +1,61 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useRef } from 'react';
-import { changeUserPassword } from '../../store/auth-http-actions';
-
 import classes from './ProfileForm.module.css';
 import Button from '../UI/Elements/Button';
+import { useDispatch } from 'react-redux';
+import { uiActions } from '../../store/ui-slice';
+import { updateProfile } from '../../store/profile-http-actions';
 
-const ProfileForm = () => {
-  const idToken = useSelector(state => state.auth.idToken);
+const Profile = props => {
   const dispatch = useDispatch();
-  const newPasswordInputRef = useRef();
-  const confirmNewPasswordInputRef = useRef();
 
-  const passwordChangeSubitHandler = event => {
+  const showConfirmModalHandler = event => {
+    // dispatch(uiActions.toggleProfileModal());
     event.preventDefault();
-    const newPassword = newPasswordInputRef.current.value;
-    const confirmNewPassword = confirmNewPasswordInputRef.current.value;
-    dispatch(changeUserPassword(newPassword, confirmNewPassword));
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+    dispatch(updateProfile(data));
   };
 
   return (
-    <form className={classes.form} onSubmit={passwordChangeSubitHandler} key={idToken}>
-      <div className={classes.control}>
-        <label htmlFor='new-password'>New Password</label>
-        <input type='password' id='new-password' ref={newPasswordInputRef} />
-      </div>
-      <div className={classes.control}>
-        <label htmlFor='confirm-new-password'>Confirm New Password</label>
-        <input type='password' id='confirm-new-password' ref={confirmNewPasswordInputRef} />
-      </div>
-      <div className={classes.action}>
-        <Button btnType='primary' type='submit'>
-          Change Password
-        </Button>
-      </div>
+    <form className={classes.profileText} onSubmit={showConfirmModalHandler}>
+      <label htmlFor='name' id='name'>
+        Name:
+      </label>
+      <input type='text' id='name' name='name' defaultValue={props.profileData.name} />
+      <label htmlFor='phone' id='phone1'>
+        Phone:
+      </label>
+      <input type='text' id='phone1' name='phone1' defaultValue={props.profileData.phone1} />
+      <label htmlFor='email' id='email'>
+        Email:
+      </label>
+      <input type='email' id='email' name='email' defaultValue={props.profileData.email} />
+      <label htmlFor='address' id='address'>
+        Default Address:
+      </label>
+      <input
+        type='text'
+        id='address.street'
+        name='street'
+        defaultValue={props.profileData.street}
+      />
+      <input type='text' id='address.city' name='city' defaultValue={props.profileData.city} />
+      <input
+        type='text'
+        id='address.postCode'
+        name='postCode'
+        defaultValue={props.profileData.postCode}
+      />
+      <input
+        type='text'
+        id='address.country'
+        name='country'
+        defaultValue={props.profileData.country}
+      />
+      <Button btnType='primary' type='submit'>
+        Change Profile Details
+      </Button>
     </form>
   );
 };
 
-export default ProfileForm;
+export default Profile;
