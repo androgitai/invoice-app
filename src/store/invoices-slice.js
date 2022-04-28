@@ -80,6 +80,18 @@ const invoicesSlice = createSlice({
         state.filterBy.push(filterTerm);
       }
     },
+    updateInvoiceFormTemplate(state, action) {
+      const newProfile = action.payload;
+      state.emptyFormTemplate = {
+        ...state.emptyFormTemplate,
+        senderAddress: {
+          street: newProfile.street,
+          city: newProfile.city,
+          postCode: newProfile.postCode,
+          country: newProfile.country,
+        },
+      };
+    },
   },
 });
 
