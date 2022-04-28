@@ -8,10 +8,10 @@ export const emptyFormTemplate = {
   clientEmail: '',
   status: '',
   senderAddress: {
-    street: '19 Union Terrace',
-    city: 'London',
-    postCode: 'E1 3EZ',
-    country: 'United Kingdom',
+    street: '',
+    city: '',
+    postCode: '',
+    country: '',
   },
   clientAddress: {
     street: '',
