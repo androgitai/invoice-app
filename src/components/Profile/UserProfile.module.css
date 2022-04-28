@@ -1,8 +1,18 @@
 .profile {
-  margin: 6rem auto;
-  text-align: center;
+  max-width: 1280px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
 }
 
-.profile h1 {
-  font-size: 3rem;
+.profileHead {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2rem;
+  margin: 2rem;
+}
+
+.profilePic {
+  border-radius: 50%;
 }
