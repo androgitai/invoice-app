@@ -68,21 +68,3 @@ export const updateProfile = updatedProfile => {
     );
   };
 };
-export const setupProfile = authDetails => {
-  return async dispatch => {
-    const { localId: userId, idToken } = authDetails;
-    const response = await profileHttp(dispatch, `/users/${userId}/profile.json?auth=${idToken}`, {
-      method: 'PUT',
-      body: JSON.stringify(initialProfileState),
-    });
-    if (response.error || !response) return;
-    dispatch(profileActions.setProfile(initialProfileState));
-    dispatch(
-      uiActions.showNotification({
-        status: 'success',
-        title: 'Success!',
-        message: 'Profile successfully created!',
-      })
-    );
-  };
-};
