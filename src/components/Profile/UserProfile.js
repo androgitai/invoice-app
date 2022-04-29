@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import PasswordForm from './PasswordForm';
 import classes from './UserProfile.module.css';
 import ProfileForm from './ProfileForm';
-import avatarPic from '../../assets/image-avatar.jpg';
 import Card from '../UI/Layout/Card';
 import ProfileConfirmModal from '../UI/Modals/ProfileConfirmModal';
+import Avatar from '../UI/Elements/Avatar';
 
 const UserProfile = () => {
   const showDetailsConfirmModal = useSelector(state => state.ui.showDetailsConfirmModal);
@@ -15,7 +15,7 @@ const UserProfile = () => {
     <section className={classes.profile}>
       {showDetailsConfirmModal && <ProfileConfirmModal />}
       <div className={classes.profileHead}>
-        <img src={avatarPic} alt='Profile Pic' className={classes.profilePic} />
+        <Avatar />
         <h1 className={classes.profileH1}>{profile.name}</h1>
       </div>
       <div className={classes.profileDetails}>
