@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { authActions } from '../../store/auth-slice';
 import { uiActions } from '../../store/ui-slice';
-import { invoicesActions } from '../../store/invoices-slice';
 import useCountdown from '../../hooks/use-countdown';
 
 import classes from './MainNavigation.module.css';
@@ -11,15 +9,15 @@ import logo from '../../assets/logo.svg';
 import moonIconSVG from '../../assets/icon-moon.svg';
 import sunIconSVG from '../../assets/icon-sun.svg';
 import LogoutWarningModal from './Modals/LogoutWarningModal';
-import avatarPicture from '../../assets/image-avatar.jpg';
+import Avatar from './Elements/Avatar';
+import UserMenu from './Elements/UserMenu';
 
 const MainNavigation = () => {
   const { isLoggedIn, tokenRemainingTime } = useSelector(state => state.auth);
-  const { showLogoutModal, logoutWarned } = useSelector(state => state.ui);
+  const { showLogoutModal, logoutWarned, showUserMenuModal } = useSelector(state => state.ui);
   const { remainingTime, setTimer, remainingTimeInSecs } = useCountdown(tokenRemainingTime);
   const [theme, setTheme] = useState('dark');
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     setTimer(tokenRemainingTime);
@@ -44,24 +42,9 @@ const MainNavigation = () => {
     setTheme(prevState => (prevState === 'light' ? 'dark' : 'light'));
   };
 
-  const logoutHandler = () => {
-    dispatch(authActions.logoutUser());
-    dispatch(invoicesActions.resetInvoiceData());
-    dispatch(
-      uiActions.showNotification({
-        status: 'success',
-        title: 'Logout',
-        message: `You have successfully logged out!`,
-      })
-    );
-    dispatch(uiActions.hideLogoutModal());
-    dispatch(uiActions.logoutWarnedFalse());
-    navigate('/');
-  };
-
   return (
-    <nav className={classes.nav} data-theme=''>
-      {showLogoutModal && <LogoutWarningModal onLogout={logoutHandler} />}
+    <nav className={classes.nav} data-theme={isLoggedIn ? 'fluid' : ''}>
+      {showLogoutModal && <LogoutWarningModal />}
       <div className={classes.logo}>
         <NavLink to='/'>
           <img src={logo} alt='Logo' />
@@ -75,31 +58,13 @@ const MainNavigation = () => {
             <img src={sunIconSVG} alt='Color mode button' />
           )}
         </li>
-        {isLoggedIn && (
+        {!isLoggedIn && (
           <li>
             <NavLink
               className={({ isActive }) => (isActive ? classes.active : classes.inactive)}
-              to='/invoices'
+              to='/about'
             >
-              Invoices
-            </NavLink>
-          </li>
-        )}
-        <li>
-          <NavLink
-            className={({ isActive }) => (isActive ? classes.active : classes.inactive)}
-            to='/about'
-          >
-            About
-          </NavLink>
-        </li>
-        {isLoggedIn && (
-          <li>
-            <NavLink
-              to='/profile'
-              className={({ isActive }) => (isActive ? classes.active : classes.inactive)}
-            >
-              Profile
+              About
             </NavLink>
           </li>
         )}
@@ -115,13 +80,11 @@ const MainNavigation = () => {
         )}
         {isLoggedIn && (
           <li>
-            <p onClick={logoutHandler}>Logout</p>
-            <p className={classes.timer}>{remainingTime}</p>
+            <Avatar avatarType='nav'>
+              {isLoggedIn && showUserMenuModal && <UserMenu remainingTime={remainingTime} />}
+            </Avatar>
           </li>
         )}
-        {/* <li>
-          <img className={classes.avatar} src={avatarPicture} alt='Avatar' />
-        </li> */}
       </ul>
     </nav>
   );

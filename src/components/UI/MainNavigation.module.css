@@ -1,13 +1,11 @@
 .nav {
   display: flex;
   position: relative;
-  top: 0;
   background: var(--secondary-bg-color);
   height: 72px;
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  z-index: 30;
 }
 
 .nav ul {
@@ -24,37 +22,27 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.nav ul li .timer {
-  position: absolute;
-  bottom: 15%;
-  font-size: 0.6rem;
-}
-.nav ul li .timer:hover {
-  text-decoration: none;
-  color: inherit;
-  cursor: default;
+  text-align: center;
 }
 
 .inactive,
-.nav ul li p {
+.nav ul li p,
+.nav ul li a {
   cursor: pointer;
   color: var(--nav-link-color);
   text-decoration: none;
   font-size: 0.9rem;
 }
-.nav ul li a:hover,
-.nav ul li p:hover {
+.inactive:hover,
+.nav ul li p:hover,
+.nav ul li a:hover {
   color: var(--primary-color-100);
   transition: all 200ms ease-in;
-  text-decoration: underline;
 }
 
 .active {
   color: var(--primary-color-100);
   transition: all 200ms ease-in;
-  text-decoration: underline;
 }
 
 .logo {
@@ -116,8 +104,8 @@
   .nav[data-theme='fluid'] ul li {
     height: 50%;
     width: 100%;
-    position: relative;
     cursor: pointer;
+    padding: 0;
   }
 
   .nav[data-theme='fluid'] ul li:first-child {
@@ -134,10 +122,6 @@
   }
   .nav[data-theme='fluid'] .logo img {
     height: 37px;
-    width: 40px;
-  }
-  .nav[data-theme='fluid'] .avatar {
-    border-radius: 50%;
     width: 40px;
   }
 }
