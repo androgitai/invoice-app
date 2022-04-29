@@ -1,6 +1,12 @@
-.layout {
+.layout,
+.layoutFluid {
   width: 100%;
   margin: 0 auto;
   background-color: var(--primary-bg-color-300);
-  position: relative;
+}
+@media screen and (min-width: 1020px) {
+  .layoutFluid {
+    width: calc(100% - 103px);
+    margin: 0 auto 0 103px;
+  }
 }
