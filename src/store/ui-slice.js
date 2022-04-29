@@ -1,14 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+  isLoading: false,
+  notification: null,
+  showLogoutModal: false,
+  logoutWarned: true,
+  showDetailsConfirmModal: false,
+  showUserMenuModal: false,
+};
+
 const uiSlice = createSlice({
   name: 'uiSlice',
-  initialState: {
-    isLoading: false,
-    notification: null,
-    showLogoutModal: false,
-    logoutWarned: true,
-    showDetailsConfirmModal: false,
-  },
+  initialState,
   reducers: {
     setIsLoading(state) {
       state.isLoading = true;
@@ -40,6 +43,9 @@ const uiSlice = createSlice({
     },
     toggleProfileModal(state) {
       state.showDetailsConfirmModal = !state.showDetailsConfirmModal;
+    },
+    toggleUserMenuModal(state) {
+      state.showUserMenuModal = !state.showUserMenuModal;
     },
   },
 });
