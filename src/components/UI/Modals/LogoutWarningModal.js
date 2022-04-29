@@ -1,8 +1,12 @@
 import ReactDOM from 'react-dom';
 import { Fragment } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { uiActions } from '../../../store/ui-slice';
+import { authActions } from '../../../store/auth-slice';
+import { invoicesActions } from '../../../store/invoices-slice';
 import { refreshUserToken } from '../../../store/auth-http-actions';
+import { profileActions } from '../../../store/profile-slice';
 
 import Button from '../Elements/Button';
 import Card from '../Layout/Card';
@@ -29,6 +33,7 @@ const ModalOverlay = props => {
 };
 
 const LogoutWarningModal = props => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const stayLoggedInHandler = () => {
@@ -36,11 +41,27 @@ const LogoutWarningModal = props => {
     dispatch(uiActions.hideLogoutModal());
   };
 
+  const logoutHandler = () => {
+    dispatch(invoicesActions.resetInvoiceData());
+    dispatch(profileActions.clearProfile());
+    dispatch(authActions.logoutUser());
+    dispatch(
+      uiActions.showNotification({
+        status: 'success',
+        title: 'Logout',
+        message: `You have successfully logged out!`,
+      })
+    );
+    dispatch(uiActions.hideLogoutModal());
+    dispatch(uiActions.logoutWarnedFalse());
+    navigate('/');
+  };
+
   return (
     <Fragment>
       {ReactDOM.createPortal(<Backdrop />, document.getElementById('backdrop-root'))}
       {ReactDOM.createPortal(
-        <ModalOverlay onLogout={props.onLogout} onStayLoggedIn={stayLoggedInHandler} />,
+        <ModalOverlay onLogout={logoutHandler} onStayLoggedIn={stayLoggedInHandler} />,
         document.getElementById('overlay-root')
       )}
     </Fragment>
