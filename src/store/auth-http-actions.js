@@ -1,6 +1,6 @@
 import { uiActions } from './ui-slice';
 import { authActions } from './auth-slice';
-import { fetchProfile, setupProfile } from './profile-http-actions';
+import { fetchProfile } from './profile-http-actions';
 import store from './index';
 
 const signUpURL =
@@ -63,8 +63,6 @@ export const registerUser = (enteredEmail, enteredPassrord) => {
         message: `You have successfully registered!`,
       })
     );
-    // dispatch(authActions.toggleIsLogin());
-    dispatch(setupProfile(authDetails));
     dispatch(authActions.loginUser(authDetails));
   };
 };
