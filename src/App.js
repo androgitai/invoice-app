@@ -6,14 +6,15 @@ import { uiActions } from './store/ui-slice';
 import { authActions } from './store/auth-slice';
 import { fetchProfile } from './store/profile-http-actions';
 
-import Layout from './components/UI/Layout/Layout';
-import NotFound from './components/UI/Elements/NotFound';
 import InvoiceDetailsPage from './pages/InvoiceDetailsPage';
 import InvoicesPage from './pages/InvoicesPage';
 import Notification from './components/UI/Elements/Notification';
 import HomePage from './pages/HomePage';
 import AuthPage from './pages/AuthPage';
 import ProfilePage from './pages/ProfilePage';
+import AboutPage from './pages/AboutPage';
+import NotFound from './components/UI/Elements/NotFound';
+import Layout from './components/UI/Layout/Layout';
 import initialData from './assets/data.json';
 import Spinner from './components/UI/Elements/Spinner';
 
@@ -61,7 +62,7 @@ function App() {
       {notification && <Notification notification={notification} />}
       <Routes>
         <Route path='/' element={<HomePage />} />
-        <Route path='/about' element={<NotFound />} />
+        <Route path='/about' element={<AboutPage />} />
         {isLoggedIn && <Route path='/profile' element={<ProfilePage />} />}
         {!isLoggedIn && <Route path='/auth' element={<AuthPage />} />}
         {isLoggedIn && <Route path='/invoices' element={<InvoicesPage />} />}
