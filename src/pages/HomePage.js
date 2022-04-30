@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 
-import Home from '../components/Home/Home';
+import Home from '../components/Home/Hero';
 
 const HomePage = () => {
   return (
