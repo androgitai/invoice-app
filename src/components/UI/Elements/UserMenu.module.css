@@ -17,8 +17,3 @@
   color: var(--primary-color-100) !important;
   transition: all 200ms ease-in;
 }
-
-.timer {
-  width: 3rem;
-  font-size: 0.6rem !important;
-}

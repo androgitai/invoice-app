@@ -3,11 +3,12 @@ import { useDispatch } from 'react-redux';
 import { invoicesActions } from '../../../store/invoices-slice';
 import { authActions } from '../../../store/auth-slice';
 import { uiActions } from '../../../store/ui-slice';
+import Timer from './Timer';
 
 import Card from '../Layout/Card';
 import classes from './UserMenu.module.css';
 
-const UserMenu = props => {
+const UserMenu = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -55,7 +56,7 @@ const UserMenu = props => {
         </li>
         <li onClick={logoutHandler}>
           <p>Logout</p>
-          <p className={classes.timer}>({props.remainingTime})</p>
+          <Timer />
         </li>
       </ul>
     </Card>
