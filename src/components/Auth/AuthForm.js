@@ -13,6 +13,7 @@ const AuthForm = () => {
   const navigate = useNavigate();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
+  const nameInputRef = useRef();
 
   const switchAuthModeHandler = () => {
     dispatch(authActions.toggleIsLogin());
@@ -26,7 +27,8 @@ const AuthForm = () => {
     //validation
 
     if (!isLogin) {
-      dispatch(registerUser(enteredEmail, enteredPassrord));
+      const enteredName = nameInputRef.current.value;
+      dispatch(registerUser(enteredEmail, enteredPassrord, enteredName));
     }
     if (isLogin) {
       dispatch(loginUser(enteredEmail, enteredPassrord)).then(data => {
@@ -39,6 +41,12 @@ const AuthForm = () => {
     <section className={classes.auth} key={isLogin}>
       <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
       <form onSubmit={submitHandler}>
+        {!isLogin && (
+          <fieldset className={classes.control}>
+            <label htmlFor='email'>Name</label>
+            <input type='name' id='name' name='name' min='1' ref={nameInputRef} />
+          </fieldset>
+        )}
         <fieldset className={classes.control}>
           <label htmlFor='email'>Your Email</label>
           <input type='email' id='email' name='email' min='6' ref={emailInputRef} />
