@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { uiActions } from '../../store/ui-slice';
-import useCountdown from '../../hooks/use-countdown';
 
 import classes from './MainNavigation.module.css';
 import logo from '../../assets/logo.svg';
@@ -13,33 +12,17 @@ import Avatar from './Elements/Avatar';
 import UserMenu from './Elements/UserMenu';
 
 const MainNavigation = () => {
-  const { isLoggedIn, tokenRemainingTime } = useSelector(state => state.auth);
-  const { showLogoutModal, logoutWarned, showUserMenuModal } = useSelector(state => state.ui);
-  const { remainingTime, setTimer, remainingTimeInSecs } = useCountdown(tokenRemainingTime);
-  const [theme, setTheme] = useState('dark');
+  const themeMode = useSelector(state => state.ui.themeMode);
+  const { isLoggedIn } = useSelector(state => state.auth);
+  const { showLogoutModal, showUserMenuModal } = useSelector(state => state.ui);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setTimer(tokenRemainingTime);
-    dispatch(uiActions.logoutWarnedFalse());
-    return () => {
-      setTimer();
-    };
-  }, [dispatch, setTimer, tokenRemainingTime]);
-
-  useEffect(() => {
-    if (isLoggedIn && !logoutWarned && remainingTimeInSecs !== 0 && remainingTimeInSecs < 300000) {
-      dispatch(uiActions.showLogoutModal());
-      dispatch(uiActions.logoutWarnedTrue());
-    }
-  }, [dispatch, remainingTimeInSecs, showLogoutModal, logoutWarned, isLoggedIn]);
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
+    document.documentElement.setAttribute('data-theme', themeMode);
+  }, [themeMode]);
 
   const changeThemeHandler = () => {
-    setTheme(prevState => (prevState === 'light' ? 'dark' : 'light'));
+    dispatch(uiActions.toggleThemeMode());
   };
 
   return (
@@ -52,7 +35,7 @@ const MainNavigation = () => {
       </div>
       <ul>
         <li onClick={changeThemeHandler}>
-          {theme === 'light' ? (
+          {themeMode === 'light' ? (
             <img src={moonIconSVG} alt='Color mode button' />
           ) : (
             <img src={sunIconSVG} alt='Color mode button' />
@@ -80,9 +63,7 @@ const MainNavigation = () => {
         )}
         {isLoggedIn && (
           <li>
-            <Avatar avatarType='nav'>
-              {isLoggedIn && showUserMenuModal && <UserMenu remainingTime={remainingTime} />}
-            </Avatar>
+            <Avatar avatarType='nav'>{isLoggedIn && showUserMenuModal && <UserMenu />}</Avatar>
           </li>
         )}
       </ul>

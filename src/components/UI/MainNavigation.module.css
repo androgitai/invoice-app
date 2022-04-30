@@ -1,11 +1,12 @@
 .nav {
   display: flex;
-  position: relative;
+  position: fixed;
   background: var(--secondary-bg-color);
   height: 72px;
   width: 100%;
   justify-content: space-between;
   align-items: center;
+  z-index: 70;
 }
 
 .nav ul {
@@ -18,7 +19,7 @@
 }
 
 .nav ul li {
-  padding: 0 2rem;
+  padding: 0 1.4rem;
   display: flex;
   justify-content: center;
   align-items: center;
