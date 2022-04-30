@@ -12,6 +12,7 @@
   --primary-bg-color-200: #f9fafe;
   --primary-bg-color-300: #f8f8fb;
   --secondary-bg-color: #373b53;
+  --hero-background-backdrop: rgba(255, 255, 255, 0.7);
 
   --primary-text-color: #0c0e16;
   --secondary-text-color-100: #7e88c3;
@@ -70,6 +71,7 @@
 
   --primary-bg-color-100: #1e2139;
   --primary-bg-color-300: #141625;
+  --hero-background-backdrop: rgba(0, 0, 0, 0.8);
 
   --form-item-bg-color: #252945;
   --form-item-border-color: #252945;
@@ -261,15 +263,22 @@ p {
     word-spacing: -1px;
   }
 }
-@media screen and (min-width: 810px) {
-  :root {
-    --max-width: 730px;
-    --wrapper-padding-top: 4.5rem;
-  }
-}
 @media screen and (min-width: 960px) {
   :root {
-    --wrapper-margin-top: 4.5rem;
+    --wrapper-padding-top: 8.5rem;
+    --max-width: 730px;
     --list-margin-top: 4rem;
+  }
+}
+@media screen and (min-width: 1020px) {
+  :root {
+    --wrapper-padding-top: 6rem;
+    --max-width: 960px;
+  }
+}
+@media screen and (min-width: 1220px) {
+  :root {
+    --wrapper-padding-top: 7rem;
+    --max-width: 1080px;
   }
 }
