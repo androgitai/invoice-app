@@ -1,6 +1,7 @@
 import { uiActions } from './ui-slice';
 import { authActions } from './auth-slice';
 import { fetchProfile } from './profile-http-actions';
+import { updateProfile } from './profile-http-actions';
 import store from './index';
 
 const signUpURL =
@@ -42,7 +43,7 @@ const authHttp = async (dispatch, URL, options = {}) => {
   }
 };
 
-export const registerUser = (enteredEmail, enteredPassrord) => {
+export const registerUser = (enteredEmail, enteredPassrord, enteredName) => {
   return async dispatch => {
     const authDetails = await authHttp(dispatch, signUpURL, {
       method: 'POST',
@@ -64,6 +65,7 @@ export const registerUser = (enteredEmail, enteredPassrord) => {
       })
     );
     dispatch(authActions.loginUser(authDetails));
+    dispatch(updateProfile({ name: enteredName }));
   };
 };
 
