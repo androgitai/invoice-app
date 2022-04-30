@@ -7,6 +7,7 @@ const initialState = {
   logoutWarned: true,
   showDetailsConfirmModal: false,
   showUserMenuModal: false,
+  themeMode: 'dark',
 };
 
 const uiSlice = createSlice({
@@ -46,6 +47,9 @@ const uiSlice = createSlice({
     },
     toggleUserMenuModal(state) {
       state.showUserMenuModal = !state.showUserMenuModal;
+    },
+    toggleThemeMode(state) {
+      state.themeMode = state.themeMode === 'light' ? 'dark' : 'light';
     },
   },
 });
