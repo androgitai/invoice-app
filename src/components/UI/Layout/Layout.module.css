@@ -6,7 +6,6 @@
 }
 @media screen and (min-width: 1020px) {
   .layoutFluid {
-    width: calc(100% - 103px);
-    margin: 0 auto 0 103px;
+    padding-left: 103px;
   }
 }
