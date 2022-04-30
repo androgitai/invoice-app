@@ -85,3 +85,38 @@
   padding: 0;
   height: auto;
 }
+
+.hero {
+  width: 18rem;
+  height: 3.5rem;
+  font-size: 1.2rem;
+  animation: button 2.5s forwards infinite;
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text-color);
+}
+.hero:hover {
+  background-color: var(--button-primary-bg-hover);
+  font-size: 1.3rem;
+}
+
+.transparent {
+  color: var(--primary-text-color);
+  background: transparent;
+  border: 1px solid var(--button-primary-bg);
+  padding: 0.9rem 1.3rem;
+}
+.transparent:hover {
+  font-size: 0.8rem;
+}
+
+@keyframes button {
+  0% {
+    box-shadow: 0px 0px 10px var(--secondary-text-color-100);
+  }
+  50% {
+    box-shadow: 0px 0px 2px var(--secondary-text-color-100);
+  }
+  100% {
+    box-shadow: 0px 0px 10px var(--secondary-text-color-100);
+  }
+}
