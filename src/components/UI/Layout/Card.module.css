@@ -159,6 +159,15 @@
   margin: 0 1rem;
 }
 
+.aboutPage {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  margin: 2rem auto;
+  gap: 3rem;
+  max-width: 90%;
+}
+
 @keyframes appear {
   0% {
     opacity: 0;
@@ -182,6 +191,15 @@
       'c  e  e  f  f'
       'd  e  e  f  f'
       'g  g  g  g  g';
+  }
+  .aboutPage {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 2rem auto;
+    gap: 3rem;
+    max-width: 90%;
   }
 }
 
