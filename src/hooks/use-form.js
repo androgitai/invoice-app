@@ -1,13 +1,66 @@
 import { useCallback, useEffect, useReducer, useState } from 'react';
 
+import { todaysDate } from '../lib/invoice-utility';
+import { idGenerator } from '../lib/invoice-utility';
+
+const validateInput = (input, type) => {
+  let error = [];
+  if (input.length === 0) {
+    error.push(`can't be empty`);
+    return error;
+  }
+  switch (type) {
+    case 'text': {
+      if (!/^[a-zA-Z0-9_ ]*$/.test(input)) {
+        error.push('invalid characters');
+      }
+      break;
+    }
+    case 'email': {
+      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input)) {
+        error.push('invalid characters');
+      }
+      break;
+    }
+    case 'number': {
+      if (+input <= 0) {
+        error.push(`invalid`);
+      }
+      break;
+    }
+    case 'date': {
+      break;
+    }
+    case 'select-one': {
+      break;
+    }
+
+    default:
+      console.log('Input type not recognized.');
+      break;
+  }
+  return error;
+};
+
 const formReducer = (state, action) => {
   if (action.type === 'ADD_NEW_LIST_ITEM') {
+    const newItemsState = [
+      ...state.items,
+      { id: state.items.length, name: '', quantity: 1, price: 1, total: 0 },
+    ];
+    const newErrorState = newItemsState.map((item, index) => {
+      return {
+        id: index,
+        name: validateInput(item.name, 'text'),
+        quantity: validateInput(item.quantity, 'number'),
+        price: validateInput(item.price, 'number'),
+        total: item.price * item.quantity,
+      };
+    });
     return {
       ...state,
-      items: [
-        ...state.items,
-        { id: state.items.length, name: '', quantity: 1, price: 0, total: 0 },
-      ],
+      errors: { ...state.errors, items: newErrorState },
+      items: newItemsState,
     };
   }
   if (action.type === 'DELETE_LIST_ITEM') {
@@ -17,10 +70,19 @@ const formReducer = (state, action) => {
       .map((item, index) => {
         return { ...item, id: index };
       });
-    return { ...state, items: filteredState };
+    const newErrorState = filteredState.map((item, index) => {
+      return {
+        id: index,
+        name: validateInput(item.name, 'text'),
+        quantity: validateInput(item.quantity, 'number'),
+        price: validateInput(item.price, 'number'),
+        total: item.price * item.quantity,
+      };
+    });
+    return { ...state, errors: { ...state.errors, items: newErrorState }, items: filteredState };
   }
   if (action.type === 'UPDATE_LIST_INPUT') {
-    const { id, key, value } = action;
+    const { id, key, value, inputType } = action;
     const newListState = [...state.items];
     newListState.forEach(item => {
       if (item.id === id) {
@@ -43,27 +105,44 @@ const formReducer = (state, action) => {
         }
       }
     });
-    return { ...state, items: newListState };
+    const newErrorState = newListState.map((item, index) => {
+      return {
+        id: index,
+        name: validateInput(item.name, 'text'),
+        quantity: validateInput(item.quantity, 'number'),
+        price: validateInput(item.price, 'number'),
+        total: item.price * item.quantity,
+      };
+    });
+    return {
+      ...state,
+      errors: { ...state.errors, items: newErrorState },
+      items: newListState,
+    };
   }
   if (action.type === 'UPDATE_FORM_INPUT') {
     const inputId = action.inputId;
     const inputValue = action.inputValue;
+    const inputType = action.inputType;
+    const newErrors = validateInput(inputValue, inputType);
     if (inputId.includes('.')) {
       const [inputIdName, inputIdSubName] = inputId.split('.');
       const newInputSubState = { ...state[inputIdName], [inputIdSubName]: inputValue };
-      const newState = { ...state, [inputIdName]: newInputSubState };
+      const newState = {
+        ...state,
+        errors: {
+          ...state.errors,
+          [inputIdName]: { ...state.errors[inputIdName], [inputIdSubName]: newErrors },
+        },
+        [inputIdName]: newInputSubState,
+      };
       return newState;
     }
-    return { ...state, [inputId]: inputValue };
+    return { ...state, errors: { ...state.errors, [inputId]: newErrors }, [inputId]: inputValue };
   }
 
   return formReducer;
 };
-const todaysDate = [
-  new Date().getFullYear(),
-  (new Date().getMonth() + 1).toString().padStart(2, '0'),
-  new Date().getDate().toString().padStart(2, '0'),
-].join('-');
 
 const initialErrorState = {
   description: '',
@@ -86,6 +165,43 @@ const initialErrorState = {
 };
 
 const useForm = formData => {
+  // let errors = [];
+  for (const key in formData) {
+    if (typeof formData[key] === 'object') {
+      if (Array.isArray(formData[key])) {
+        console.log('array', formData[key]);
+        formData[key].forEach(item => {
+          if (typeof item === 'object' && Array.isArray(item)) {
+            console.log('array > array');
+          } else {
+            console.log('array > obejct');
+            for (const subK in item) {
+              console.log(`string/number`, subK, item[subK]);
+            }
+          }
+        });
+      }
+      if (!Array.isArray(formData[key])) {
+        for (const subkey in formData[key]) {
+          if (typeof formData[key][subkey] === 'object' && Array.isArray(formData[key][subkey])) {
+            console.log('object > array');
+          } else if (typeof formData[key][subkey] === 'object') {
+            console.log('object > object');
+          } else {
+            console.log('object > ', typeof formData[key][subkey]);
+          }
+        }
+        console.log('object', formData[key]);
+      }
+    }
+    if (typeof formData[key] === 'string') {
+      console.log('string', formData[key]);
+    }
+    if (typeof formData[key] === 'number') {
+      console.log('number', formData[key]);
+    }
+  }
+
   const initialListState = formData.items.map((item, index) => {
     return {
       id: index,
@@ -95,17 +211,27 @@ const useForm = formData => {
       total: item.price * item.quantity,
     };
   });
+  const initialItemsErrorState = formData.items.map((item, index) => {
+    return {
+      id: index,
+      name: validateInput(item.name, 'text'),
+      quantity: validateInput(item.quantity, 'number'),
+      price: validateInput(item.price, 'number'),
+      total: item.price * item.quantity,
+    };
+  });
   const initialState = {
     ...formData,
     items: initialListState,
     createdAt: formData.createdAt ? formData.createdAt : todaysDate,
+    errors: { items: initialItemsErrorState },
   };
 
   const [formState, dispatchFormChange] = useReducer(formReducer, initialState);
   const [errors, setErrors] = useState(initialErrorState);
   const [allFormErrors, setAllFormErrors] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [validating, setValidating] = useState(false);
 
   //Validation funcion for empty input fields or empty item list
   const validateFormData = useCallback(() => {
@@ -154,21 +280,21 @@ const useForm = formData => {
 
   useEffect(() => {
     setErrors(initialErrorState);
-    if (isSubmitting) {
+    if (validating) {
       setErrors(prevState => {
         return { ...prevState, items: formState.items };
       });
       validateFormData();
     }
-  }, [formState, validateFormData, isSubmitting]);
+  }, [formState, validateFormData, validating]);
 
   return {
     formState,
     dispatchFormChange,
     errors,
     isFormValid,
-    setIsSubmitting,
-    isSubmitting,
+    setValidating,
+    validating,
     allFormErrors,
   };
 };
