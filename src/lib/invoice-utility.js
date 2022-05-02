@@ -1,3 +1,9 @@
+export const todaysDate = [
+  new Date().getFullYear(),
+  (new Date().getMonth() + 1).toString().padStart(2, '0'),
+  new Date().getDate().toString().padStart(2, '0'),
+].join('-');
+
 export const emptyFormTemplate = {
   id: '',
   createdAt: '',
@@ -24,7 +30,7 @@ export const emptyFormTemplate = {
       id: 0,
       name: '',
       quantity: 1,
-      price: 0,
+      price: 1,
       total: 0,
     },
   ],
