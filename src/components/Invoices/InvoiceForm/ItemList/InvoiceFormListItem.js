@@ -8,7 +8,11 @@ const InvoiceFormListItem = props => {
   const { id, name, price, quantity, total } = props.item;
 
   const inputFieldOnChangeHandler = event => {
-    props.onUpdate(props.item.id, event.target.id, event.target.value);
+    const listId = id;
+    const inputId = event.target.id;
+    const inputType = event.target.type;
+    const inputValue = event.target.value;
+    props.onUpdate(listId, inputId, inputValue, inputType);
   };
 
   return (
@@ -24,24 +28,31 @@ const InvoiceFormListItem = props => {
           value={name}
           id='name'
           onChange={inputFieldOnChangeHandler}
+          onBlur={inputFieldOnChangeHandler}
         />
       </label>
       <label htmlFor='Qty.' id='quantity' className={classes.gridItem}>
         <p>Qty.</p>
         <input
-          type='text'
+          type='number'
+          inputMode='numeric'
           id='quantity'
+          placeholder='1'
           value={quantity}
           onChange={inputFieldOnChangeHandler}
+          onBlur={inputFieldOnChangeHandler}
         />
       </label>
       <label htmlFor='Price' id='price' className={classes.gridItem}>
         <p>Price</p>
         <input
-          type='text'
+          type='number'
+          inputMode='numeric'
+          step='0.01'
           id='price'
-          value={price.toFixed(2)}
+          value={+price.toFixed(2)}
           onChange={inputFieldOnChangeHandler}
+          onBlur={inputFieldOnChangeHandler}
         />
       </label>
       <div className={classes.total}>
@@ -49,11 +60,7 @@ const InvoiceFormListItem = props => {
         <h4>£{total.toFixed(2)}</h4>
       </div>
       <Button btnType='bin' onClick={props.onDelete.bind(null, id)}>
-        <img
-          className={classes.binButton}
-          src={binSVG}
-          alt='Delete List Item'
-        />
+        <img className={classes.binButton} src={binSVG} alt='Delete List Item' />
       </Button>
     </Fragment>
   );
