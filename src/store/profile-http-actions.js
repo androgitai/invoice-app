@@ -59,16 +59,5 @@ export const updateProfile = updatedProfile => {
     if (response.error || !response) return;
     dispatch(profileActions.setProfile(updatedProfile));
     dispatch(invoicesActions.updateInvoiceFormTemplate(response));
-    setTimeout(
-      () =>
-        dispatch(
-          uiActions.showNotification({
-            status: 'success',
-            title: 'Success!',
-            message: 'Profile successfully updated!',
-          })
-        ),
-      2000
-    );
   };
 };
