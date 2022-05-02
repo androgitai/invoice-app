@@ -22,18 +22,19 @@ const InvoiceForm = props => {
     dispatchFormChange,
     errors,
     isFormValid,
-    isSubmitting,
-    setIsSubmitting,
+    validating,
+    setValidating,
     allFormErrors,
   } = useForm(isNewForm ? emptyFormTemplate : currentInvoice);
   const openFormId = isNewForm ? 'new' : currentInvoice.id;
   const currentIds = invoices.map(item => item[Object.keys(item)].id);
 
+  // console.log(formState.errors);
   const formSubmitHandler = event => {
     event.preventDefault();
     const submitType = event.nativeEvent.submitter.name;
     if (submitType === 'send') {
-      setIsSubmitting(true);
+      setValidating(true);
       if (!isFormValid) return;
     }
     const newInvoiceItem = generateInvoice(formState, openFormId, submitType, currentIds);
@@ -177,9 +178,9 @@ const InvoiceForm = props => {
           dispatchChange={dispatchFormChange}
           error={errors.items}
         />
-        {isSubmitting && <p className={classes.error}>{errors.items}</p>}
-        {isSubmitting && errors.total !== '' && <p className={classes.error}>- Add a valid item</p>}
-        {isSubmitting && <p className={classes.error}>{allFormErrors}</p>}
+        {validating && <p className={classes.error}>{errors.items}</p>}
+        {validating && errors.total !== '' && <p className={classes.error}>- Add a valid item</p>}
+        {validating && <p className={classes.error}>{allFormErrors}</p>}
       </Wrapper>
       <div className={classes.controls}>
         <Button btnType='discard' type='button' onClick={props.onCancel}>
