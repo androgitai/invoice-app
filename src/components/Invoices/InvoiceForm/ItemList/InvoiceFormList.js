@@ -16,8 +16,8 @@ const InvoiceFormList = props => {
     props.dispatchChange({ type: 'DELETE_LIST_ITEM', id });
   };
 
-  const updateListItemField = (id, key, value) => {
-    props.dispatchChange({ type: 'UPDATE_LIST_INPUT', id, key, value });
+  const updateListItemField = (id, key, value, inputType) => {
+    props.dispatchChange({ type: 'UPDATE_LIST_INPUT', id, key, value, inputType });
   };
 
   return (
