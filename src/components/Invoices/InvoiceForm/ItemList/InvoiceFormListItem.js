@@ -7,12 +7,15 @@ import binSVG from '../../../../assets/icon-delete.svg';
 const InvoiceFormListItem = props => {
   const { id, name, price, quantity, total } = props.item;
 
+  const nameError = props?.error?.name?.length > 0 ? `${classes.error}` : '';
+  const quantityError = props.error?.quantity?.length > 0 ? `${classes.error}` : '';
+  const priceError = props?.error?.price?.length > 0 ? `${classes.error}` : '';
+
   const inputFieldOnChangeHandler = event => {
     const listId = id;
     const inputId = event.target.id;
-    const inputType = event.target.type;
     const inputValue = event.target.value;
-    props.onUpdate(listId, inputId, inputValue, inputType);
+    props.onUpdate(listId, inputId, inputValue);
   };
 
   return (
@@ -20,9 +23,11 @@ const InvoiceFormListItem = props => {
       <label
         htmlFor='Item Name'
         id='name'
-        className={`${classes.gridItem} ${classes.gridAreaItemName}`}
+        className={`${classes.gridItem} ${classes.gridAreaItemName} ${nameError}`}
       >
-        <p>Item Name</p>
+        <p>
+          Item Name <span>{props?.error?.name[0]}</span>
+        </p>
         <input
           type='text'
           value={name}
@@ -31,7 +36,7 @@ const InvoiceFormListItem = props => {
           onBlur={inputFieldOnChangeHandler}
         />
       </label>
-      <label htmlFor='Qty.' id='quantity' className={classes.gridItem}>
+      <label htmlFor='Qty.' id='quantity' className={`${classes.gridItem} ${quantityError}`}>
         <p>Qty.</p>
         <input
           type='number'
@@ -43,7 +48,7 @@ const InvoiceFormListItem = props => {
           onBlur={inputFieldOnChangeHandler}
         />
       </label>
-      <label htmlFor='Price' id='price' className={classes.gridItem}>
+      <label htmlFor='Price' id='price' className={`${classes.gridItem} ${priceError}`}>
         <p>Price</p>
         <input
           type='number'
