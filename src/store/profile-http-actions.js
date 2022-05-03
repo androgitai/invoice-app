@@ -24,7 +24,6 @@ const profileHttp = async (dispatch, subURL, options = {}) => {
     dispatch(uiActions.unSetIsLoading());
     return data;
   } catch (error) {
-    console.log(error);
     dispatch(uiActions.unSetIsLoading());
     dispatch(
       uiActions.showNotification({
