@@ -17,19 +17,20 @@ const InvoiceFormList = props => {
   };
 
   const updateListItemField = (id, key, value, inputType) => {
-    props.dispatchChange({ type: 'UPDATE_LIST_INPUT', id, key, value, inputType });
+    props.dispatchChange({ type: 'UPDATE_LIST_INPUT', id, key, value });
   };
 
   return (
     <Fragment>
       <InvoiceFieldset fieldName='Item List' legendStyle={classes.header} gridType='itemList'>
-        {items.map(item => {
+        {items.map((item, index) => {
           return (
             <InvoiceFormListItem
               key={item.id}
               item={item}
               onDelete={removeListItemHandler}
               onUpdate={updateListItemField}
+              error={props.error[index]}
             />
           );
         })}
