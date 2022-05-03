@@ -4,39 +4,6 @@ export const todaysDate = [
   new Date().getDate().toString().padStart(2, '0'),
 ].join('-');
 
-export const emptyFormTemplate = {
-  id: '',
-  createdAt: '',
-  paymentDue: '',
-  description: '',
-  paymentTerms: 30,
-  clientName: '',
-  clientEmail: '',
-  status: '',
-  senderAddress: {
-    street: '',
-    city: '',
-    postCode: '',
-    country: '',
-  },
-  clientAddress: {
-    street: '',
-    city: '',
-    postCode: '',
-    country: '',
-  },
-  items: [
-    {
-      id: 0,
-      name: '',
-      quantity: 1,
-      price: 1,
-      total: 0,
-    },
-  ],
-  total: 0,
-};
-
 export const calculateAndFormatDueDate = (date, days) => {
   let result = new Date(date);
   result.setDate(result.getDate() + days);
@@ -49,7 +16,7 @@ export const calculateAndFormatDueDate = (date, days) => {
   return newPaymentDueDate;
 };
 
-export const idGenerator = currentIds => {
+export const idGenerator = (currentIds = []) => {
   const DEFAULT_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const getNewChar = () =>
     DEFAULT_ALPHABET.charAt(Math.floor(Math.random() * DEFAULT_ALPHABET.length));
