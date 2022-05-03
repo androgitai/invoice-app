@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { emptyFormTemplate } from '../lib/invoice-utility';
+import { invoiceFormTemplate } from '../lib/form-templates';
 
 const invoicesInitialState = {
   invoices: [],
   totalInvoices: 0,
-  currentInvoice: emptyFormTemplate,
+  currentInvoice: invoiceFormTemplate,
   currentInvoiceId: null,
-  emptyFormTemplate,
+  invoiceFormTemplate,
   filterBy: [],
 };
 
@@ -82,8 +82,8 @@ const invoicesSlice = createSlice({
     },
     updateInvoiceFormTemplate(state, action) {
       const newProfile = action.payload;
-      state.emptyFormTemplate = {
-        ...state.emptyFormTemplate,
+      state.invoiceFormTemplate = {
+        ...state.invoiceFormTemplate,
         senderAddress: {
           street: newProfile.street,
           city: newProfile.city,
