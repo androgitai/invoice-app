@@ -30,7 +30,7 @@
 .error input,
 .error input:active,
 .error input:hover {
-  border: 1px solid var(--button-delete-bg);
+  border: 1px solid var(--button-delete-bg) !important;
 }
 
 .error p {
