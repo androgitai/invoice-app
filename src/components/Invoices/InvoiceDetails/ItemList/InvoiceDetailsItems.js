@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import { useSelector } from 'react-redux';
+import { idGenerator } from '../../../../lib/invoice-utility';
 
 import Card from '../../../UI/Layout/Card';
 import InvoiceDetailsItem from './InvoiceDetailsItem';
@@ -16,7 +17,7 @@ const InvoiceDetailsItems = () => {
         {isTablet && <InvoiceDetailsItemsHead />}
         {items.map(item => (
           <InvoiceDetailsItem
-            key={item.name}
+            key={idGenerator()}
             name={item.name}
             quantity={item.quantity}
             price={item.price}
