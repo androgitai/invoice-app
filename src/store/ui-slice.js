@@ -5,7 +5,8 @@ const initialState = {
   notification: null,
   showLogoutModal: false,
   logoutWarned: true,
-  showDetailsConfirmModal: false,
+  showProfileDetailsConfirmModal: false,
+  showPasswordDetailsConfirmModal: false,
   showUserMenuModal: false,
   themeMode: 'dark',
 };
@@ -42,8 +43,17 @@ const uiSlice = createSlice({
     logoutWarnedFalse(state) {
       state.logoutWarned = false;
     },
-    toggleProfileModal(state) {
-      state.showDetailsConfirmModal = !state.showDetailsConfirmModal;
+    showProfileModal(state) {
+      state.showProfileDetailsConfirmModal = true;
+    },
+    hideProfileModal(state) {
+      state.showProfileDetailsConfirmModal = false;
+    },
+    showPasswordModal(state) {
+      state.showPasswordDetailsConfirmModal = true;
+    },
+    hidePasswordModal(state) {
+      state.showPasswordDetailsConfirmModal = false;
     },
     toggleUserMenuModal(state) {
       state.showUserMenuModal = !state.showUserMenuModal;
