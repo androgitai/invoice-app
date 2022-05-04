@@ -63,3 +63,23 @@ export const invoiceFormErrorsTemplate = {
   ],
   total: [],
 };
+
+export const profileTemplate = {
+  name: '',
+  phone1: '',
+  email: '',
+  street: '',
+  city: '',
+  postCode: '',
+  country: '',
+};
+
+export const profileErrorsTemplate = {
+  name: [],
+  phone1: [],
+  email: [],
+  street: [],
+  city: [],
+  postCode: [],
+  country: [],
+};
