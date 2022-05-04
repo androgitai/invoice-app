@@ -18,12 +18,10 @@ const InvoiceForm = props => {
   const { currentInvoice, currentInvoiceId, invoiceFormTemplate, invoices } = useSelector(
     state => state.invoices
   );
-  const { formState, formErrors, fullFormValidity, dispatchFormChange, setValidating } = useForm(
-    isNewForm ? invoiceFormTemplate : currentInvoice,
-    invoiceFormErrorsTemplate,
-    true
-  );
-  const openFormId = isNewForm ? 'new' : currentInvoice.id;
+  console.log(invoiceFormTemplate);
+  const { formState, formErrors, fullFormValidity, validating, dispatchFormChange, setValidating } =
+    useForm(isNewForm ? invoiceFormTemplate : currentInvoice, invoiceFormErrorsTemplate, true);
+  const openFormType = isNewForm ? 'new' : currentInvoice.id;
   const currentIds = invoices.map(item => item[Object.keys(item)].id);
 
   const formSubmitHandler = event => {
@@ -32,16 +30,16 @@ const InvoiceForm = props => {
     if (submitType === 'send') {
       setValidating(true);
       if (!fullFormValidity.isFormValid) {
-        console.log('invalid submit');
+        setTimeout(() => setValidating(false), 5000);
         return;
       }
     }
-    const newInvoiceItem = generateInvoice(formState, openFormId, submitType, currentIds);
+    const newInvoiceItem = generateInvoice(formState, openFormType, submitType, currentIds);
 
-    if (openFormId !== 'new') {
+    if (openFormType !== 'new') {
       dispatch(updateInvoice(newInvoiceItem, currentInvoiceId));
     }
-    if (openFormId === 'new') {
+    if (openFormType === 'new') {
       dispatch(sendNewInvoice(newInvoiceItem));
     }
     props.onCancel();
@@ -179,11 +177,15 @@ const InvoiceForm = props => {
           dispatchChange={dispatchFormChange}
           error={formErrors.items}
         />
-        {/* {validating && <p className={classes.error}>{formErrors.items}</p>}
-        {validating && formErrors.total !== '' && (
-          <p className={classes.error}>- Add a valid item</p>
+        {validating && fullFormValidity.empty && (
+          <p className={classes.error}>- All fields must be added</p>
         )}
-        {validating && <p className={classes.error}>{allFormErrors}</p>} */}
+        {validating && fullFormValidity.noItems && (
+          <p className={classes.error}>- An item must be added</p>
+        )}
+        {validating && fullFormValidity.invalid && (
+          <p className={classes.error}>- No special characters allowed</p>
+        )}
       </Wrapper>
       <div className={classes.controls}>
         <Button btnType='discard' type='button' onClick={props.onCancel}>
