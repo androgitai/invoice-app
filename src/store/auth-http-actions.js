@@ -2,6 +2,7 @@ import { uiActions } from './ui-slice';
 import { authActions } from './auth-slice';
 import { fetchProfile } from './profile-http-actions';
 import { updateProfile } from './profile-http-actions';
+import { profileTemplate } from '../lib/form-templates';
 import store from './index';
 
 const signUpURL =
@@ -65,7 +66,7 @@ export const registerUser = (enteredEmail, enteredPassrord, enteredName) => {
       })
     );
     dispatch(authActions.loginUser(authDetails));
-    dispatch(updateProfile({ name: enteredName }));
+    dispatch(updateProfile({ ...profileTemplate, name: enteredName, email: enteredEmail }));
   };
 };
 
