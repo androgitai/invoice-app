@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom';
 import { Fragment } from 'react';
 import { useDispatch } from 'react-redux';
 import { uiActions } from '../../../store/ui-slice';
+import { updateProfile } from '../../../store/profile-http-actions';
 
 import Button from '../Elements/Button';
 import Card from '../Layout/Card';
@@ -24,14 +25,16 @@ const ModalOverlay = props => {
   );
 };
 
-const ProfileConfirmModal = () => {
+const ProfileConfirmModal = props => {
+  console.log(props.profileData);
   const dispatch = useDispatch();
 
   const changeProfileDetailsHandler = () => {
-    dispatch(uiActions.toggleProfileModal());
+    dispatch(updateProfile(props.profileData));
+    dispatch(uiActions.hideProfileModal());
   };
   const cancelChangeHandler = () => {
-    dispatch(uiActions.toggleProfileModal());
+    dispatch(uiActions.hideProfileModal());
   };
 
   return (
