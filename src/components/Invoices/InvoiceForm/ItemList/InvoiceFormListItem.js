@@ -28,13 +28,7 @@ const InvoiceFormListItem = props => {
         <p>
           Item Name <span>{props?.error?.name[0]}</span>
         </p>
-        <input
-          type='text'
-          value={name}
-          id='name'
-          onChange={inputFieldOnChangeHandler}
-          onBlur={inputFieldOnChangeHandler}
-        />
+        <input type='text' value={name} id='name' onChange={inputFieldOnChangeHandler} />
       </label>
       <label htmlFor='Qty.' id='quantity' className={`${classes.gridItem} ${quantityError}`}>
         <p>Qty.</p>
@@ -45,7 +39,6 @@ const InvoiceFormListItem = props => {
           placeholder='1'
           value={quantity}
           onChange={inputFieldOnChangeHandler}
-          onBlur={inputFieldOnChangeHandler}
         />
       </label>
       <label htmlFor='Price' id='price' className={`${classes.gridItem} ${priceError}`}>
@@ -57,7 +50,6 @@ const InvoiceFormListItem = props => {
           id='price'
           value={+price.toFixed(2)}
           onChange={inputFieldOnChangeHandler}
-          onBlur={inputFieldOnChangeHandler}
         />
       </label>
       <div className={classes.total}>
