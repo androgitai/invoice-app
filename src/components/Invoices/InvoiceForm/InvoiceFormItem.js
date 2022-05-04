@@ -59,7 +59,6 @@ const FormItem = props => {
         value={defVal}
         placeholder={props.placeHold}
         onChange={inputChangeHandler}
-        onBlur={inputChangeHandler}
       />
     </label>
   );
