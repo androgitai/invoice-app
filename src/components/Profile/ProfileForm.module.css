@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  margin-top: 0.5rem;
 }
 .profileText button {
   align-self: center;
@@ -9,15 +10,25 @@
 }
 
 .profileText label {
+  margin: 0.2rem 0;
+  position: relative;
+}
+
+.profileText h3 {
   border-bottom: 1px solid var(--nav-line-color);
   max-width: fit-content;
-  margin: 1.5rem 0 0.5rem;
+  margin: 0.5rem 0;
+  display: inline-block;
+}
+.profileText h4 {
+  margin-left: 1rem;
 }
 
 .profileText input {
   display: block;
-  margin: 0.5rem 0 0.5rem 2rem;
+  margin: 0.4rem 0 0.4rem 1.5rem;
   padding: 0.9rem;
+  width: 100%;
   border-radius: 5px;
   font-weight: 700;
   font-size: 0.75rem;
@@ -41,13 +52,9 @@
 }
 
 .error p {
-  position: relative;
-  color: var(--button-delete-bg);
-}
-.error span {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 32%;
+  right: -3%;
   font-size: 0.6rem;
   text-align: end;
   color: var(--button-delete-bg);
