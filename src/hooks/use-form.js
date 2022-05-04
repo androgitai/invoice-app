@@ -1,29 +1,65 @@
 import { useEffect, useReducer, useState } from 'react';
 
 import { todaysDate } from '../lib/invoice-utility';
+import { profileErrorsTemplate } from '../lib/form-templates';
 
-// Single Input Validation
-const validateInput = (input, type) => {
+////////////// Single Input Validation
+const validateInput = (input, type, searchWord = '') => {
   let error = [];
   if (input.length === 0) {
     error.push(`can't be empty`);
-    return error;
   }
+
   switch (type) {
-    case 'text': {
-      if (!/^[a-zA-Z0-9_ ]*$/.test(input)) {
-        error.push('invalid characters');
+    case 'string': {
+      if (
+        searchWord &&
+        searchWord.includes('mail') &&
+        !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(input)
+      ) {
+        error.push(`invalid email`);
+        break;
+      }
+      if (searchWord && searchWord.includes('phone') && !/^[+0-9]*$/.test(input)) {
+        error.push(`invalid number`);
+        break;
+      }
+
+      if (!searchWord.includes('mail') && !/^[a-zA-Z0-9_ ]*$/.test(input)) {
+        error.push(`invalid characters`);
       }
       break;
     }
+    case 'text': {
+      if (
+        searchWord &&
+        searchWord.includes('mail') &&
+        !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(input)
+      ) {
+        error.push(`invalid email`);
+        break;
+      }
+      if (
+        (input.length < 8 && searchWord && searchWord.includes('phone')) ||
+        (searchWord && searchWord.includes('phone') && !/^[0-9]*$/.test(input))
+      ) {
+        error.push(`invalid number`);
+        break;
+      }
+      if (!/^[a-zA-Z0-9_ ]*$/.test(input)) {
+        error.push(`invalid characters`);
+      }
+      break;
+    }
+
     case 'email': {
       if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(input)) {
-        error.push('invalid characters');
+        error.push(`invalid email`);
       }
       break;
     }
     case 'number': {
-      if (+input <= 0 || !isFinite(+input)) {
+      if (+input <= 0 || !isFinite(input)) {
         error.push(`invalid characters`);
       }
       break;
@@ -42,7 +78,7 @@ const validateInput = (input, type) => {
   return error;
 };
 
-///Full form validation
+/////////////////Full form validation
 
 const validateFullForm = initialValues => {
   const { formCurrentState, isInvoice } = initialValues;
@@ -54,25 +90,28 @@ const validateFullForm = initialValues => {
     if (typeof formCurrentState[key] === 'object' && !Array.isArray(formCurrentState[key])) {
       for (const subKey in formCurrentState[key]) {
         const inputType = typeof formCurrentState[key][subKey];
-        inputErrors = validateInput(formCurrentState[key][subKey], inputType);
+        inputErrors.push(validateInput(formCurrentState[key][subKey], inputType, subKey));
       }
     }
     if (
-      isInvoice &&
-      key !== 'status' &&
-      key !== 'createdAt' &&
-      key !== 'id' &&
-      key !== 'total' &&
-      key !== 'paymentDue'
+      !isInvoice ||
+      (isInvoice &&
+        key !== 'status' &&
+        key !== 'createdAt' &&
+        key !== 'id' &&
+        key !== 'total' &&
+        key !== 'paymentDue')
     ) {
       if (typeof formCurrentState[key] === 'string' || typeof formCurrentState[key] === 'number') {
         const inputType = typeof formCurrentState[key];
-        inputErrors = validateInput(formCurrentState[key], inputType);
+        inputErrors.push(validateInput(formCurrentState[key], inputType, key));
       }
     }
-    if (inputErrors && inputErrors.includes(`can't be empty`)) formOverallErrorState.empty = true;
-    if (inputErrors && inputErrors.includes(`invalid characters`))
-      formOverallErrorState.invalid = true;
+    inputErrors.forEach(error => {
+      if (error.includes(`can't be empty`)) formOverallErrorState.empty = true;
+      if (error.includes('invalid characters') || error.includes('invalid email'))
+        formOverallErrorState.invalid = true;
+    });
   }
 
   if (isInvoice) {
@@ -84,12 +123,14 @@ const validateFullForm = initialValues => {
       nameErrors = validateInput(item.name, 'text');
       quantityErrors = validateInput(item.quantity, 'number');
       priceErrors = validateInput(item.price, 'number');
-      if (nameErrors && nameErrors.includes(`can't be empty`)) formOverallErrorState.empty = true;
-      if (nameErrors && nameErrors.includes(`invalid characters`))
-        formOverallErrorState.invalid = true;
-      if (quantityErrors && quantityErrors.includes(`invalid characters`))
-        formOverallErrorState.invalid = true;
-      if (priceErrors && priceErrors.includes(`invalid characters`))
+      if (nameErrors && nameErrors.includes(`can't be empty`)) {
+        formOverallErrorState.empty = true;
+      }
+      if (
+        (nameErrors && nameErrors.includes(`invalid characters`)) ||
+        (quantityErrors && quantityErrors.includes(`invalid characters`)) ||
+        (priceErrors && priceErrors.includes(`invalid characters`))
+      )
         formOverallErrorState.invalid = true;
     });
 
@@ -104,7 +145,7 @@ const validateFullForm = initialValues => {
   return formOverallErrorState;
 };
 
-//// Form Reducer
+//////////////////// Form Reducer
 
 const formReducer = (state, action) => {
   if (action.type === 'ADD_NEW_LIST_ITEM') {
@@ -188,7 +229,9 @@ const formReducer = (state, action) => {
     const inputId = action.inputId;
     const inputValue = action.inputValue;
     const inputType = action.inputType;
-    const newErrors = validateInput(inputValue, inputType);
+    console.log(inputId, inputValue, inputType);
+    const newErrors = validateInput(inputValue, inputType, inputId);
+    console.log(newErrors);
     if (inputId.includes('.')) {
       const [inputIdName, inputIdSubName] = inputId.split('.');
       const newInputSubState = { ...state.formState[inputIdName], [inputIdSubName]: inputValue };
@@ -208,16 +251,25 @@ const formReducer = (state, action) => {
       errors: { ...state.errors, [inputId]: newErrors },
     };
   }
+  if (action.type === 'UPDATE_FORM_STATE') {
+    const newFormState = action.currentProfile;
+    const isInvoice = false;
+    const newState = formInitializer({
+      formData: newFormState,
+      formDataErrors: profileErrorsTemplate,
+      isInvoice,
+    });
+    return newState;
+  }
 
   return formReducer;
 };
 
 /////////////////  Reducer init function
 
-const invoiceFormInitializer = initialValues => {
+const formInitializer = initialValues => {
   const { formData, formDataErrors, isInvoice } = initialValues;
   console.log('entering init');
-
   let initialErrorsState = JSON.parse(JSON.stringify(formDataErrors));
   // Initial validation
   for (const key in formData) {
@@ -225,14 +277,22 @@ const invoiceFormInitializer = initialValues => {
     if (typeof formData[key] === 'object' && !Array.isArray(formData[key])) {
       for (const subKey in formData[key]) {
         const inputType = typeof formData[key][subKey];
-        inputErrors = validateInput(formData[key][subKey], inputType);
+        inputErrors = validateInput(formData[key][subKey], inputType, subKey);
         initialErrorsState[key][subKey] = inputErrors;
       }
     }
-    if (isInvoice && key !== 'status' && key !== 'createdAt' && key !== 'id' && key !== 'total') {
+    if (
+      !isInvoice ||
+      (isInvoice &&
+        key !== 'status' &&
+        key !== 'createdAt' &&
+        key !== 'id' &&
+        key !== 'total' &&
+        key !== 'paymentDue')
+    ) {
       if (typeof formData[key] === 'string' || typeof formData[key] === 'number') {
         const inputType = typeof formData[key];
-        inputErrors = validateInput(formData[key], inputType);
+        inputErrors = validateInput(formData[key], inputType, key);
         initialErrorsState[key] = inputErrors;
       }
     }
@@ -253,7 +313,7 @@ const invoiceFormInitializer = initialValues => {
   }
 
   //Building initial state (formState,errors)
-
+  console.log(initialErrorsState);
   if (!isInvoice) return { formState: { ...formData }, errors: initialErrorsState };
 
   if (isInvoice) {
@@ -277,15 +337,13 @@ const invoiceFormInitializer = initialValues => {
     };
   }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////   useForm Hook
 
 const useForm = (formData, formDataErrors, isInvoice = false) => {
   const [formState, dispatchFormChange] = useReducer(
     formReducer,
     { formData, formDataErrors, isInvoice },
-    invoiceFormInitializer
+    formInitializer
   );
 
   const [validating, setValidating] = useState(false);
