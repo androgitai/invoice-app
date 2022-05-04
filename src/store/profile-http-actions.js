@@ -1,8 +1,7 @@
 import { profileActions } from './profile-slice';
 import { uiActions } from './ui-slice';
-import { initialProfileState } from '../lib/profile-utility';
-import store from './index';
 import { invoicesActions } from './invoices-slice';
+import store from './index';
 
 const URL = 'https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app';
 
@@ -58,5 +57,12 @@ export const updateProfile = updatedProfile => {
     if (response.error || !response) return;
     dispatch(profileActions.setProfile(updatedProfile));
     dispatch(invoicesActions.updateInvoiceFormTemplate(response));
+    dispatch(
+      uiActions.showNotification({
+        status: 'success',
+        title: 'Success',
+        message: 'You have successfully changed your profile',
+      })
+    );
   };
 };
