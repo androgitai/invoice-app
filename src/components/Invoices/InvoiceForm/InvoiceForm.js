@@ -10,7 +10,6 @@ import InvoiceFieldset from './Layout/InvoiceFieldset';
 import InvoiceFormList from './ItemList/InvoiceFormList';
 import Wrapper from '../../UI/Layout/Wrapper';
 import classes from './InvoiceForm.module.css';
-import { invoiceFormErrorsTemplate } from '../../../lib/form-templates';
 
 const InvoiceForm = props => {
   const isNewForm = props.isNewForm;
@@ -19,21 +18,26 @@ const InvoiceForm = props => {
     state => state.invoices
   );
   console.log(invoiceFormTemplate);
-  const { formState, formErrors, fullFormValidity, validating, dispatchFormChange, setValidating } =
-    useForm(isNewForm ? invoiceFormTemplate : currentInvoice, invoiceFormErrorsTemplate, true);
+  const { formState, formErrors, formValidity, isSubmitting, dispatchFormChange, setIsSubmitting } =
+    useForm(isNewForm ? invoiceFormTemplate : currentInvoice, {
+      canBeEmpty: false,
+      isInvoice: true,
+    });
   const openFormType = isNewForm ? 'new' : currentInvoice.id;
   const currentIds = invoices.map(item => item[Object.keys(item)].id);
 
+  let submitType = '';
   const formSubmitHandler = event => {
     event.preventDefault();
-    const submitType = event.nativeEvent.submitter.name;
+    submitType = event.nativeEvent.submitter.name;
     if (submitType === 'send') {
-      setValidating(true);
-      if (!fullFormValidity.isFormValid) {
-        setTimeout(() => setValidating(false), 5000);
+      setIsSubmitting(true);
+      if (!formValidity.isFormValid) {
+        setTimeout(() => setIsSubmitting(false), 5000);
         return;
       }
     }
+
     const newInvoiceItem = generateInvoice(formState, openFormType, submitType, currentIds);
 
     if (openFormType !== 'new') {
@@ -56,7 +60,7 @@ const InvoiceForm = props => {
             defVal={formState.senderAddress.street}
             gridArea='gridArea1'
             dispatchChange={dispatchFormChange}
-            error={formErrors.senderAddress.street ? formErrors.senderAddress.street : ''}
+            error={formErrors?.senderAddress?.street}
           />
           <InvoiceFormItem
             type='text'
@@ -65,7 +69,7 @@ const InvoiceForm = props => {
             defVal={formState.senderAddress.city}
             gridArea='gridArea2'
             dispatchChange={dispatchFormChange}
-            error={formErrors.senderAddress.city}
+            error={formErrors?.senderAddress?.city}
           />
           <InvoiceFormItem
             type='text'
@@ -74,7 +78,7 @@ const InvoiceForm = props => {
             defVal={formState.senderAddress.postCode}
             gridArea='gridArea3'
             dispatchChange={dispatchFormChange}
-            error={formErrors.senderAddress.postCode}
+            error={formErrors?.senderAddress?.postCode}
           />
           <InvoiceFormItem
             type='text'
@@ -83,7 +87,7 @@ const InvoiceForm = props => {
             defVal={formState.senderAddress.country}
             gridArea='gridArea4'
             dispatchChange={dispatchFormChange}
-            error={formErrors.senderAddress.country}
+            error={formErrors?.senderAddress?.country}
           />
         </InvoiceFieldset>
         <InvoiceFieldset fieldName='Bill To' gridType='billTo'>
@@ -94,7 +98,7 @@ const InvoiceForm = props => {
             defVal={formState.clientName}
             gridArea='gridArea1'
             dispatchChange={dispatchFormChange}
-            error={formErrors.clientName}
+            error={formErrors?.clientName}
           />
           <InvoiceFormItem
             type='email'
@@ -104,7 +108,7 @@ const InvoiceForm = props => {
             defVal={formState.clientEmail}
             gridArea='gridArea2'
             dispatchChange={dispatchFormChange}
-            error={formErrors.clientEmail}
+            error={formErrors?.clientEmail}
           />
           <InvoiceFormItem
             type='text'
@@ -113,7 +117,7 @@ const InvoiceForm = props => {
             defVal={formState.clientAddress.street}
             gridArea='gridArea3'
             dispatchChange={dispatchFormChange}
-            error={formErrors.clientAddress.street}
+            error={formErrors?.clientAddress?.street}
           />
           <InvoiceFormItem
             type='text'
@@ -122,7 +126,7 @@ const InvoiceForm = props => {
             defVal={formState.clientAddress.city}
             gridArea='gridArea4'
             dispatchChange={dispatchFormChange}
-            error={formErrors.clientAddress.city}
+            error={formErrors?.clientAddress?.city}
           />
           <InvoiceFormItem
             type='text'
@@ -131,7 +135,7 @@ const InvoiceForm = props => {
             defVal={formState.clientAddress.postCode}
             gridArea='gridArea5'
             dispatchChange={dispatchFormChange}
-            error={formErrors.clientAddress.postCode}
+            error={formErrors?.clientAddress?.postCode}
           />
           <InvoiceFormItem
             type='text'
@@ -140,7 +144,7 @@ const InvoiceForm = props => {
             defVal={formState.clientAddress.country}
             gridArea='gridArea6'
             dispatchChange={dispatchFormChange}
-            error={formErrors.clientAddress.country}
+            error={formErrors?.clientAddress?.country}
           />
         </InvoiceFieldset>
         <InvoiceFieldset gridType='terms'>
@@ -151,14 +155,14 @@ const InvoiceForm = props => {
             defVal={formState.createdAt}
             gridArea='gridArea1'
             dispatchChange={dispatchFormChange}
-            error={formErrors.createdAt}
+            error={formErrors?.createdAt}
           />
           <InvoiceFormItem
             type='select'
             defVal={formState.paymentTerms}
             gridArea='gridArea2'
             dispatchChange={dispatchFormChange}
-            error={formErrors.paymentTerms}
+            error={formErrors?.paymentTerms}
           />
           <InvoiceFormItem
             type='text'
@@ -168,22 +172,22 @@ const InvoiceForm = props => {
             defVal={formState.description}
             gridArea='gridArea3'
             dispatchChange={dispatchFormChange}
-            error={formErrors.description}
+            error={formErrors?.description}
           />
         </InvoiceFieldset>
         <InvoiceFormList
           gridAreas={classes.itemList}
           items={formState.items}
           dispatchChange={dispatchFormChange}
-          error={formErrors.items}
+          error={formErrors?.items}
         />
-        {validating && fullFormValidity.empty && (
+        {isSubmitting && formValidity.empty && (
           <p className={classes.error}>- All fields must be added</p>
         )}
-        {validating && fullFormValidity.noItems && (
+        {isSubmitting && formValidity.noItems && (
           <p className={classes.error}>- An item must be added</p>
         )}
-        {validating && fullFormValidity.invalid && (
+        {isSubmitting && formValidity.invalid && (
           <p className={classes.error}>- No special characters allowed</p>
         )}
       </Wrapper>
