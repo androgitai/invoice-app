@@ -20,10 +20,15 @@
   color: var(--primary-text-color);
   margin: 1rem 0 2rem;
 }
+
+.auth h6 {
+  font-size: 0.7rem;
+  margin: 1rem 0 0rem;
+}
 .auth p {
   text-align: center;
   color: var(--primary-text-color);
-  margin: 2rem 0 0.2rem;
+  margin: 0.5rem 0;
 }
 
 .control {
@@ -34,6 +39,7 @@
   display: block;
   font-weight: bold;
   margin-bottom: 0.5rem;
+  position: relative;
 }
 
 .control input {
@@ -70,4 +76,19 @@
 .actions button {
   margin-top: 1rem;
   width: 60%;
+}
+
+.error input,
+.error input:active,
+.error input:hover {
+  border: 1px solid var(--button-delete-bg);
+}
+
+.error p {
+  position: absolute;
+  top: 40%;
+  right: 2%;
+  font-size: 0.6rem;
+  text-align: end;
+  color: var(--button-delete-bg);
 }

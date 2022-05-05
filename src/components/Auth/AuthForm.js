@@ -1,73 +1,66 @@
-import { useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { authActions } from '../../store/auth-slice';
 import { loginUser, registerUser } from '../../store/auth-http-actions';
-import { uiActions } from '../../store/ui-slice';
+import useForm from '../../hooks/use-form';
+import { authLoginTemplate, authRegisterTemplate } from '../../lib/form-templates';
 
 import classes from './AuthForm.module.css';
 import Button from '../UI/Elements/Button';
+import { useEffect } from 'react';
 
 const AuthForm = () => {
   const { isLogin, isLoading } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const emailInputRef = useRef();
-  const passwordInputRef = useRef();
-  const nameInputRef = useRef();
+  const { formState, formErrors, formValidity, dispatchFormChange, setIsSubmitting } = useForm(
+    authLoginTemplate,
+    { canBeEmpty: false, isInvoice: false }
+  );
+
+  useEffect(() => {
+    if (isLogin) {
+      dispatchFormChange({
+        type: 'UPDATE_FORM_STATE',
+        newFormState: authLoginTemplate,
+        canBeEmpty: false,
+        isInvoice: false,
+      });
+    }
+    if (!isLogin) {
+      dispatchFormChange({
+        type: 'UPDATE_FORM_STATE',
+        newFormState: authRegisterTemplate,
+        canBeEmpty: false,
+        isInvoice: false,
+      });
+    }
+  }, [dispatchFormChange, isLogin]);
 
   const switchAuthModeHandler = () => {
     dispatch(authActions.toggleIsLogin());
   };
 
+  const onInputChangeHandler = event => {
+    const inputId = event.target.id;
+    const inputValue = event.target.value;
+    console.log(inputId, inputValue);
+    dispatchFormChange({ type: 'UPDATE_FORM_INPUT', inputId, inputValue, isInvoice: false });
+  };
+
   const submitHandler = event => {
     event.preventDefault();
-    const enteredEmail = emailInputRef.current.value;
-    const enteredPassword = passwordInputRef.current.value;
-
-    //validation
-    if (enteredPassword.length < 6 || !/^[a-zA-Z0-9]*$/.test(enteredPassword)) {
-      dispatch(
-        uiActions.showNotification({
-          status: 'error',
-          title: 'Error',
-          message:
-            'Invalid password, it can only contain numbers and letters and has to at least 6 characters long',
-        })
-      );
-      return;
-    }
-    if (
-      enteredEmail.length < 6 ||
-      !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(enteredEmail)
-    ) {
-      dispatch(
-        uiActions.showNotification({
-          status: 'error',
-          title: 'Error',
-          message: 'Invalid email',
-        })
-      );
+    setIsSubmitting(true);
+    if (!formValidity.isFormValid) {
+      setTimeout(() => setIsSubmitting(false), 3000);
       return;
     }
 
     if (!isLogin) {
-      const enteredName = nameInputRef.current.value;
-
-      if (enteredName.length < 1 || !/^[a-zA-Z0-9_ ]*$/.test(enteredName)) {
-        dispatch(
-          uiActions.showNotification({
-            status: 'error',
-            title: 'Error',
-            message: `Invalid name, no special characters allowed and can't be blank`,
-          })
-        );
-        return;
-      }
-      dispatch(registerUser(enteredEmail, enteredPassword, enteredName));
+      dispatch(registerUser(formState.email, formState.password, formState.name));
     }
     if (isLogin) {
-      dispatch(loginUser(enteredEmail, enteredPassword)).then(data => {
+      dispatch(loginUser(formState.email, formState.password)).then(data => {
         if (!data) navigate('/invoices');
       });
     }
@@ -76,26 +69,54 @@ const AuthForm = () => {
   return (
     <section className={classes.auth} key={isLogin}>
       <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
-      <form onSubmit={submitHandler}>
+      <form onSubmit={submitHandler} noValidate>
         {!isLogin && (
-          <fieldset className={classes.control}>
-            <label htmlFor='email'>Name</label>
-            <input type='name' id='name' name='name' min='1' ref={nameInputRef} />
+          <fieldset className={`${classes.control} ${formErrors.name?.length && classes.error}`}>
+            <label htmlFor='email'>
+              <h3>Name</h3>
+              <p>{formErrors.name?.[0]}</p>
+              <input
+                type='name'
+                id='name'
+                name='name'
+                min='1'
+                value={formState.name}
+                onChange={onInputChangeHandler}
+              />
+            </label>
           </fieldset>
         )}
-        <fieldset className={classes.control}>
-          <label htmlFor='email'>Your Email</label>
-          <input type='email' id='email' name='email' min='6' ref={emailInputRef} />
+        <fieldset className={`${classes.control} ${formErrors.email?.length && classes.error}`}>
+          <label htmlFor='email'>
+            <h3>Your Email</h3>
+            <p>{formErrors.email?.[0]}</p>
+            <input
+              type='email'
+              id='email'
+              name='email'
+              value={formState.email}
+              onChange={onInputChangeHandler}
+            />
+          </label>
         </fieldset>
-        <fieldset className={classes.control}>
-          <label htmlFor='password'>Your Password</label>
-          <input type='password' id='password' name='password' min='6' ref={passwordInputRef} />
+        <fieldset className={`${classes.control} ${formErrors.password?.length && classes.error}`}>
+          <label htmlFor='password'>
+            <h3>Your Password</h3>
+            <p>{formErrors.password?.[0]}</p>
+            <input
+              type='password'
+              id='password'
+              name='password'
+              value={formState.password}
+              onChange={onInputChangeHandler}
+            />
+          </label>
         </fieldset>
         <fieldset className={classes.actions}>
           <Button type='submit' btnType='primary' disabled={isLoading}>
             {isLoading ? 'Loading...' : isLogin ? 'Login' : 'Create Account'}
           </Button>
-          {isLogin && <p>You don't have an account? Why not create one?</p>}
+          {isLogin && <h6>You don't have an account? Why not create one?</h6>}
           <Button
             disabled={isLoading}
             btnType='discard'
