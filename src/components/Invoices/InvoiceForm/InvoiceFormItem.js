@@ -18,10 +18,9 @@ const FormItem = props => {
   }
 
   const inputChangeHandler = event => {
-    const inputType = event.target.type;
     const inputId = event.target.id;
     const inputValue = event.target.value;
-    props.dispatchChange({ type: 'UPDATE_FORM_INPUT', inputId, inputValue, inputType });
+    props.dispatchChange({ type: 'UPDATE_FORM_INPUT', inputId, inputValue, isInvoice: true });
   };
   if (props.type === 'select') {
     defVal = props.defVal === 0 ? 30 : props.defVal;
@@ -48,7 +47,7 @@ const FormItem = props => {
   return (
     <label htmlFor={props.id} className={itemClasses}>
       <p>
-        {props.name} <span>{props.error[0]}</span>
+        {props.name} <span>{props?.error?.[0]}</span>
       </p>
       <input
         type={props.type}
