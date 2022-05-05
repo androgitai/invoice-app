@@ -30,7 +30,7 @@ const InvoiceFormList = props => {
               item={item}
               onDelete={removeListItemHandler}
               onUpdate={updateListItemField}
-              error={props.error[index]}
+              error={props?.error?.[index]}
             />
           );
         })}
