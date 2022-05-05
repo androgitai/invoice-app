@@ -15,7 +15,7 @@ const InvoiceDetailsItems = () => {
     <Fragment>
       <Card cardType={isTablet ? 'itemsListTopLG' : 'itemsListTopSM'}>
         {isTablet && <InvoiceDetailsItemsHead />}
-        {items.map(item => (
+        {items?.map(item => (
           <InvoiceDetailsItem
             key={idGenerator()}
             name={item.name}
