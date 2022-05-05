@@ -4,9 +4,9 @@ import { invoiceFormTemplate } from '../lib/form-templates';
 const invoicesInitialState = {
   invoices: [],
   totalInvoices: 0,
-  currentInvoice: { ...invoiceFormTemplate },
+  currentInvoice: JSON.parse(JSON.stringify(invoiceFormTemplate)),
   currentInvoiceId: null,
-  invoiceFormTemplate,
+  invoiceFormTemplate: JSON.parse(JSON.stringify(invoiceFormTemplate)),
   filterBy: [],
 };
 
@@ -82,7 +82,6 @@ const invoicesSlice = createSlice({
     },
     updateInvoiceFormTemplate(state, action) {
       const newProfile = action.payload;
-      console.log(newProfile);
       state.invoiceFormTemplate = {
         ...state.invoiceFormTemplate,
         senderAddress: {
