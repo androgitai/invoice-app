@@ -83,3 +83,21 @@ export const profileErrorsTemplate = {
   postCode: [],
   country: [],
 };
+
+export const newItemTemplate = {
+  id: '',
+  name: '',
+  quantity: 1,
+  price: 1,
+  total: 1,
+};
+
+export const authRegisterTemplate = {
+  name: '',
+  email: '',
+  password: '',
+};
+export const authLoginTemplate = {
+  email: '',
+  password: '',
+};
