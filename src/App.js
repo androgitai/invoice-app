@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllInvoices, populateServer } from './store/invoices-http-actions';
+import { fetchAllInvoices } from './store/invoices-http-actions';
 import { uiActions } from './store/ui-slice';
 import { authActions } from './store/auth-slice';
 import { fetchProfile } from './store/profile-http-actions';
@@ -10,24 +10,18 @@ import InvoiceDetailsPage from './pages/InvoiceDetailsPage';
 import InvoicesPage from './pages/InvoicesPage';
 import Notification from './components/UI/Elements/Notification';
 import HomePage from './pages/HomePage';
-import AuthPage from './pages/AuthPage';
 import ProfilePage from './pages/ProfilePage';
 import AboutPage from './pages/AboutPage';
-import NotFound from './components/UI/Elements/NotFound';
 import Layout from './components/UI/Layout/Layout';
-import initialData from './assets/data.json';
 import Spinner from './components/UI/Elements/Spinner';
+import AuthModal from './components/UI/Modals/AuthModal';
 
 function App() {
   const dispatch = useDispatch();
-  const notification = useSelector(state => state.ui.notification);
+  const { notification, showAuthModal } = useSelector(state => state.ui);
   const { idToken, userId, isLoggedIn, tokenRemainingTime } = useSelector(state => state.auth);
 
   const isLoading = useSelector(state => state.ui.isLoading);
-
-  const pushServer = () => {
-    initialData.forEach(item => populateServer(item));
-  };
 
   useEffect(() => {
     const logoutTimer = () =>
@@ -60,11 +54,11 @@ function App() {
       {/* <button onClick={pushServer}>Populate</button> */}
       {isLoading && <Spinner />}
       {notification && <Notification notification={notification} />}
+      {!isLoggedIn && showAuthModal && <AuthModal />}
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/about' element={<AboutPage />} />
         {isLoggedIn && <Route path='/profile' element={<ProfilePage />} />}
-        {!isLoggedIn && <Route path='/auth' element={<AuthPage />} />}
         {isLoggedIn && <Route path='/invoices' element={<InvoicesPage />} />}
         {isLoggedIn && (
           <Route path='/invoices/:invoiceIdFromRoute' element={<InvoiceDetailsPage />} />
