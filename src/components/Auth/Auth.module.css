@@ -31,18 +31,22 @@
   margin: 0.5rem 0;
 }
 
-.control {
+.auth fieldset {
   margin: 1rem;
 }
+.auth button {
+  margin: 0.5rem 0;
+  min-width: 60%;
+}
 
-.control label {
+fieldset label {
   display: block;
   font-weight: bold;
   margin-bottom: 0.5rem;
   position: relative;
 }
 
-.control input {
+fieldset input {
   display: block;
   width: 100%;
   margin-top: 10px;
@@ -58,24 +62,11 @@
   color: var(--primary-text-color);
 }
 
-.control input:active,
-.control input:hover,
-.control input:focus {
+.auth fieldset input:active,
+.auth fieldset input:hover,
+.auth fieldset input:focus {
   outline: none;
   border: 1px solid var(--primary-color-100);
-}
-
-.actions {
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.actions button {
-  margin-top: 1rem;
-  width: 60%;
 }
 
 .error input,
