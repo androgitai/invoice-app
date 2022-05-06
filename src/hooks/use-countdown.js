@@ -1,26 +1,24 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-const useCountdown = tokenTime => {
-  const [remainingTime, setRemainingTime] = useState(tokenTime);
+const useCountdown = warningTime => {
+  const [remainingTime, setRemainingTime] = useState(0);
 
-  const isExpiring = remainingTime < 300000;
+  const isExpiring = useMemo(() => remainingTime < warningTime, [remainingTime, warningTime]);
+
   const setTimer = useCallback(time => {
     setRemainingTime(time);
   }, []);
 
-  const timerFn = useCallback(
-    () => setTimeout(() => setRemainingTime(prevState => prevState - 1000), 1000),
-    []
-  );
-
   useEffect(() => {
-    clearTimeout(timerFn);
-    if (remainingTime > 0) timerFn();
-    if (remainingTime === 0 || remainingTime < 0) {
-      clearTimeout(timerFn);
-    }
-    return () => clearTimeout(timerFn);
-  }, [remainingTime, timerFn]);
+    const timerFn = setInterval(() => {
+      if (remainingTime <= 0) clearInterval(timerFn);
+      setRemainingTime(prevState => prevState - 1000);
+    }, 1000);
+    return () => {
+      clearInterval(timerFn);
+    };
+  }, [remainingTime]);
+
   const displayTime = () => {
     const remainingTimeSeconds = Math.floor((+remainingTime / 1000) % 60)
       .toString()
@@ -32,7 +30,7 @@ const useCountdown = tokenTime => {
   };
 
   const timer = displayTime();
-  return { remainingTime: timer, setTimer, remainingTimeInSecs: remainingTime, isExpiring };
+  return { remainingTime: timer, setTimer, remainingTimeMillSecs: remainingTime, isExpiring };
 };
 
 export default useCountdown;
