@@ -153,29 +153,3 @@ export const sendNewInvoice = newInvoice => {
     );
   };
 };
-
-//////////////////////
-
-export const populateServer = async item => {
-  const sendRequest = async item => {
-    const { userId } = store.getState().auth;
-    const response = await fetch(
-      `https://invoice-app-41f77-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/invoices.json`,
-      {
-        method: 'POST',
-        body: JSON.stringify(item),
-      }
-    );
-
-    if (!response) throw new Error('Something went wrong...');
-    const data = await response.json();
-    return data;
-  };
-
-  try {
-    const data = await sendRequest(item);
-    console.log(data);
-  } catch (error) {
-    console.log(error.message);
-  }
-};
