@@ -13,6 +13,8 @@ const passwordChangeURL =
   'https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDI9U_PK_J6UfDb_b1GP7AMcRY7s1ZNrhQ';
 const tokenRefreshURL =
   'https://securetoken.googleapis.com/v1/token?key=AIzaSyDI9U_PK_J6UfDb_b1GP7AMcRY7s1ZNrhQ';
+const deleteUserAccountURL =
+  'https://identitytoolkit.googleapis.com/v1/accounts:delete?key=AIzaSyDI9U_PK_J6UfDb_b1GP7AMcRY7s1ZNrhQ';
 
 const authHttp = async (dispatch, URL, options = {}) => {
   dispatch(authActions.setIsLoading());
@@ -153,5 +155,22 @@ export const refreshUserToken = () => {
       })
     );
     dispatch(authActions.refreshToken(authDetails));
+  };
+};
+
+export const deleteUserAccount = idToken => {
+  return async dispatch => {
+    const authDetails = await authHttp(dispatch, deleteUserAccountURL, {
+      method: 'POST',
+      body: JSON.stringify({
+        idToken,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (authDetails.error) {
+      return;
+    }
   };
 };
