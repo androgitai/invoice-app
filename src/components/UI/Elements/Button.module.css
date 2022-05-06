@@ -42,6 +42,15 @@
   background-color: var(--button-primary-bg-hover);
 }
 
+.nav {
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text-color);
+  animation: button 4s forwards infinite;
+}
+.nav:hover {
+  background-color: var(--button-primary-bg-hover);
+}
+
 .edit {
   background-color: var(--button-edit-bg);
   color: var(--button-edit-text-color);
@@ -96,7 +105,8 @@
 }
 .hero:hover {
   background-color: var(--button-primary-bg-hover);
-  font-size: 1.3rem;
+  transform: scale(1.07);
+  animation: none;
 }
 
 .transparent {
@@ -111,12 +121,12 @@
 
 @keyframes button {
   0% {
-    box-shadow: 0px 0px 10px var(--secondary-text-color-100);
+    box-shadow: 0px 0px 8px var(--secondary-text-color-100);
   }
   50% {
-    box-shadow: 0px 0px 2px var(--secondary-text-color-100);
+    box-shadow: 0px 0px 1px var(--secondary-text-color-100);
   }
   100% {
-    box-shadow: 0px 0px 10px var(--secondary-text-color-100);
+    box-shadow: 0px 0px 8px var(--secondary-text-color-100);
   }
 }
