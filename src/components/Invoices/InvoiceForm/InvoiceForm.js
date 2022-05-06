@@ -17,7 +17,6 @@ const InvoiceForm = props => {
   const { currentInvoice, currentInvoiceId, invoiceFormTemplate, invoices } = useSelector(
     state => state.invoices
   );
-  console.log(invoiceFormTemplate);
   const { formState, formErrors, formValidity, isSubmitting, dispatchFormChange, setIsSubmitting } =
     useForm(isNewForm ? invoiceFormTemplate : currentInvoice, {
       canBeEmpty: false,
