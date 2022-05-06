@@ -8,7 +8,7 @@ import Timer from './Timer';
 import Card from '../Layout/Card';
 import classes from './UserMenu.module.css';
 
-const UserMenu = () => {
+const UserMenu = props => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -23,7 +23,6 @@ const UserMenu = () => {
       })
     );
     dispatch(uiActions.hideLogoutModal());
-    dispatch(uiActions.logoutWarnedFalse());
     navigate('/');
   };
 
@@ -56,7 +55,7 @@ const UserMenu = () => {
         </li>
         <li onClick={logoutHandler}>
           <p>Logout</p>
-          <Timer />
+          <Timer time={props.time} />
         </li>
       </ul>
     </Card>
