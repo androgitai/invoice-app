@@ -27,7 +27,6 @@ const PasswordForm = () => {
     event.preventDefault();
 
     if (enteredPassword.length < 6 || !/^[a-zA-Z0-9]*$/.test(enteredPassword)) {
-      console.log(enteredPassword.length);
       dispatch(
         uiActions.showNotification({
           status: 'error',
