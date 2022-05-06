@@ -7,16 +7,15 @@ import classes from './MainNavigation.module.css';
 import logo from '../../assets/logo.svg';
 import moonIconSVG from '../../assets/icon-moon.svg';
 import sunIconSVG from '../../assets/icon-sun.svg';
-import LogoutWarningModal from './Modals/LogoutWarningModal';
+
 import Avatar from './Elements/Avatar';
-import UserMenu from './Elements/UserMenu';
+import Button from './Elements/Button';
 
 const MainNavigation = () => {
   const themeMode = useSelector(state => state.ui.themeMode);
   const { isLoggedIn } = useSelector(state => state.auth);
-  const { showLogoutModal, showUserMenuModal } = useSelector(state => state.ui);
+  const tokenExpiryTime = useSelector(state => state.auth.tokenExpiryTime);
   const dispatch = useDispatch();
-
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', themeMode);
   }, [themeMode]);
@@ -25,14 +24,15 @@ const MainNavigation = () => {
     dispatch(uiActions.toggleThemeMode());
   };
 
+  const onShowAuthModal = () => {
+    dispatch(uiActions.toggleAuthModal());
+  };
+
   return (
     <nav className={classes.nav} data-theme={isLoggedIn ? 'fluid' : ''}>
-      {showLogoutModal && <LogoutWarningModal />}
-      <div className={classes.logo}>
-        <NavLink to='/'>
-          <img src={logo} alt='Logo' />
-        </NavLink>
-      </div>
+      <NavLink to='/' className={classes.logo}>
+        <img src={logo} alt='Logo' />
+      </NavLink>
       <ul>
         <li onClick={changeThemeHandler}>
           {themeMode === 'light' ? (
@@ -53,17 +53,14 @@ const MainNavigation = () => {
         )}
         {!isLoggedIn && (
           <li>
-            <NavLink
-              className={({ isActive }) => (isActive ? classes.active : classes.inactive)}
-              to='/auth'
-            >
+            <Button btnType='nav' onClick={onShowAuthModal}>
               Login
-            </NavLink>
+            </Button>
           </li>
         )}
         {isLoggedIn && (
           <li>
-            <Avatar avatarType='nav'>{isLoggedIn && showUserMenuModal && <UserMenu />}</Avatar>
+            <Avatar avatarType='nav' key={tokenExpiryTime} />
           </li>
         )}
       </ul>
