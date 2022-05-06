@@ -26,7 +26,6 @@ const ModalOverlay = props => {
 };
 
 const ProfileConfirmModal = props => {
-  console.log(props.profileData);
   const dispatch = useDispatch();
 
   const changeProfileDetailsHandler = () => {
