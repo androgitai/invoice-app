@@ -1,6 +1,5 @@
 export const validateInput = (input, type, canBeEmpty, searchWord = '') => {
   let error = [];
-  console.log(canBeEmpty);
   if (!canBeEmpty) {
     if (input.length === 0) {
       error.push(`can't be empty`);
@@ -71,16 +70,12 @@ export const validateInput = (input, type, canBeEmpty, searchWord = '') => {
     }
 
     default:
-      // console.log('Input type not recognized.');
       break;
   }
-  console.log(error);
   return error;
 };
 
 export const validateForm = (formState, canBeEmpty, isInvoice) => {
-  console.log('entering full validation');
-
   const newErrorState = {};
   const formValidityState = {
     empty: false,
@@ -91,7 +86,6 @@ export const validateForm = (formState, canBeEmpty, isInvoice) => {
   };
 
   for (const key in formState) {
-    console.log(key);
     let inputErrors = [];
     if (typeof formState[key] === 'object' && !Array.isArray(formState[key])) {
       for (const subKey in formState[key]) {
