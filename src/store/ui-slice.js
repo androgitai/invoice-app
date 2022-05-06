@@ -4,9 +4,9 @@ const initialState = {
   isLoading: false,
   notification: null,
   showLogoutModal: false,
-  logoutWarned: true,
   showProfileDetailsConfirmModal: false,
   showPasswordDetailsConfirmModal: false,
+  showAuthModal: false,
   showUserMenuModal: false,
   themeMode: 'dark',
 };
@@ -37,12 +37,6 @@ const uiSlice = createSlice({
     hideLogoutModal(state) {
       state.showLogoutModal = false;
     },
-    logoutWarnedTrue(state) {
-      state.logoutWarned = true;
-    },
-    logoutWarnedFalse(state) {
-      state.logoutWarned = false;
-    },
     showProfileModal(state) {
       state.showProfileDetailsConfirmModal = true;
     },
@@ -60,6 +54,9 @@ const uiSlice = createSlice({
     },
     toggleThemeMode(state) {
       state.themeMode = state.themeMode === 'light' ? 'dark' : 'light';
+    },
+    toggleAuthModal(state) {
+      state.showAuthModal = !state.showAuthModal;
     },
   },
 });
