@@ -54,6 +54,15 @@
   font-weight: 700;
 }
 
+.footer {
+  position: absolute;
+  z-index: 100;
+  bottom: 0;
+  font-size: 0.7rem;
+  opacity: 0.3;
+  color: var(--primary-text-color);
+}
+
 @media screen and (min-width: 810px) {
   .heroPic {
     display: block;
