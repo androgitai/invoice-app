@@ -98,9 +98,7 @@ const formReducer = (state, action) => {
 
 const formInitializer = initialValues => {
   //Building initial state (form state, errors, form validity state)
-  console.log('entering init');
   const { formData, canBeEmpty, isInvoice } = initialValues;
-  console.log(formData);
   let formDataCopy = JSON.parse(JSON.stringify(formData));
   if (isInvoice) {
     const initialListState = formData.items
@@ -140,8 +138,6 @@ const useForm = (formData, { canBeEmpty, isInvoice }) => {
   );
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  console.log(formState);
 
   return {
     formState: formState.formState,
