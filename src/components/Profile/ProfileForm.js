@@ -13,7 +13,6 @@ const ProfileForm = props => {
   const showProfileDetailsConfirmModal = useSelector(
     state => state.ui.showProfileDetailsConfirmModal
   );
-  console.log(currentProfile);
   const { formState, formErrors, formValidity, dispatchFormChange, setIsSubmitting } = useForm(
     currentProfile,
     { canBeEmpty: true, isInvoice: false }
@@ -31,7 +30,6 @@ const ProfileForm = props => {
   const onInputChangeHandler = event => {
     const inputId = event.target.id;
     const inputValue = event.target.value;
-    console.log(inputId, inputValue);
     dispatchFormChange({ type: 'UPDATE_FORM_INPUT', inputId, inputValue, isInvoice: false });
   };
 
@@ -42,7 +40,6 @@ const ProfileForm = props => {
       canBeEmpty: true,
       isInvoice: false,
     });
-    console.log('updating');
   }, [dispatchFormChange, currentProfile]);
 
   return (
