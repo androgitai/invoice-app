@@ -17,8 +17,8 @@ const ModalOverlay = props => {
     <Card cardType='confirmModal'>
       <h2>Confirm to stay Logged In</h2>
       <p>
-        There is only 5 minutes left before you are going to be logged out automatically. Would you
-        like stay logged in or logut immediately?
+        There is only {props.time} left before you are going to be logged out automatically. Would
+        you like stay logged in or logut immediately?
       </p>
       <div>
         <Button btnType='delete' onClick={props.onLogout}>
@@ -53,7 +53,6 @@ const LogoutWarningModal = props => {
       })
     );
     dispatch(uiActions.hideLogoutModal());
-    dispatch(uiActions.logoutWarnedFalse());
     navigate('/');
   };
 
@@ -61,7 +60,11 @@ const LogoutWarningModal = props => {
     <Fragment>
       {ReactDOM.createPortal(<Backdrop />, document.getElementById('backdrop-root'))}
       {ReactDOM.createPortal(
-        <ModalOverlay onLogout={logoutHandler} onStayLoggedIn={stayLoggedInHandler} />,
+        <ModalOverlay
+          onLogout={logoutHandler}
+          onStayLoggedIn={stayLoggedInHandler}
+          time={props.time}
+        />,
         document.getElementById('overlay-root')
       )}
     </Fragment>
