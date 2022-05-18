@@ -24,8 +24,8 @@ const Home = () => {
 
   return (
     <Fragment>
-      <main className={classes.homePage}>
-        <section className={heroSectionClasses}>
+      <section className={classes.homePage}>
+        <div className={heroSectionClasses}>
           <div className={classes.heroPic}>
             {themeMode === 'light' && <img src={heroPic} alt='Hero pic' />}
             {themeMode === 'dark' && <img src={heroPicDark} alt='Hero pic' />}
@@ -51,8 +51,8 @@ const Home = () => {
           <footer className={classes.footer}>
             Copyright&copy; 2022. Andras Kelemen (byAndro). All rights reserved.
           </footer>
-        </section>
-      </main>
+        </div>
+      </section>
     </Fragment>
   );
 };
