@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { changeUserPassword } from '../../store/auth-http-actions';
 
 import classes from './PasswordForm.module.css';
 import Button from '../UI/Elements/Button';
