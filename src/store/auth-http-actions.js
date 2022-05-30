@@ -3,6 +3,8 @@ import { authActions } from './auth-slice';
 import { fetchProfile } from './profile-http-actions';
 import { updateProfile } from './profile-http-actions';
 import { profileTemplate } from '../lib/form-templates';
+import { populateServerDemoItem } from './invoices-http-actions';
+import demoData from '../assets/demoData.json';
 import store from './index';
 
 const signUpURL =
@@ -59,6 +61,7 @@ export const registerUser = (enteredEmail, enteredPassrord, enteredName) => {
         'Content-Type': 'application/json',
       },
     });
+    console.log(authDetails);
     if (authDetails.error) return;
     dispatch(
       uiActions.showNotification({
@@ -67,6 +70,9 @@ export const registerUser = (enteredEmail, enteredPassrord, enteredName) => {
         message: `You have successfully registered!`,
       })
     );
+    const userId = authDetails.localId;
+    const idToken = authDetails.idToken;
+    demoData.forEach(item => dispatch(populateServerDemoItem(userId, idToken, item)));
     dispatch(authActions.loginUser(authDetails));
     dispatch(updateProfile({ ...profileTemplate, name: enteredName, email: enteredEmail }));
   };

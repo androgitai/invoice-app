@@ -153,3 +153,13 @@ export const sendNewInvoice = newInvoice => {
     );
   };
 };
+
+export const populateServerDemoItem = (userId, idToken, item) => {
+  return async dispatch => {
+    const response = await invoiceHttp(dispatch, `/users/${userId}/invoices.json?auth=${idToken}`, {
+      method: 'POST',
+      body: JSON.stringify(item),
+    });
+    if (response.error || !response) return;
+  };
+};
