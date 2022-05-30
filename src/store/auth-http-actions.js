@@ -61,7 +61,6 @@ export const registerUser = (enteredEmail, enteredPassrord, enteredName) => {
         'Content-Type': 'application/json',
       },
     });
-    console.log(authDetails);
     if (authDetails.error) return;
     dispatch(
       uiActions.showNotification({
